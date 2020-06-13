@@ -7,44 +7,32 @@
 		<artifactId>company-cob</artifactId>
 		<version>1.0.0</version>
 	</parent>
-	<artifactId>web</artifactId>
-	<name>web</name>
+	<artifactId>service</artifactId>
 
 	<dependencies>
-
-		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-		
 		<dependency>
 			<groupId>com.companycob</groupId>
 			<artifactId>domain</artifactId>
 			<version>${application.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.companycob</groupId>
 			<artifactId>infrastructure</artifactId>
 			<version>${application.version}</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.companycob</groupId>
+			<artifactId>resources-holder</artifactId>
+			<version>${application.version}</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
+
 	</dependencies>
-	
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<goal>repackage</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
 </project>

@@ -7,44 +7,46 @@
 		<artifactId>company-cob</artifactId>
 		<version>1.0.0</version>
 	</parent>
-	<artifactId>web</artifactId>
-	<name>web</name>
+	<artifactId>tests</artifactId>
+
+	<packaging>jar</packaging>
 
 	<dependencies>
 
-		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-		
 		<dependency>
 			<groupId>com.companycob</groupId>
 			<artifactId>domain</artifactId>
 			<version>${application.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.companycob</groupId>
 			<artifactId>infrastructure</artifactId>
 			<version>${application.version}</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.companycob</groupId>
+			<artifactId>service</artifactId>
+			<version>${application.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.companycob</groupId>
+			<artifactId>utils</artifactId>
+			<version>${application.version}</version>
+		</dependency>
+
 	</dependencies>
-	
+
 	<build>
+
 		<plugins>
 			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<goal>repackage</goal>
-						</goals>
-					</execution>
-				</executions>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
 			</plugin>
 		</plugins>
+
 	</build>
 </project>
