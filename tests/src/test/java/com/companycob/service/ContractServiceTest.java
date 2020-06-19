@@ -8,22 +8,15 @@ import java.util.concurrent.CompletableFuture;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import com.companycob.domain.exception.ValidationException;
 import com.companycob.domain.model.entity.Contract;
 import com.companycob.domain.model.entity.Quota;
-import com.companycob.tests.config.AppConfig;
+import com.companycob.tests.AbstractServiceTest;
 import com.companycob.utils.thread.ThreadUtils;
 
-@RunWith(SpringRunner.class)
-@ActiveProfiles(profiles = { "test" })
-@ContextConfiguration(classes = { AppConfig.class })
-public class ContractServiceTest {
+public class ContractServiceTest extends AbstractServiceTest {
 	
 	@Autowired
 	private ContractService contractService;

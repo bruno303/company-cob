@@ -1,6 +1,7 @@
 package com.companycob.domain.model.entity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Contract {
@@ -29,6 +30,10 @@ public class Contract {
 		this.date = date;
 	}	
 	public List<Quota> getQuotas() {
+		if (quotas == null) {
+			quotas = new ArrayList<>();
+		}
+		
 		return quotas;
 	}
 	public void setQuotas(List<Quota> quotas) {

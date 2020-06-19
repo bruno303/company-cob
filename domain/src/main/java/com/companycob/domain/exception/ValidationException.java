@@ -1,19 +1,31 @@
 package com.companycob.domain.exception;
 
-import com.companycob.domain.model.dto.ValidationErrorsDTO;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.companycob.domain.model.dto.ValidationErrorsCollection;
 
 public class ValidationException extends Exception {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private ValidationErrorsDTO errors;
-
-	public ValidationException(ValidationErrorsDTO errors) {
-		super();
-		this.errors = errors;
+	private List<ValidationErrorsCollection> errors;
+	
+	public ValidationException() {
+		this.errors = new ArrayList<>();
 	}
 
-	public ValidationErrorsDTO getErrors() {
+	public ValidationException(ValidationErrorsCollection errors) {
+		this();
+		this.errors.add(errors);
+	}
+	
+	public ValidationException(List<ValidationErrorsCollection> errors) {
+		this();
+		this.errors.addAll(errors);
+	}
+
+	public List<ValidationErrorsCollection> getErrors() {
 		return errors;
 	}
 }

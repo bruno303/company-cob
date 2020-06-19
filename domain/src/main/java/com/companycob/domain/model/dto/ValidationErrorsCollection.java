@@ -4,20 +4,24 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ValidationErrorsDTO {
+public class ValidationErrorsCollection {
 	
 	private List<ValidationErrorDTO> errors;
 
 	public List<ValidationErrorDTO> getErrors() {
+		verifyErrorsList();
 		return Collections.unmodifiableList(errors);
 	}
 
 	public boolean hasErrors() {
+		verifyErrorsList();
+		return !errors.isEmpty();
+	}
+	
+	private void verifyErrorsList() {
 		if (errors == null) {
 			errors = new ArrayList<ValidationErrorDTO>();
 		}
-		
-		return !errors.isEmpty();
 	}
 	
 	public void addError(String property, String errorMessage) {
