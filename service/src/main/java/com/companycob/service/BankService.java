@@ -1,7 +1,9 @@
 package com.companycob.service;
 
+import com.companycob.domain.exception.ValidationException;
 import com.companycob.domain.model.dto.ValidationErrorsCollection;
 import com.companycob.domain.model.entity.Bank;
+import com.companycob.domain.model.entity.BankCalculationValues;
 import com.companycob.domain.model.persistence.BankRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +22,12 @@ public class BankService {
         this.bankRepository = bankRepository;
     }
 
-    public Bank save(Bank bank) {
+    public Bank save(Bank bank) throws ValidationException {
+        var verifyResult = verify(bank);
+        if (verifyResult.hasErrors()) {
+            throw new ValidationException(verifyResult);
+        }
+
         return bankRepository.save(bank);
     }
 
@@ -44,10 +51,30 @@ public class BankService {
             result.addError("socialName", "Bank's social name should not be empty");
         }
 
-        if (bank.getCommission() == null || bank.getCommission().compareTo(BigDecimal.ZERO) < 0) {
-            result.addError("commission", "Comission should not be zero or positive");
+        if (bank.getCalcType() == null) {
+            result.addError("calcType", "CalcType should be defined for bank");
+        }
+
+        var errorsBankCalculationValues = verifyCalculationValues(bank.getBankCalculationValues());
+        if (errorsBankCalculationValues.hasErrors()) {
+            result.addAllErrors(errorsBankCalculationValues.getErrors());
         }
 
         return result;
+    }
+
+    private ValidationErrorsCollection verifyCalculationValues(BankCalculationValues bankCalculationValues) {
+        ValidationErrorsCollection errors = new ValidationErrorsCollection();
+
+        if (bankCalculationValues == null) {
+            errors.addError("bankCalculationValues", "Bank calculation values should not be empty");;
+            return errors;
+        }
+
+        if (bankCalculationValues.getCommission() == null || bankCalculationValues.getCommission().compareTo(BigDecimal.ZERO) < 0) {
+            errors.addError("commission", "Commission should not be empty or negative");
+        }
+
+        return errors;
     }
 }

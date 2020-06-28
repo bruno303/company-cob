@@ -1,5 +1,6 @@
 package com.companycob.service;
 
+import com.companycob.utils.bigdecimal.BigDecimalUtils;
 import org.springframework.stereotype.Service;
 
 import com.companycob.domain.model.dto.ValidationErrorsCollection;
@@ -18,8 +19,8 @@ public class QuotaService {
 		if (quota.getDueDate() == null) {
 			result.addError("dueDate", "DueDate can't be empty");
 		}
-		
-		if (quota.getInitialValue() < 0) {
+
+		if (BigDecimalUtils.lessThanZero(quota.getInitialValue())) {
 			result.addError("initialValue", "InitialValue can't be negative");
 		}
 		

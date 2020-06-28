@@ -1,6 +1,4 @@
-package com.companycob.infrastructure.persistence.jpa.entity;
-
-import org.springframework.data.util.Lazy;
+package com.companycob.infrastructure.persistence.entity;
 
 import java.time.LocalDate;
 import java.util.List;

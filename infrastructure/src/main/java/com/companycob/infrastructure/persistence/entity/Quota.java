@@ -1,5 +1,6 @@
-package com.companycob.infrastructure.persistence.jpa.entity;
+package com.companycob.infrastructure.persistence.entity;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import javax.persistence.Column;
@@ -25,10 +26,10 @@ public class Quota {
 	private int number;
 	
 	@Column(name = "INITIAL_VALUE", nullable = false)
-	private double initialValue;
+	private BigDecimal initialValue;
 	
 	@Transient
-	private double updatedValue;
+	private BigDecimal updatedValue;
 	
 	@Column(name = "DUE_DATE", nullable = false)
 	private LocalDate dueDate;
@@ -53,19 +54,19 @@ public class Quota {
 		this.number = number;
 	}
 
-	public double getInitialValue() {
+	public BigDecimal getInitialValue() {
 		return initialValue;
 	}
 
-	public void setInitialValue(double initialValue) {
+	public void setInitialValue(BigDecimal initialValue) {
 		this.initialValue = initialValue;
 	}
 
-	public double getUpdatedValue() {
+	public BigDecimal getUpdatedValue() {
 		return updatedValue;
 	}
 
-	public void setUpdatedValue(double updatedValue) {
+	public void setUpdatedValue(BigDecimal updatedValue) {
 		this.updatedValue = updatedValue;
 	}
 

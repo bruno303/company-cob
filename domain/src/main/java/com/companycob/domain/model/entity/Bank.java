@@ -1,13 +1,15 @@
 package com.companycob.domain.model.entity;
 
-import java.math.BigDecimal;
+import com.companycob.domain.model.enumerators.CalcType;
+
 import java.util.List;
 
 public class Bank {
     private int id;
     private String name;
     private String socialName;
-    private BigDecimal commission;
+    private CalcType calcType;
+    private BankCalculationValues bankCalculationValues;
 
     private List<Contract> contracts;
 
@@ -35,19 +37,27 @@ public class Bank {
         this.socialName = socialName;
     }
 
-    public BigDecimal getCommission() {
-        return commission;
-    }
-
-    public void setCommission(BigDecimal commission) {
-        this.commission = commission;
-    }
-
     public List<Contract> getContracts() {
         return contracts;
     }
 
     public void setContracts(List<Contract> contracts) {
         this.contracts = contracts;
+    }
+
+    public CalcType getCalcType() {
+        return calcType;
+    }
+
+    public void setCalcType(CalcType calcType) {
+        this.calcType = calcType;
+    }
+
+    public BankCalculationValues getBankCalculationValues() {
+        return bankCalculationValues;
+    }
+
+    public void setBankCalculationValues(BankCalculationValues bankCalculationValues) {
+        this.bankCalculationValues = bankCalculationValues;
     }
 }

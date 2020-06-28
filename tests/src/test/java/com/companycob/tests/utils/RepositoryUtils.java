@@ -1,5 +1,6 @@
 package com.companycob.tests.utils;
 
+import com.companycob.domain.exception.ValidationException;
 import com.companycob.domain.model.entity.Bank;
 import com.companycob.domain.model.persistence.BankRepository;
 import com.companycob.domain.model.persistence.ContractRepository;
@@ -20,7 +21,7 @@ public class RepositoryUtils {
         this.bankService = bankService;
     }
 
-    public Bank saveBank(Bank bank) {
+    public Bank saveBank(Bank bank) throws ValidationException {
         return bankService.save(bank);
     }
 }

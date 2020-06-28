@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
+import com.companycob.domain.model.entity.BankCalculationValues;
+import com.companycob.domain.model.enumerators.CalcType;
 import com.companycob.domain.model.entity.Bank;
 import com.companycob.tests.utils.RepositoryUtils;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -184,11 +186,11 @@ public class ContractServiceTest extends AbstractServiceTest {
 		return CompletableFuture.runAsync(runnable);
 	}
 
-	private Contract generateValidContract() {
+	private Contract generateValidContract() throws ValidationException {
 		return generateValidContract(true, true);
 	}
 
-	private Contract generateValidContract(boolean generateQuotas, boolean generateBank) {
+	private Contract generateValidContract(boolean generateQuotas, boolean generateBank) throws ValidationException {
 
 		var bank = repositoryUtils.saveBank(generateBank());
 
@@ -211,13 +213,13 @@ public class ContractServiceTest extends AbstractServiceTest {
 		Quota quota = new Quota();
 		quota.setContract(contract);
 		quota.setDueDate(LocalDate.of(2020, 1, 1));
-		quota.setInitialValue(200);
+		quota.setInitialValue(BigDecimal.valueOf(200));
 		quota.setNumber(1);
 
 		Quota quota2 = new Quota();
 		quota2.setContract(contract);
 		quota2.setDueDate(LocalDate.of(2020, 2, 1));
-		quota2.setInitialValue(200);
+		quota2.setInitialValue(BigDecimal.valueOf(200));
 		quota2.setNumber(2);
 
 		return List.of(quota, quota2);
@@ -227,8 +229,18 @@ public class ContractServiceTest extends AbstractServiceTest {
 		Bank bank = new Bank();
 		bank.setName("Bank");
 		bank.setSocialName("Bank Social Name");
-		bank.setCommission(BigDecimal.TEN);
+		bank.setBankCalculationValues(createValidBankCalculationValues(bank));
+		bank.setCalcType(CalcType.DEFAULT);
 
 		return bank;
+	}
+
+	private BankCalculationValues createValidBankCalculationValues(Bank bank) {
+		BankCalculationValues bankCalculationValues = new BankCalculationValues();
+		bankCalculationValues.setBank(bank);
+		bankCalculationValues.setCommission(BigDecimal.TEN);
+		bankCalculationValues.setInterestRate(BigDecimal.TEN);
+
+		return bankCalculationValues;
 	}
 }

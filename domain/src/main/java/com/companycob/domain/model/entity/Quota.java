@@ -1,15 +1,18 @@
 package com.companycob.domain.model.entity;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Objects;
 
-public class Quota {
+public class Quota implements Comparable<Quota> {
 
 	private long id;
 	private int number;
-	private double initialValue;
-	private double updatedValue;
+	private BigDecimal initialValue;
+	private BigDecimal updatedValue;
 	private LocalDate dueDate;
 	private Contract contract;
+	private long arrearsDays;
 	
 	public long getId() {
 		return id;
@@ -27,19 +30,19 @@ public class Quota {
 		this.number = number;
 	}
 
-	public double getInitialValue() {
+	public BigDecimal getInitialValue() {
 		return initialValue;
 	}
 
-	public void setInitialValue(double initialValue) {
+	public void setInitialValue(BigDecimal initialValue) {
 		this.initialValue = initialValue;
 	}
 
-	public double getUpdatedValue() {
+	public BigDecimal getUpdatedValue() {
 		return updatedValue;
 	}
 
-	public void setUpdatedValue(double updatedValue) {
+	public void setUpdatedValue(BigDecimal updatedValue) {
 		this.updatedValue = updatedValue;
 	}
 
@@ -59,6 +62,14 @@ public class Quota {
 		this.contract = contract;
 	}
 
+	public long getArrearsDays() {
+		return arrearsDays;
+	}
+
+	public void setArrearsDays(long arrearsDays) {
+		this.arrearsDays = arrearsDays;
+	}
+
 	@Override
 	public String toString() {
 		return "Quota [id=" + id + ", number=" + number + ", initialValue=" + initialValue + ", updatedValue="
@@ -66,48 +77,26 @@ public class Quota {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((contract == null) ? 0 : contract.hashCode());
-		result = prime * result + ((dueDate == null) ? 0 : dueDate.hashCode());
-		result = prime * result + (int) (id ^ (id >>> 32));
-		long temp;
-		temp = Double.doubleToLongBits(initialValue);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + number;
-		temp = Double.doubleToLongBits(updatedValue);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		return result;
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Quota quota = (Quota) o;
+		return id == quota.id &&
+				number == quota.number &&
+				arrearsDays == quota.arrearsDays &&
+				initialValue.equals(quota.initialValue) &&
+				Objects.equals(updatedValue, quota.updatedValue) &&
+				dueDate.equals(quota.dueDate) &&
+				contract.equals(quota.contract);
 	}
-	
+
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Quota other = (Quota) obj;
-		if (contract == null) {
-			if (other.contract != null)
-				return false;
-		} else if (!contract.equals(other.contract))
-			return false;
-		if (dueDate == null) {
-			if (other.dueDate != null)
-				return false;
-		} else if (!dueDate.equals(other.dueDate))
-			return false;
-		if (id != other.id)
-			return false;
-		if (Double.doubleToLongBits(initialValue) != Double.doubleToLongBits(other.initialValue))
-			return false;
-		if (number != other.number)
-			return false;
-		if (Double.doubleToLongBits(updatedValue) != Double.doubleToLongBits(other.updatedValue))
-			return false;
-		return true;
+	public int hashCode() {
+		return Objects.hash(id, number, initialValue, updatedValue, dueDate, contract, arrearsDays);
+	}
+
+	@Override
+	public int compareTo(Quota o) {
+		return Long.compare(this.getArrearsDays(), o.getArrearsDays());
 	}
 }

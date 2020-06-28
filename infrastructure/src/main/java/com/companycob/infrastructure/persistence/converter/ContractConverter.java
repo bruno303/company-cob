@@ -1,6 +1,6 @@
 package com.companycob.infrastructure.persistence.converter;
 
-import com.companycob.infrastructure.persistence.jpa.entity.Contract;
+import com.companycob.infrastructure.persistence.entity.Contract;
 
 public class ContractConverter {
 

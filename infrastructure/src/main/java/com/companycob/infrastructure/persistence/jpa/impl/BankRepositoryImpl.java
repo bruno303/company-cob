@@ -1,8 +1,10 @@
-package com.companycob.infrastructure.persistence.jpa;
+package com.companycob.infrastructure.persistence.jpa.impl;
 
+import com.companycob.domain.exception.CalcTypeNotFoundException;
 import com.companycob.domain.model.entity.Bank;
 import com.companycob.domain.model.persistence.BankRepository;
 import com.companycob.infrastructure.persistence.converter.BankConverter;
+import com.companycob.infrastructure.persistence.jpa.JpaBankRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

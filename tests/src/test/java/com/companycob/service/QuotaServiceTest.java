@@ -1,5 +1,6 @@
 package com.companycob.service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import org.junit.Assert;
@@ -20,7 +21,7 @@ public class QuotaServiceTest extends AbstractServiceTest {
 	@Test
 	public void testQuotaWithoutDueDate() {
 		Quota quota = new Quota();
-		quota.setInitialValue(200);
+		quota.setInitialValue(BigDecimal.valueOf(200));
 		quota.setContract(new Contract());
 		quota.setNumber(1);
 		
@@ -35,7 +36,7 @@ public class QuotaServiceTest extends AbstractServiceTest {
 	@Test
 	public void testQuotaWithoutContract() {
 		Quota quota = new Quota();
-		quota.setInitialValue(200);
+		quota.setInitialValue(BigDecimal.valueOf(200));
 		quota.setDueDate(LocalDate.now());
 		quota.setNumber(1);
 		
@@ -50,7 +51,7 @@ public class QuotaServiceTest extends AbstractServiceTest {
 	@Test
 	public void testQuotaWithInitialValueNegative() {
 		Quota quota = new Quota();
-		quota.setInitialValue(-200);
+		quota.setInitialValue(BigDecimal.valueOf(-200));
 		quota.setContract(new Contract());
 		quota.setDueDate(LocalDate.now());
 		quota.setNumber(1);
@@ -66,7 +67,7 @@ public class QuotaServiceTest extends AbstractServiceTest {
 	@Test
 	public void testQuotaWithNumberZero() {
 		Quota quota = new Quota();
-		quota.setInitialValue(200);
+		quota.setInitialValue(BigDecimal.valueOf(200));
 		quota.setContract(new Contract());
 		quota.setDueDate(LocalDate.now());
 		quota.setNumber(0);
@@ -82,7 +83,7 @@ public class QuotaServiceTest extends AbstractServiceTest {
 	@Test
 	public void testQuotaWithMultipleErrors() {
 		Quota quota = new Quota();
-		quota.setInitialValue(-200);
+		quota.setInitialValue(BigDecimal.valueOf(-200));
 		quota.setDueDate(LocalDate.now());
 		quota.setNumber(0);
 		
@@ -93,7 +94,7 @@ public class QuotaServiceTest extends AbstractServiceTest {
 	@Test
 	public void testQuotaCorrect() {
 		Quota quota = new Quota();
-		quota.setInitialValue(200);
+		quota.setInitialValue(BigDecimal.valueOf(200));
 		quota.setContract(new Contract());
 		quota.setDueDate(LocalDate.now());
 		quota.setNumber(1);

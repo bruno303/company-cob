@@ -31,6 +31,14 @@ public class ValidationErrorsCollection {
 		
 		errors.add(new ValidationErrorDTO(property, errorMessage));
 	}
+
+	public void addAllErrors(List<ValidationErrorDTO> errors) {
+		if (this.errors == null) {
+			this.errors = new ArrayList<ValidationErrorDTO>();
+		}
+
+		this.errors.addAll(errors);
+	}
 	
 	@Override
 	public String toString() {
