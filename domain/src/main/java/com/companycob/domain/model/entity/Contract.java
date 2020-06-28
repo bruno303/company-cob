@@ -10,6 +10,7 @@ public class Contract {
 	private String contractNumber;
 	private LocalDate date;
 	private List<Quota> quotas;
+	private Bank bank;
 	
 	public Long getId() {
 		return id;
@@ -38,8 +39,15 @@ public class Contract {
 	}
 	public void setQuotas(List<Quota> quotas) {
 		this.quotas = quotas;
+		this.quotas.forEach(q -> q.setContract(this));
 	}
-	
+	public Bank getBank() {
+		return bank;
+	}
+	public void setBank(Bank bank) {
+		this.bank = bank;
+	}
+
 	@Override
 	public String toString() {
 		return "Contract [id=" + id + ", contractNumber=" + contractNumber + ", date=" + date + "]";

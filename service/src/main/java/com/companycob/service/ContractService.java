@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.companycob.domain.model.entity.Bank;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,12 +22,14 @@ public class ContractService {
 
 	private final ContractRepository contractRepository;
 	private final QuotaService quotaService;
+	private final BankService bankService;
 
 	@Autowired
-	public ContractService(ContractRepository contractRepository, QuotaService quotaService) {
+	public ContractService(ContractRepository contractRepository, QuotaService quotaService, BankService bankService) {
 		super();
 		this.contractRepository = contractRepository;
 		this.quotaService = quotaService;
+		this.bankService = bankService;
 	}
 
 	@Transactional
@@ -40,35 +43,40 @@ public class ContractService {
 	public void verify(Contract contract) throws ValidationException {
 		List<ValidationErrorsCollection> errors = new ArrayList<>();
 		
-		ValidationErrorsCollection verifyContractResult = verifyContract(contract);
-		
-		if (verifyContractResult.hasErrors()) {
-			errors.add(verifyContractResult);
-		}
-		
-		errors.addAll(verifyQuotas(contract.getQuotas()));
-		
+		verifyContract(contract, errors);
+		verifyQuotas(contract.getQuotas(), errors);
+		verifyBank(contract.getBank(), errors);
+
 		if (!errors.isEmpty()) {
 			throw new ValidationException(errors);
 		}
 	}
 	
-	private List<ValidationErrorsCollection> verifyQuotas(List<Quota> quotas) {
-		List<ValidationErrorsCollection> quotaErrors = quotas
-				.parallelStream()
+	private void verifyQuotas(List<Quota> quotas, List<ValidationErrorsCollection> errors) {
+		var result = quotas
+				.stream()
 				.map(quotaService::verify)
 				.filter(ValidationErrorsCollection::hasErrors)
 				.collect(Collectors.toList());
-		
-		return quotaErrors;
+
+		errors.addAll(result);
 	}
 
-	private ValidationErrorsCollection verifyContract(Contract contract) {
+	private void verifyBank(Bank bank, List<ValidationErrorsCollection> errors) {
+		ValidationErrorsCollection verify = bankService.verify(bank);
+
+		if (verify.hasErrors()) {
+			errors.add(verify);
+		}
+	}
+
+	private void verifyContract(Contract contract, List<ValidationErrorsCollection> errors) {
 		ValidationErrorsCollection result = new ValidationErrorsCollection();
 
 		if (contract == null) {
 			result.addError("contract", "Contract can't be null");
-			return result;
+			errors.add(result);
+			return;
 		}
 
 		if (contract.getContractNumber() == null || StringUtils.isEmpty(contract.getContractNumber())) {
@@ -82,8 +90,14 @@ public class ContractService {
 		if (contract.getQuotas() == null || contract.getQuotas().isEmpty()) {
 			result.addError("quotas", "Contract must have quotas");
 		}
-		
-		return result;
+
+		if (contract.getBank() == null) {
+			result.addError("bank", "Contract must have a bank");
+		}
+
+		if (result.hasErrors()) {
+			errors.add(result);
+		}
 	}
 
 	@Transactional

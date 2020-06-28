@@ -10,6 +10,7 @@ public class ContractConverter {
 		persistenceContract.setDate(domainContract.getDate());
 		persistenceContract.setContractNumber(domainContract.getContractNumber());
 		persistenceContract.setQuotas(QuotaConverter.quotaDomainListToQuotaPersistenceList(domainContract.getQuotas(), persistenceContract));
+		persistenceContract.setBank(BankConverter.bankDomainToBankPersistence(domainContract.getBank()));
 		return persistenceContract;
 	}
 	
@@ -19,6 +20,7 @@ public class ContractConverter {
 		domainContract.setDate(persistenceContract.getDate());
 		domainContract.setContractNumber(persistenceContract.getContractNumber());
 		domainContract.setQuotas(QuotaConverter.quotaPersistenceListToQuotaDomainList(persistenceContract.getQuotas(), domainContract));
+		domainContract.setBank(BankConverter.bankPersistenceToBankDomain(persistenceContract.getBank()));
 		return domainContract;
 	}
 	

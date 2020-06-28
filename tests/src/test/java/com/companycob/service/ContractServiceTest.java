@@ -1,10 +1,13 @@
 package com.companycob.service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
+import com.companycob.domain.model.entity.Bank;
+import com.companycob.tests.utils.RepositoryUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Test;
@@ -20,6 +23,9 @@ public class ContractServiceTest extends AbstractServiceTest {
 	
 	@Autowired
 	private ContractService contractService;
+
+	@Autowired
+	private RepositoryUtils repositoryUtils;
 	
 	@Test(expected = ValidationException.class)
 	public void testSaveNewContract_withNoContractNumber() throws ValidationException {
@@ -60,7 +66,7 @@ public class ContractServiceTest extends AbstractServiceTest {
 		Contract contract2 = contractService.save(contract);
 		Assert.assertNotNull(contract2);
 		Assert.assertNotNull(contract2.getId());
-		Assert.assertEquals(Long.valueOf(1L), contract2.getId());
+		Assert.assertNotNull(contract2.getBank());
 		Assert.assertEquals(2, contract2.getQuotas().size());
 	}
 	
@@ -123,7 +129,7 @@ public class ContractServiceTest extends AbstractServiceTest {
 			}
 		});
 		
-		ThreadUtils.threadSleep(100L);
+		ThreadUtils.threadSleep(10L);
 		
 		CompletableFuture<Void> save2Async = executeAsync(() -> {
 			try {
@@ -142,30 +148,87 @@ public class ContractServiceTest extends AbstractServiceTest {
 		Assert.assertEquals(LocalDate.now().plusDays(2), contractFound.getDate());
 		Assert.assertEquals(2, contractFound.getQuotas().size());
 	}
+
+	@Test
+	public void testSaveNewContract_changeBankAndSaveAgain_bankShouldNotBeChanged() throws ValidationException {
+
+		Contract contract = generateValidContract();
+
+		Contract contract2 = contractService.save(contract);
+		Assert.assertNotNull(contract2);
+		Assert.assertNotNull(contract2.getId());
+		Assert.assertNotNull(contract2.getBank());
+		Assert.assertEquals(2, contract2.getQuotas().size());
+
+		final String bankName = contract2.getBank().getName();
+		contract2.getBank().setName("Bank changed");
+
+		Contract contract3 = contractService.save(contract2);
+		Assert.assertNotNull(contract3);
+		Assert.assertNotNull(contract3.getId());
+		Assert.assertNotNull(contract3.getBank());
+		Assert.assertEquals(2, contract3.getQuotas().size());
+		Assert.assertEquals(bankName, contract3.getBank().getName());
+	}
+
+	@Test(expected = ValidationException.class)
+	public void testSaveNewContractWithoutBank_withError() throws ValidationException {
+
+		Contract contract = generateValidContract(true, false);
+
+		Contract contractSaved = contractService.save(contract);
+		Assert.assertNotNull(contractSaved);
+	}
 	
 	private CompletableFuture<Void> executeAsync(Runnable runnable) {
 		return CompletableFuture.runAsync(runnable);
 	}
-	
+
 	private Contract generateValidContract() {
+		return generateValidContract(true, true);
+	}
+
+	private Contract generateValidContract(boolean generateQuotas, boolean generateBank) {
+
+		var bank = repositoryUtils.saveBank(generateBank());
+
 		Contract contract = new Contract();
 		contract.setDate(LocalDate.now());
 		contract.setContractNumber(RandomStringUtils.randomAlphanumeric(20));
-		
-		Quota quota = new Quota();
-		quota.setContract(contract);
-		quota.setDueDate(LocalDate.of(2020, 01, 01));
-		quota.setInitialValue(200);
-		quota.setNumber(1);
-		
-		Quota quota2 = new Quota();
-		quota2.setContract(contract);
-		quota2.setDueDate(LocalDate.of(2020, 02, 01));
-		quota2.setInitialValue(200);
-		quota2.setNumber(2);
-		
-		contract.setQuotas(List.of(quota, quota2));
+
+		if (generateBank) {
+			contract.setBank(bank);
+		}
+
+		if (generateQuotas) {
+			contract.setQuotas(generateQuotas(contract));
+		}
 		
 		return contract;
+	}
+
+	private List<Quota> generateQuotas(Contract contract) {
+		Quota quota = new Quota();
+		quota.setContract(contract);
+		quota.setDueDate(LocalDate.of(2020, 1, 1));
+		quota.setInitialValue(200);
+		quota.setNumber(1);
+
+		Quota quota2 = new Quota();
+		quota2.setContract(contract);
+		quota2.setDueDate(LocalDate.of(2020, 2, 1));
+		quota2.setInitialValue(200);
+		quota2.setNumber(2);
+
+		return List.of(quota, quota2);
+	}
+
+	private Bank generateBank() {
+		Bank bank = new Bank();
+		bank.setName("Bank");
+		bank.setSocialName("Bank Social Name");
+		bank.setCommission(BigDecimal.TEN);
+
+		return bank;
 	}
 }

@@ -33,7 +33,7 @@ public class Quota {
 	@Column(name = "DUE_DATE", nullable = false)
 	private LocalDate dueDate;
 	
-	@ManyToOne
+	@ManyToOne(optional = false)
 	@JoinColumn(name = "ID_CONTRACT", nullable = false)
 	private Contract contract;
 

@@ -1,16 +1,11 @@
 package com.companycob.infrastructure.persistence.jpa.entity;
 
+import org.springframework.data.util.Lazy;
+
 import java.time.LocalDate;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "CONTRACT")
@@ -28,6 +23,10 @@ public class Contract {
 	
 	@OneToMany(mappedBy = "contract", cascade = CascadeType.ALL)
 	private List<Quota> quotas;
+
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "ID_BANK", nullable = false)
+	private Bank bank;
 	
 	public Long getId() {
 		return id;
@@ -52,5 +51,11 @@ public class Contract {
 	}
 	public void setQuotas(List<Quota> quotas) {
 		this.quotas = quotas;
+	}
+	public Bank getBank() {
+		return bank;
+	}
+	public void setBank(Bank bank) {
+		this.bank = bank;
 	}
 }
