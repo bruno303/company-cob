@@ -3,9 +3,11 @@ package com.companycob.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.companycob.domain.model.entity.Bank;
+import com.companycob.service.calc.CalcService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,13 +25,15 @@ public class ContractService {
 	private final ContractRepository contractRepository;
 	private final QuotaService quotaService;
 	private final BankService bankService;
+	private final Set<CalcService> calcServices;
 
 	@Autowired
-	public ContractService(ContractRepository contractRepository, QuotaService quotaService, BankService bankService) {
-		super();
+	public ContractService(ContractRepository contractRepository, QuotaService quotaService,
+						   BankService bankService, Set<CalcService> calcServices) {
 		this.contractRepository = contractRepository;
 		this.quotaService = quotaService;
 		this.bankService = bankService;
+		this.calcServices = calcServices;
 	}
 
 	@Transactional
@@ -38,6 +42,14 @@ public class ContractService {
 		verify(contract);
 
 		return contractRepository.save(contract);
+	}
+
+	public void calculate(Contract contract) {
+		for (CalcService calcService : calcServices) {
+			if (calcService.accept(contract)) {
+				calcService.calculate(contract);
+			}
+		}
 	}
 	
 	public void verify(Contract contract) throws ValidationException {

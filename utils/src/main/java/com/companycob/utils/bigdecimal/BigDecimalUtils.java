@@ -8,7 +8,7 @@ public final class BigDecimalUtils {
         return value.compareTo(BigDecimal.ZERO) < 0;
     }
 
-    public static boolean greatherThanZero(BigDecimal value) {
+    public static boolean greaterThanZero(BigDecimal value) {
         return value.compareTo(BigDecimal.ZERO) > 0;
     }
 
@@ -16,7 +16,7 @@ public final class BigDecimalUtils {
         return value.compareTo(BigDecimal.ZERO) == 0;
     }
 
-    public static boolean equalsTo(BigDecimal value, BigDecimal value2) {
+    public static boolean equals(BigDecimal value, BigDecimal value2) {
         return value.compareTo(value2) == 0;
     }
 }

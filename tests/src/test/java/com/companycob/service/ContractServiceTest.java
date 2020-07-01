@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.companycob.domain.exception.ValidationException;
 import com.companycob.domain.model.entity.Contract;
-import com.companycob.domain.model.entity.Quota;
 import com.companycob.tests.AbstractServiceTest;
 import com.companycob.utils.thread.ThreadUtils;
 
@@ -28,7 +27,7 @@ public class ContractServiceTest extends AbstractServiceTest {
 
 	@Autowired
 	private RepositoryUtils repositoryUtils;
-	
+
 	@Test(expected = ValidationException.class)
 	public void testSaveNewContract_withNoContractNumber() throws ValidationException {
 		
@@ -63,7 +62,7 @@ public class ContractServiceTest extends AbstractServiceTest {
 	@Test
 	public void testSaveNewContract_withSucess() throws ValidationException {
 		
-		Contract contract = generateValidContract();
+		Contract contract = contractGenerator.generate();
 		
 		Contract contract2 = contractService.save(contract);
 		Assert.assertNotNull(contract2);
@@ -74,7 +73,7 @@ public class ContractServiceTest extends AbstractServiceTest {
 	
 	@Test
 	public void testSaveNewContractAndLoadById() throws ValidationException {
-		Contract contract = generateValidContract();
+		Contract contract = contractGenerator.generate();
 		
 		Contract contractSaved = contractService.save(contract);
 		
@@ -92,7 +91,7 @@ public class ContractServiceTest extends AbstractServiceTest {
 	
 	@Test
 	public void testSaveNewContractAndLoadByContractNumber() throws ValidationException {
-		Contract contract = generateValidContract();
+		Contract contract = contractGenerator.generate();
 		
 		Contract contractSaved = contractService.save(contract);
 		
@@ -111,7 +110,7 @@ public class ContractServiceTest extends AbstractServiceTest {
 	@Test
 	public void testSaveNewContractTwice_withSucess() throws ValidationException {
 		
-		Contract contract = generateValidContract();
+		Contract contract = contractGenerator.generate();
 		
 		Contract contractSaved = contractService.save(contract);
 		final Long id = contractSaved.getId();
@@ -154,7 +153,7 @@ public class ContractServiceTest extends AbstractServiceTest {
 	@Test
 	public void testSaveNewContract_changeBankAndSaveAgain_bankShouldNotBeChanged() throws ValidationException {
 
-		Contract contract = generateValidContract();
+		Contract contract = contractGenerator.generate();
 
 		Contract contract2 = contractService.save(contract);
 		Assert.assertNotNull(contract2);
@@ -176,71 +175,13 @@ public class ContractServiceTest extends AbstractServiceTest {
 	@Test(expected = ValidationException.class)
 	public void testSaveNewContractWithoutBank_withError() throws ValidationException {
 
-		Contract contract = generateValidContract(true, false);
+		Contract contract = contractGenerator.generate(true, false);
 
 		Contract contractSaved = contractService.save(contract);
 		Assert.assertNotNull(contractSaved);
 	}
-	
+
 	private CompletableFuture<Void> executeAsync(Runnable runnable) {
 		return CompletableFuture.runAsync(runnable);
-	}
-
-	private Contract generateValidContract() throws ValidationException {
-		return generateValidContract(true, true);
-	}
-
-	private Contract generateValidContract(boolean generateQuotas, boolean generateBank) throws ValidationException {
-
-		var bank = repositoryUtils.saveBank(generateBank());
-
-		Contract contract = new Contract();
-		contract.setDate(LocalDate.now());
-		contract.setContractNumber(RandomStringUtils.randomAlphanumeric(20));
-
-		if (generateBank) {
-			contract.setBank(bank);
-		}
-
-		if (generateQuotas) {
-			contract.setQuotas(generateQuotas(contract));
-		}
-		
-		return contract;
-	}
-
-	private List<Quota> generateQuotas(Contract contract) {
-		Quota quota = new Quota();
-		quota.setContract(contract);
-		quota.setDueDate(LocalDate.of(2020, 1, 1));
-		quota.setInitialValue(BigDecimal.valueOf(200));
-		quota.setNumber(1);
-
-		Quota quota2 = new Quota();
-		quota2.setContract(contract);
-		quota2.setDueDate(LocalDate.of(2020, 2, 1));
-		quota2.setInitialValue(BigDecimal.valueOf(200));
-		quota2.setNumber(2);
-
-		return List.of(quota, quota2);
-	}
-
-	private Bank generateBank() {
-		Bank bank = new Bank();
-		bank.setName("Bank");
-		bank.setSocialName("Bank Social Name");
-		bank.setBankCalculationValues(createValidBankCalculationValues(bank));
-		bank.setCalcType(CalcType.DEFAULT);
-
-		return bank;
-	}
-
-	private BankCalculationValues createValidBankCalculationValues(Bank bank) {
-		BankCalculationValues bankCalculationValues = new BankCalculationValues();
-		bankCalculationValues.setBank(bank);
-		bankCalculationValues.setCommission(BigDecimal.TEN);
-		bankCalculationValues.setInterestRate(BigDecimal.TEN);
-
-		return bankCalculationValues;
 	}
 }
