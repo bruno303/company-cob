@@ -30,3 +30,12 @@ spring:
       settings:
         trace: false
         web-allow-others: false
+  boot:
+    admin:
+      client:
+        url: http://localhost:8081
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

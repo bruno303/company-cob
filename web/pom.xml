@@ -17,6 +17,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
 		
 		<dependency>
 			<groupId>com.companycob</groupId>
@@ -28,6 +33,12 @@
 			<groupId>com.companycob</groupId>
 			<artifactId>infrastructure</artifactId>
 			<version>${application.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>de.codecentric</groupId>
+			<artifactId>spring-boot-admin-starter-client</artifactId>
+			<version>${spring.boot.admin.version}</version>
 		</dependency>
 
 	</dependencies>
