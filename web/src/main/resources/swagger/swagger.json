@@ -1,0 +1,68 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "CompanyCob api",
+    "version": "1.0.0",
+    "title": "Company Cob",
+    "contact": {
+      "email": "help@companycob.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "tags": [
+    {
+      "name": "hello",
+      "description": "Hello World"
+    }
+  ],
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "paths": {
+    "/api/v1/hello": {
+      "get": {
+        "tags": [
+          "hello"
+        ],
+        "summary": "Get a Hello World",
+        "description": "Get a Hello World",
+        "operationId": "getHelloWorld",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/ApiResponse"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ApiResponse": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "boolean"
+        },
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
