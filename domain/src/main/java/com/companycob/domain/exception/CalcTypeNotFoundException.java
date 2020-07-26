@@ -1,14 +1,16 @@
 package com.companycob.domain.exception;
 
 public class CalcTypeNotFoundException extends RuntimeException {
-    private int id;
+	private static final long serialVersionUID = 1L;
 
-    public CalcTypeNotFoundException(int id) {
-        this.id = id;
-    }
+	private final int id;
 
-    @Override
-    public String getMessage() {
-        return String.format("CalcType with id %d not found.", id);
-    }
+	public CalcTypeNotFoundException(final int id) {
+		this.id = id;
+	}
+
+	@Override
+	public String getMessage() {
+		return String.format("CalcType with id %d not found.", id);
+	}
 }

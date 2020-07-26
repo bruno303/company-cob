@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "description": "CompanyCob api",
+    "description": "CompanyCob apis",
     "version": "1.0.0",
     "title": "Company Cob",
     "contact": {
@@ -19,7 +19,6 @@
     }
   ],
   "schemes": [
-    "https",
     "http"
   ],
   "paths": {
