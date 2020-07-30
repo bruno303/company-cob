@@ -22,7 +22,7 @@
     "http"
   ],
   "paths": {
-    "/api/v1/hello": {
+    "/hello/v1": {
       "get": {
         "tags": [
           "hello"

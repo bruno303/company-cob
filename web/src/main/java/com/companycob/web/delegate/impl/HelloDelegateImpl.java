@@ -4,11 +4,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-import com.companycob.web.swagger.api.ApiApiDelegate;
+import com.companycob.web.swagger.api.HelloApiDelegate;
 import com.companycob.web.swagger.model.ApiResponseDTO;
 
 @Component
-public class ApiDelegateImpl implements ApiApiDelegate {
+public class HelloDelegateImpl implements HelloApiDelegate {
 
 	@Override
 	public ResponseEntity<Object> getHelloWorld() {
