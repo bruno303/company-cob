@@ -1,6 +1,5 @@
 package com.companycob.service.calc.impl;
 
-import com.companycob.domain.exception.ValidationException;
 import com.companycob.domain.model.entity.Bank;
 import com.companycob.domain.model.entity.Contract;
 import com.companycob.domain.model.entity.Quota;
@@ -17,7 +16,7 @@ public class DefaultCalcServiceTest extends AbstractServiceTest {
     private DefaultCalcService defaultCalcService;
 
     @Test
-    public void testCalculateContract() throws ValidationException {
+    public void testCalculateContract() {
         Bank bank = bankGenerator.generate(BigDecimal.valueOf(0.1));
         Contract contract = contractGenerator.generate(bank);
 
@@ -32,7 +31,7 @@ public class DefaultCalcServiceTest extends AbstractServiceTest {
         Assert.assertTrue(quota1.getArrearsDays() > 0);
         Assert.assertTrue(quota2.getArrearsDays() > 0);
         assertEqualsBigDecimal(BigDecimal.valueOf(236.2), quota1.getUpdatedValue());
-        assertEqualsBigDecimal(BigDecimal.valueOf(230), quota2.getUpdatedValue());
+        assertEqualsBigDecimal(BigDecimal.valueOf(230.2), quota2.getUpdatedValue());
     }
 
 }
