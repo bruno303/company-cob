@@ -1,24 +1,25 @@
 package com.companycob.service.calc.impl;
 
-import java.time.LocalDate;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.companycob.domain.model.entity.Contract;
 import com.companycob.domain.model.enumerators.CalcType;
+import com.companycob.service.arrears.ArrearsDaysService;
 import com.companycob.service.calc.CalcService;
 import com.companycob.service.calc.defaults.SimpleInterestCalcService;
-import com.companycob.utils.date.LocalDateUtils;
 
 @Service
 public class DefaultCalcService implements CalcService {
 
 	private final SimpleInterestCalcService simpleInterestCalcService;
+	private final ArrearsDaysService arrearsDaysService;
 
 	@Autowired
-	public DefaultCalcService(final SimpleInterestCalcService simpleInterestCalcService) {
+	public DefaultCalcService(final SimpleInterestCalcService simpleInterestCalcService,
+			final ArrearsDaysService arrearsDaysService) {
 		this.simpleInterestCalcService = simpleInterestCalcService;
+		this.arrearsDaysService = arrearsDaysService;
 	}
 
 	@Override
@@ -39,7 +40,9 @@ public class DefaultCalcService implements CalcService {
 	}
 
 	private void updateArrearsDaysInAllQuotas(final Contract contract) {
-		contract.getQuotas().forEach(
-				quota -> quota.setArrearsDays(LocalDateUtils.differenceInDays(quota.getDueDate(), LocalDate.now())));
+		contract.getQuotas().forEach(quota -> {
+			final long days = arrearsDaysService.calculateArrearsDaysInSingleQuota(quota);
+			quota.setArrearsDays(days);
+		});
 	}
 }

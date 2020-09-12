@@ -31,6 +31,12 @@
 	</properties>
 
 	<dependencies>
+	
+		<dependency>
+			<groupId>com.companycob</groupId>
+			<artifactId>web-utils</artifactId>
+			<version>${application.version}</version>
+		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web -->
 		<dependency>
