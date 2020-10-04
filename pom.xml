@@ -91,5 +91,6 @@
 		<module>utils</module>
 		<module>spring-boot-admin</module>
 		<module>web-utils</module>
+		<module>assembly</module>
 	</modules>
 </project>
