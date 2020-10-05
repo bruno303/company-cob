@@ -1,0 +1,22 @@
+logging:
+  level:
+    org:
+      springframework: INFO
+    root: INFO
+spring:
+  datasource:
+    url: jdbc:h2:mem:companycob
+    driverClassName: org.h2.Driver
+    username: sa
+    password: password
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      ddl-auto: update
+  h2:
+    console:
+      enabled: false
