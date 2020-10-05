@@ -6,7 +6,6 @@
         <groupId>com.companycob</groupId>
         <artifactId>company-cob</artifactId>
         <version>1.0.0</version>
-        <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <modelVersion>4.0.0</modelVersion>
 

@@ -4,9 +4,18 @@
 
 	<id>make-assembly</id>
 	<formats>
-		<format>zip</format>
+		<format>dir</format>
 	</formats>
 	<includeBaseDirectory>false</includeBaseDirectory>
+	
+	<fileSets>
+		<fileSet>
+			<outputDirectory>${module.artifactId}</outputDirectory>
+			<includes>
+				<include>**/Dodkerfile</include>
+			</includes>
+		</fileSet>
+	</fileSets>
 
 	<moduleSets>
 		<moduleSet>
@@ -17,7 +26,7 @@
 				<include>com.companycob:spring-boot-admin</include>
 			</includes>
 			<binaries>
-				<outputDirectory>.</outputDirectory>
+				<outputDirectory>${module.artifactId}</outputDirectory>
 				<outputFileNameMapping>${module.artifactId}.${module.extension}</outputFileNameMapping>
 				<unpack>false</unpack>
 				<includeDependencies>false</includeDependencies>
