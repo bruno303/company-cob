@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import org.junit.Assert;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -18,6 +19,7 @@ import com.companycob.utils.bigdecimal.BigDecimalUtils;
 @RunWith(SpringRunner.class)
 @ActiveProfiles(profiles = { "test" })
 @ContextConfiguration(classes = { AppConfig.class })
+@AutoConfigureTestDatabase
 public abstract class AbstractServiceTest {
 
 	@Autowired
