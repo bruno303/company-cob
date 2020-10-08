@@ -1,0 +1,28 @@
+version: '3.7'
+services:
+  company-cob-web:
+    build: 
+      context: ./web/
+    hostname: 'company-cob-web'
+    container_name: 'company-cob-web'
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    ports:
+      - '9000:9000'
+    networks: 
+      - companycobnet
+    depends_on: 
+      - company-cob-spring-boot-admin
+
+  company-cob-spring-boot-admin:
+    build:
+      context: ./spring-boot-admin/
+    hostname: 'company-cob-spring-boot-admin'
+    container_name: 'company-cob-spring-boot-admin'
+    ports:
+      - '8081:8081'
+    networks:
+      - companycobnet
+
+networks: 
+  companycobnet: 
