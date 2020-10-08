@@ -121,7 +121,7 @@ public class ContractServiceTest extends AbstractServiceTest {
 			}
 		});
 
-		ThreadUtils.threadSleep(10L);
+		ThreadUtils.threadSleep(100L);
 
 		final CompletableFuture<Void> save2Async = executeAsync(() -> {
 			try {

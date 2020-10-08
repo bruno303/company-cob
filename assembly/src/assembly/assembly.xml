@@ -10,10 +10,8 @@
 	
 	<fileSets>
 		<fileSet>
-			<outputDirectory>${module.artifactId}</outputDirectory>
-			<includes>
-				<include>**/Dodkerfile</include>
-			</includes>
+			<outputDirectory>.</outputDirectory>
+			<directory>${basedir}/src/main/resources/root</directory>
 		</fileSet>
 	</fileSets>
 
@@ -25,6 +23,22 @@
 				<include>com.companycob:web</include>
 				<include>com.companycob:spring-boot-admin</include>
 			</includes>
+			<sources>
+				<outputDirectory>${module.artifactId}</outputDirectory>
+				<includeModuleDirectory>false</includeModuleDirectory>
+				<excludeSubModuleDirectories>true</excludeSubModuleDirectories>
+				<includes>
+					<include>${basedir}/Dockerfile</include>
+				</includes>
+				<fileSets>
+					<fileSet>
+						<directory>${basedir}</directory>
+						<excludes>
+							<exclude>${basedir}/**</exclude>
+						</excludes>
+					</fileSet>
+				</fileSets>
+			</sources>
 			<binaries>
 				<outputDirectory>${module.artifactId}</outputDirectory>
 				<outputFileNameMapping>${module.artifactId}.${module.extension}</outputFileNameMapping>
