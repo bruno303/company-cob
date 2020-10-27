@@ -25,11 +25,10 @@
 		<junit-version>4.12</junit-version>
 		<migbase64-version>2.2</migbase64-version>
 		<jackson-databind-nullable>0.2.1</jackson-databind-nullable>
-
 	</properties>
 
 	<dependencies>
-	
+
 		<dependency>
 			<groupId>com.companycob</groupId>
 			<artifactId>web-utils</artifactId>
@@ -145,7 +144,6 @@
 			<artifactId>jackson-databind-nullable</artifactId>
 			<version>${jackson-databind-nullable}</version>
 		</dependency>
-
 	</dependencies>
 
 	<build>

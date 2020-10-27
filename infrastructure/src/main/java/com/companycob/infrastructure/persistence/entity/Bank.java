@@ -14,11 +14,12 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "BANK")
+@Table(name = "bank", schema = "public")
 public class Bank {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ID", nullable = false)
 	private int id;
 
 	@Column(name = "NAME", nullable = false, length = 300)

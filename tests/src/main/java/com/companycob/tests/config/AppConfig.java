@@ -8,11 +8,11 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @Configuration
-@ComponentScan(basePackages = {"com.companycob"})
-@EntityScan(basePackages = {"com.companycob.infrastructure"})
-@EnableJpaRepositories(basePackages = {"com.companycob.infrastructure"})
+@ComponentScan(basePackages = { "com.companycob" })
+@EntityScan(basePackages = { "com.companycob.infrastructure" })
+@EnableJpaRepositories(basePackages = { "com.companycob.infrastructure" })
 @EnableAutoConfiguration
 @Profile("test")
 public class AppConfig {
-	
+
 }

@@ -4,32 +4,28 @@ logging:
       hibernate: INFO
       springframework:
         web: INFO
-  file: app.log
+  file: company-cob-web.log
+
 server:
   port: 9000
   servlet:
     context-path: 
+
 spring:
   datasource:
-    url: jdbc:h2:mem:companycob
-    driverClassName: org.h2.Driver
-    username: sa
+    url: jdbc:postgresql://localhost:5432/companycob
+    driverClassName: org.postgresql.Driver
+    username: postgres
     password: password
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: false
     properties:
       hibernate:
         format_sql: false
     hibernate:
-      ddl-auto: update
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
-      settings:
-        trace: false
-        web-allow-others: true
+      ddl-auto: none
+
 management:
   endpoints:
     web:

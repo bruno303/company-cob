@@ -1,0 +1,75 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.8.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet author="bruno (generated)" id="1604271474779-1">
+        <createTable tableName="bank">
+            <column autoIncrement="true" name="ID" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="bankPK"/>
+            </column>
+            <column name="CALC_TYPE" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NAME" type="VARCHAR(300)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SOCIAL_NAME" type="VARCHAR(300)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="bruno (generated)" id="1604271474779-2">
+        <createTable tableName="bank_calculation_values">
+            <column autoIncrement="true" name="ID" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="bank_calculation_valuesPK"/>
+            </column>
+            <column name="COMMISSION" type="numeric(12, 2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="INTEREST_RATE" type="numeric(12, 2)"/>
+            <column name="ID_BANK" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="bruno (generated)" id="1604271474779-3">
+        <createTable tableName="contract">
+            <column autoIncrement="true" name="ID" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="contractPK"/>
+            </column>
+            <column name="CONTRACT_NUMBER" type="VARCHAR(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DATE" type="date"/>
+            <column name="ID_BANK" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="bruno (generated)" id="1604271474779-4">
+        <createTable tableName="quota">
+            <column autoIncrement="true" name="ID" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="quotaPK"/>
+            </column>
+            <column name="DUE_DATE" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="INITIAL_VALUE" type="numeric(19, 2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NUMBER" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ID_CONTRACT" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="bruno (generated)" id="1604271474779-5">
+        <addForeignKeyConstraint baseColumnNames="ID_CONTRACT" baseTableName="quota" constraintName="FKcydl4yhxdd14a9po8iqa3irb9" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="contract" validate="true"/>
+    </changeSet>
+    <changeSet author="bruno (generated)" id="1604271474779-6">
+        <addForeignKeyConstraint baseColumnNames="ID_BANK" baseTableName="bank_calculation_values" constraintName="FKe6q2pq33paiy0ieauotrk1d3a" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="bank" validate="true"/>
+    </changeSet>
+    <changeSet author="bruno (generated)" id="1604271474779-7">
+        <addForeignKeyConstraint baseColumnNames="ID_BANK" baseTableName="contract" constraintName="FKmw1s8yqo7w8offn5ufrxnify7" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="bank" validate="true"/>
+    </changeSet>
+</databaseChangeLog>

@@ -24,6 +24,13 @@
 
 		<dependency>
 			<groupId>com.companycob</groupId>
+			<artifactId>tests</artifactId>
+			<version>${application.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.companycob</groupId>
 			<artifactId>utils</artifactId>
 			<version>${application.version}</version>
 		</dependency>
@@ -35,4 +42,16 @@
 		</dependency>
 
 	</dependencies>
+
+	<build>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+			</plugin>
+		</plugins>
+
+	</build>
+
 </project>
