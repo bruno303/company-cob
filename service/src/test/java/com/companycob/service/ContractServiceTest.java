@@ -17,34 +17,54 @@ public class ContractServiceTest extends AbstractDatabaseIntegrationTest {
 	@Autowired
 	private ContractService contractService;
 
-	@Test(expected = ValidationException.class)
+	@Test
 	public void testSaveNewContract_withNoContractNumber() throws ValidationException {
 
 		final var contract = new Contract();
 		contract.setDate(LocalDate.now());
 
-		final var contract2 = contractService.save(contract);
+		Contract contract2 = null;
+		try {
+			contract2 = contractService.save(contract);
+			Assert.fail("ValidationException expected");
+		} catch (final ValidationException ex) {
+		}
+
 		Assert.assertNull(contract2);
 	}
 
-	@Test(expected = ValidationException.class)
+	@Test
 	public void testSaveNewContract_withEmptyContractNumber() throws ValidationException {
 
 		final var contract = new Contract();
 		contract.setDate(LocalDate.now());
 		contract.setContractNumber("");
 
-		final var contract2 = contractService.save(contract);
+		Contract contract2 = null;
+
+		try {
+			contract2 = contractService.save(contract);
+			Assert.fail("ValidationException expected");
+		} catch (final ValidationException ex) {
+		}
+
 		Assert.assertNull(contract2);
 	}
 
-	@Test(expected = ValidationException.class)
+	@Test
 	public void testSaveNewContract_withNoContractDate() throws ValidationException {
 
 		final var contract = new Contract();
 		contract.setContractNumber("abc");
 
-		final var contract2 = contractService.save(contract);
+		Contract contract2 = null;
+
+		try {
+			contract2 = contractService.save(contract);
+			Assert.fail("ValidationException expected");
+		} catch (final ValidationException ex) {
+		}
+
 		Assert.assertNull(contract2);
 	}
 
@@ -161,13 +181,20 @@ public class ContractServiceTest extends AbstractDatabaseIntegrationTest {
 		Assert.assertEquals(bankName, contract3.getBank().getName());
 	}
 
-	@Test(expected = ValidationException.class)
+	@Test
 	public void testSaveNewContractWithoutBank_withError() throws ValidationException {
 
 		final var contract = contractGenerator.generate(true, false);
 
-		final var contractSaved = contractService.save(contract);
-		Assert.assertNotNull(contractSaved);
+		Contract contractSaved = null;
+
+		try {
+			contractSaved = contractService.save(contract);
+			Assert.fail("ValidationException expected");
+		} catch (final ValidationException ex) {
+		}
+
+		Assert.assertNull(contractSaved);
 	}
 
 	private CompletableFuture<Void> executeAsync(final Runnable runnable) {
