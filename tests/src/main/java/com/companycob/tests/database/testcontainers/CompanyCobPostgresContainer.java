@@ -4,7 +4,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 
 public class CompanyCobPostgresContainer extends PostgreSQLContainer<CompanyCobPostgresContainer> {
 	private static final String IMAGE_VERSION = "postgres:13-alpine";
-	public static CompanyCobPostgresContainer container;
+	private static CompanyCobPostgresContainer container;
 
 	private CompanyCobPostgresContainer() {
 		super(IMAGE_VERSION);
