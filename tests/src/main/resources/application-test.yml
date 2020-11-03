@@ -1,20 +1,14 @@
-logging:
-  level:
-    org:
-      springframework: INFO
-    root: INFO
-spring:
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    url: ${DB_URL}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
-  jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
-    show-sql: false
-    properties:
-      hibernate:
-        format_sql: true
-    hibernate:
-      ddl-auto: none
-      default-schema: public
+logging.level.org;springframework: INFO
+logging.level.root: INFO
+loggin.level.liquibase: OFF
+
+spring.datasource.driver-class-name: org.postgresql.Driver
+spring.datasource.url: ${DB_URL}
+spring.datasource.username: ${DB_USERNAME}
+spring.datasource.password: ${DB_PASSWORD}
+
+spring.jpa.database-platform: org.hibernate.dialect.PostgreSQLDialect
+spring.jpa.show-sql: false
+spring.jpa.properties.hibernate.format_sql: true
+spring.jpa.hibernate.ddl-auto: none
+spring.jpa.hibernate.default-schema: public

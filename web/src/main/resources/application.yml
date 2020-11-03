@@ -1,38 +1,21 @@
-logging:
-  level:
-    org:
-      hibernate: INFO
-      springframework:
-        web: INFO
-  file: company-cob-web.log
+logging.level.org.hibernate: INFO
+logging.level.org.springframework.web: INFO
+logging.file.name: company-cob-web.log
 
-server:
-  port: 9000
-  servlet:
-    context-path: 
+server.port: 9000
+server.servlet.context-path: 
 
-spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/companycob
-    driverClassName: org.postgresql.Driver
-    username: postgres
-    password: password
-  jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
-    show-sql: false
-    properties:
-      hibernate:
-        format_sql: false
-    hibernate:
-      ddl-auto: none
+spring.datasource.url: jdbc:postgresql://localhost:5432/companycob
+spring.datasource.driverClassName: org.postgresql.Driver
+spring.datasource.username: postgres
+spring.datasource.password: password
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
+spring.jpa.database-platform: org.hibernate.dialect.PostgreSQLDialect
+spring.jpa.show-sql: false
+spring.jpa.properties.hibernate.format_sql: false
+spring.jpa.hibernate.ddl-auto: none
+
+management.endpoints.web.exposure.include: "*"
         
-application:
-  security:
-    user: companycob
-    password: companycob 
+application.security.user: companycob
+application.security.password: companycob 
