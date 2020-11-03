@@ -4,18 +4,41 @@
 
 	<id>make-assembly</id>
 	<formats>
-		<format>dir</format>
+		<format>zip</format>
 	</formats>
 	<includeBaseDirectory>false</includeBaseDirectory>
 	
+	<!-- General files -->
 	<fileSets>
+	
+		<!-- docker-compose -->
 		<fileSet>
 			<outputDirectory>.</outputDirectory>
-			<directory>${basedir}/src/main/resources/root</directory>
+			<directory>${project.basedir}/src/main/resources/root</directory>
+			<fileMode>0777</fileMode>
 		</fileSet>
+		
 	</fileSets>
 
 	<moduleSets>
+	
+		<!-- Jars -->
+		<moduleSet>
+			<useAllReactorProjects>true</useAllReactorProjects>
+
+			<includes>
+				<include>com.companycob:web</include>
+				<include>com.companycob:spring-boot-admin</include>
+			</includes>
+			<binaries>
+				<outputDirectory>${module.artifactId}</outputDirectory>
+				<outputFileNameMapping>${module.artifactId}.${module.extension}</outputFileNameMapping>
+				<unpack>false</unpack>
+				<includeDependencies>false</includeDependencies>
+			</binaries>
+		</moduleSet>
+		
+		<!-- Dockerfiles -->
 		<moduleSet>
 			<useAllReactorProjects>true</useAllReactorProjects>
 
@@ -24,27 +47,49 @@
 				<include>com.companycob:spring-boot-admin</include>
 			</includes>
 			<sources>
-				<outputDirectory>${module.artifactId}</outputDirectory>
 				<includeModuleDirectory>false</includeModuleDirectory>
-				<excludeSubModuleDirectories>true</excludeSubModuleDirectories>
-				<includes>
-					<include>${basedir}/Dockerfile</include>
-				</includes>
 				<fileSets>
 					<fileSet>
-						<directory>${basedir}</directory>
-						<excludes>
-							<exclude>${basedir}/**</exclude>
-						</excludes>
+						<directory>${project.basedir}</directory>
+						<outputDirectory>${module.artifactId}</outputDirectory>
+						<includes>
+							<include>Dockerfile</include>
+						</includes>
 					</fileSet>
 				</fileSets>
 			</sources>
-			<binaries>
-				<outputDirectory>${module.artifactId}</outputDirectory>
-				<outputFileNameMapping>${module.artifactId}.${module.extension}</outputFileNameMapping>
-				<unpack>false</unpack>
-				<includeDependencies>false</includeDependencies>
-			</binaries>
 		</moduleSet>
+		
+		<!-- Migration scripts -->
+		<moduleSet>
+			<useAllReactorProjects>true</useAllReactorProjects>
+
+			<includes>
+				<include>com.companycob:migration</include>
+			</includes>
+			<sources>
+				<includeModuleDirectory>false</includeModuleDirectory>
+				<fileSets>
+
+					<fileSet>
+						<directory>${project.basedir}/src/main/resources</directory>
+						<outputDirectory>${module.artifactId}</outputDirectory>
+						<includes>
+							<include>db/**/*.*</include>
+						</includes>
+					</fileSet>
+					
+					<fileSet>
+						<directory>${project.basedir}/scripts</directory>
+						<outputDirectory>${module.artifactId}</outputDirectory>
+						<includes>
+							<include>run_migrations.sh</include>
+						</includes>
+						<fileMode>0777</fileMode>
+					</fileSet>
+				</fileSets>
+			</sources>
+		</moduleSet>
+		
 	</moduleSets>
 </assembly>

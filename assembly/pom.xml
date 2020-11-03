@@ -9,10 +9,24 @@
 	</parent>
 	<artifactId>assembly</artifactId>
 	
+	<packaging>jar</packaging>
+	
 	<dependencies>
 		<dependency>
 			<groupId>com.companycob</groupId>
 			<artifactId>web</artifactId>
+			<version>${application.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.companycob</groupId>
+			<artifactId>migration</artifactId>
+			<version>${application.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.companycob</groupId>
+			<artifactId>spring-boot-admin</artifactId>
 			<version>${application.version}</version>
 		</dependency>
 	</dependencies>
@@ -22,7 +36,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
-				<version>3.3.0</version>
 				<configuration>
 					<descriptors>
 						<descriptor>src/assembly/assembly.xml</descriptor>
@@ -42,4 +55,5 @@
 			</plugin>
 		</plugins>
 	</build>
+
 </project>
