@@ -25,11 +25,10 @@
 		<junit-version>4.12</junit-version>
 		<migbase64-version>2.2</migbase64-version>
 		<jackson-databind-nullable>0.2.1</jackson-databind-nullable>
-
 	</properties>
 
 	<dependencies>
-	
+
 		<dependency>
 			<groupId>com.companycob</groupId>
 			<artifactId>web-utils</artifactId>
@@ -145,7 +144,6 @@
 			<artifactId>jackson-databind-nullable</artifactId>
 			<version>${jackson-databind-nullable}</version>
 		</dependency>
-
 	</dependencies>
 
 	<build>
@@ -153,16 +151,6 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<goal>repackage</goal>
-						</goals>
-						<configuration>
-							<mainClass>com.companycob.CompanyCobWebApplication</mainClass>
-						</configuration>
-					</execution>
-				</executions>
 			</plugin>
 
 			<plugin>

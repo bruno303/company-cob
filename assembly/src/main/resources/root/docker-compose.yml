@@ -1,26 +1,60 @@
 version: '3.7'
 services:
+
+##
+# Web application
+#
   company-cob-web:
     build: 
       context: ./web/
     hostname: 'company-cob-web'
     container_name: 'company-cob-web'
     environment:
-      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_BOOT_ADMIN_URL=http://company-cob-spring-boot-admin:8081
+      - DB_HOST=company-cob-postgre-database
+      - DB_PORT=5432
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=password
+      - DB_DATABASE=companycob
+      - APPLICATION_SECURITY_USER=companycob
+      - APPLICATION_SECURITY_PASSWORD=companycob
+      - APPLICATION_PORT=9000
     ports:
       - '9000:9000'
     networks: 
       - companycobnet
     depends_on: 
       - company-cob-spring-boot-admin
+      - company-cob-postgre-database
 
+##
+# SpringBoot Admin
+#
   company-cob-spring-boot-admin:
     build:
       context: ./spring-boot-admin/
     hostname: 'company-cob-spring-boot-admin'
     container_name: 'company-cob-spring-boot-admin'
+    environment:
+      - APPLICATION_PORT=8081
     ports:
       - '8081:8081'
+    networks:
+      - companycobnet
+      
+##
+# Postgre database
+#
+  company-cob-postgre-database:
+    image: postgres:13-alpine
+    hostname: 'company-cob-postgre-database'
+    container_name: 'company-cob-postgre-database'
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=companycob
     networks:
       - companycobnet
 

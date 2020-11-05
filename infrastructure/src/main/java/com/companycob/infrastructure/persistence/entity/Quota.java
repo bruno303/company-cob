@@ -14,26 +14,26 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name = "QUOTA")
+@Table(name = "quota", schema = "public")
 public class Quota {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "ID")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ID", nullable = false)
 	private long id;
-	
+
 	@Column(name = "NUMBER", nullable = false)
 	private int number;
-	
+
 	@Column(name = "INITIAL_VALUE", nullable = false)
 	private BigDecimal initialValue;
-	
+
 	@Transient
 	private BigDecimal updatedValue;
-	
+
 	@Column(name = "DUE_DATE", nullable = false)
 	private LocalDate dueDate;
-	
+
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "ID_CONTRACT", nullable = false)
 	private Contract contract;
@@ -42,7 +42,7 @@ public class Quota {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(final long id) {
 		this.id = id;
 	}
 
@@ -50,7 +50,7 @@ public class Quota {
 		return number;
 	}
 
-	public void setNumber(int number) {
+	public void setNumber(final int number) {
 		this.number = number;
 	}
 
@@ -58,7 +58,7 @@ public class Quota {
 		return initialValue;
 	}
 
-	public void setInitialValue(BigDecimal initialValue) {
+	public void setInitialValue(final BigDecimal initialValue) {
 		this.initialValue = initialValue;
 	}
 
@@ -66,7 +66,7 @@ public class Quota {
 		return updatedValue;
 	}
 
-	public void setUpdatedValue(BigDecimal updatedValue) {
+	public void setUpdatedValue(final BigDecimal updatedValue) {
 		this.updatedValue = updatedValue;
 	}
 
@@ -74,7 +74,7 @@ public class Quota {
 		return dueDate;
 	}
 
-	public void setDueDate(LocalDate dueDate) {
+	public void setDueDate(final LocalDate dueDate) {
 		this.dueDate = dueDate;
 	}
 
@@ -82,7 +82,7 @@ public class Quota {
 		return contract;
 	}
 
-	public void setContract(Contract contract) {
+	public void setContract(final Contract contract) {
 		this.contract = contract;
 	}
 }
