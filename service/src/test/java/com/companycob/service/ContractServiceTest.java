@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.companycob.domain.exception.ValidationException;
 import com.companycob.domain.model.entity.Contract;
 import com.companycob.tests.AbstractDatabaseIntegrationTest;
-import com.companycob.utils.thread.ThreadUtils;
 
 public class ContractServiceTest extends AbstractDatabaseIntegrationTest {
 
@@ -20,8 +19,8 @@ public class ContractServiceTest extends AbstractDatabaseIntegrationTest {
 	@Test
 	public void testSaveNewContract_withNoContractNumber() {
 
-		final var contract = new Contract();
-		contract.setDate(LocalDate.now());
+		final var contract = this.contractGenerator.generate();
+		contract.setContractNumber(null);
 
 		Contract contract2 = null;
 		try {
@@ -36,8 +35,7 @@ public class ContractServiceTest extends AbstractDatabaseIntegrationTest {
 	@Test
 	public void testSaveNewContract_withEmptyContractNumber() {
 
-		final var contract = new Contract();
-		contract.setDate(LocalDate.now());
+		final var contract = this.contractGenerator.generate();
 		contract.setContractNumber("");
 
 		Contract contract2 = null;
@@ -54,8 +52,8 @@ public class ContractServiceTest extends AbstractDatabaseIntegrationTest {
 	@Test
 	public void testSaveNewContract_withNoContractDate() {
 
-		final var contract = new Contract();
-		contract.setContractNumber("abc");
+		final var contract = contractGenerator.generate();
+		contract.setDate(null);
 
 		Contract contract2 = null;
 
@@ -139,8 +137,6 @@ public class ContractServiceTest extends AbstractDatabaseIntegrationTest {
 			}
 		});
 
-		ThreadUtils.threadSleep(100L);
-
 		final var save2Async = executeAsync(() -> {
 			try {
 				contractService.save(contract2);
@@ -155,7 +151,8 @@ public class ContractServiceTest extends AbstractDatabaseIntegrationTest {
 
 		Assert.assertNotNull(contractFound);
 		Assert.assertEquals(id, contractFound.getId());
-		Assert.assertEquals(LocalDate.now().plusDays(2), contractFound.getDate());
+		Assert.assertTrue(contractFound.getDate().isEqual(contractSaved.getDate())
+				|| contractFound.getDate().isEqual(contract2.getDate()));
 		Assert.assertEquals(2, contractFound.getQuotas().size());
 	}
 

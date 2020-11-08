@@ -33,4 +33,6 @@ build/
 ### Project ###
 **/*.log
 **/*.log*.gz
-.attach_pid*
+
+### Custom ###
+**/.attach_pid*
