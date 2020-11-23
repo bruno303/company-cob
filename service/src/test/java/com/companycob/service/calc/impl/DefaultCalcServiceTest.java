@@ -13,9 +13,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import com.companycob.domain.model.entity.Quota;
 import com.companycob.service.arrears.ArrearsDaysService;
-import com.companycob.tests.AbstractDatabaseIntegrationTest;
+import com.companycob.tests.AbstractUnitTest;
 
-public class DefaultCalcServiceTest extends AbstractDatabaseIntegrationTest {
+public class DefaultCalcServiceTest extends AbstractUnitTest {
 
 	@MockBean
 	private ArrearsDaysService arrearsDaysService;

@@ -5,6 +5,7 @@ import javax.sql.DataSource;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.TestPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -18,6 +19,7 @@ import liquibase.database.jvm.JdbcConnection;
 import liquibase.resource.ClassLoaderResourceAccessor;
 
 @Testcontainers
+@TestPropertySource(value = { "classpath:application-integration-test.yml" })
 public abstract class AbstractDatabaseIntegrationTest extends AbstractTest {
 
 	private static final String CHANGE_LOG = "db/db.changelog-master.xml";
