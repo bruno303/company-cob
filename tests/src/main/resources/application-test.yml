@@ -1,16 +1,9 @@
 logging.level.org;springframework: INFO
 logging.level.root: INFO
-loggin.level.liquibase: OFF
+logging.level.liquibase: OFF
 
-spring.datasource.driver-class-name: org.postgresql.Driver
-spring.datasource.url: ${DB_URL}
-spring.datasource.username: ${DB_USERNAME}
-spring.datasource.password: ${DB_PASSWORD}
-
-spring.jpa.database-platform: org.hibernate.dialect.PostgreSQLDialect
 spring.jpa.show-sql: false
-spring.jpa.properties.hibernate.format_sql: true
 spring.jpa.hibernate.ddl-auto: none
+spring.jpa.properties.hibernate.format_sql: true
 spring.jpa.hibernate.default-schema: public
-
 spring.liquibase.change-log: classpath:db/db.changelog-master.xml
