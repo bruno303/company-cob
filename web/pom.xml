@@ -51,6 +51,12 @@
 			<artifactId>domain</artifactId>
 			<version>${application.version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.companycob</groupId>
+			<artifactId>migration</artifactId>
+			<version>${application.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>com.companycob</groupId>
@@ -198,7 +204,6 @@
 					</execution>
 				</executions>
 			</plugin>
-
 		</plugins>
 	</build>
 </project>

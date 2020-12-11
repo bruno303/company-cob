@@ -19,6 +19,7 @@ services:
       - APPLICATION_SECURITY_USER=companycob
       - APPLICATION_SECURITY_PASSWORD=companycob
       - APPLICATION_PORT=9000
+      - LIQUIBASE_ENABLED=true
     ports:
       - '9000:9000'
     networks: 

@@ -60,36 +60,5 @@
 			</sources>
 		</moduleSet>
 		
-		<!-- Migration scripts -->
-		<moduleSet>
-			<useAllReactorProjects>true</useAllReactorProjects>
-
-			<includes>
-				<include>com.companycob:migration</include>
-			</includes>
-			<sources>
-				<includeModuleDirectory>false</includeModuleDirectory>
-				<fileSets>
-
-					<fileSet>
-						<directory>${project.basedir}/src/main/resources</directory>
-						<outputDirectory>${module.artifactId}</outputDirectory>
-						<includes>
-							<include>db/**/*.*</include>
-						</includes>
-					</fileSet>
-					
-					<fileSet>
-						<directory>${project.basedir}/scripts</directory>
-						<outputDirectory>${module.artifactId}</outputDirectory>
-						<includes>
-							<include>run_migrations.sh</include>
-						</includes>
-						<fileMode>0777</fileMode>
-					</fileSet>
-				</fileSets>
-			</sources>
-		</moduleSet>
-		
 	</moduleSets>
 </assembly>

@@ -20,3 +20,6 @@ application.security.user: ${APPLICATION_SECURITY_USER:companycob}
 application.security.password: ${APPLICATION_SECURITY_PASSWORD:companycob} 
 
 spring.boot.admin.client.url: ${SPRING_BOOT_ADMIN_URL:http://localhost:8081} 
+
+spring.liquibase.change-log: classpath:db/db.changelog-master.xml
+spring.liquibase.enabled: ${LIQUIBASE_ENABLED:true}
