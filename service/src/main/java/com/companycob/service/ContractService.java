@@ -3,11 +3,8 @@ package com.companycob.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.companycob.domain.model.entity.Bank;
-import com.companycob.service.calc.CalcService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,9 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.companycob.domain.exception.ValidationException;
 import com.companycob.domain.model.dto.ValidationErrorsCollection;
+import com.companycob.domain.model.entity.Bank;
 import com.companycob.domain.model.entity.Contract;
 import com.companycob.domain.model.entity.Quota;
 import com.companycob.domain.model.persistence.ContractRepository;
+import com.companycob.service.calc.CalcService;
 
 @Service
 public class ContractService {
@@ -25,15 +24,15 @@ public class ContractService {
 	private final ContractRepository contractRepository;
 	private final QuotaService quotaService;
 	private final BankService bankService;
-	private final Set<CalcService> calcServices;
+	private final CalcServicesProvider calcServicesProvider;
 
 	@Autowired
 	public ContractService(ContractRepository contractRepository, QuotaService quotaService,
-						   BankService bankService, Set<CalcService> calcServices) {
+						   BankService bankService, CalcServicesProvider calcServicesProvider) {
 		this.contractRepository = contractRepository;
 		this.quotaService = quotaService;
 		this.bankService = bankService;
-		this.calcServices = calcServices;
+		this.calcServicesProvider = calcServicesProvider;
 	}
 
 	@Transactional
@@ -45,16 +44,13 @@ public class ContractService {
 	}
 
 	public void calculate(Contract contract) {
-		for (CalcService calcService : calcServices) {
-			if (calcService.accept(contract)) {
-				calcService.calculate(contract);
-			}
-		}
+		final CalcService calcService = calcServicesProvider.getCalcService(contract);
+		calcService.calculate(contract);
 	}
-	
+
 	public void verify(Contract contract) throws ValidationException {
-		List<ValidationErrorsCollection> errors = new ArrayList<>();
-		
+		final List<ValidationErrorsCollection> errors = new ArrayList<>();
+
 		verifyContract(contract, errors);
 		verifyQuotas(contract.getQuotas(), errors);
 		verifyBank(contract.getBank(), errors);
@@ -63,9 +59,9 @@ public class ContractService {
 			throw new ValidationException(errors);
 		}
 	}
-	
+
 	private void verifyQuotas(List<Quota> quotas, List<ValidationErrorsCollection> errors) {
-		var result = quotas
+		final var result = quotas
 				.stream()
 				.map(quotaService::verify)
 				.filter(ValidationErrorsCollection::hasErrors)
@@ -75,7 +71,7 @@ public class ContractService {
 	}
 
 	private void verifyBank(Bank bank, List<ValidationErrorsCollection> errors) {
-		ValidationErrorsCollection verify = bankService.verify(bank);
+		final ValidationErrorsCollection verify = bankService.verify(bank);
 
 		if (verify.hasErrors()) {
 			errors.add(verify);
@@ -83,7 +79,7 @@ public class ContractService {
 	}
 
 	private void verifyContract(Contract contract, List<ValidationErrorsCollection> errors) {
-		ValidationErrorsCollection result = new ValidationErrorsCollection();
+		final ValidationErrorsCollection result = new ValidationErrorsCollection();
 
 		if (contract == null) {
 			result.addError("contract", "Contract can't be null");
@@ -98,7 +94,7 @@ public class ContractService {
 		if (contract.getDate() == null) {
 			result.addError("date", "Contract date can't be null");
 		}
-		
+
 		if (contract.getQuotas() == null || contract.getQuotas().isEmpty()) {
 			result.addError("quotas", "Contract must have quotas");
 		}

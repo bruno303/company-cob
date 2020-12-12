@@ -1,6 +1,5 @@
 package com.companycob.tests.generator;
 
-import com.companycob.domain.exception.ValidationException;
 import com.companycob.domain.model.entity.Bank;
 import com.companycob.domain.model.entity.Contract;
 import com.companycob.tests.utils.RepositoryUtils;
@@ -24,11 +23,11 @@ public class ContractGenerator {
         this.quotaGenerator = quotaGenerator;
     }
 
-    public Contract generate() throws ValidationException {
+    public Contract generate() {
         return generate(true, true);
     }
 
-    public Contract generate(boolean generateQuotas, boolean generateBank) throws ValidationException {
+    public Contract generate(boolean generateQuotas, boolean generateBank) {
         Contract contract = new Contract();
         contract.setDate(LocalDate.now());
         contract.setContractNumber(RandomStringUtils.randomAlphanumeric(20));

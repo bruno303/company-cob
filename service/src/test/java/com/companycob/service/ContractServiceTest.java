@@ -18,7 +18,7 @@ public class ContractServiceTest extends AbstractDatabaseIntegrationTest {
 	private ContractService contractService;
 
 	@Test
-	public void testSaveNewContract_withNoContractNumber() throws ValidationException {
+	public void testSaveNewContract_withNoContractNumber() {
 
 		final var contract = new Contract();
 		contract.setDate(LocalDate.now());
@@ -27,14 +27,14 @@ public class ContractServiceTest extends AbstractDatabaseIntegrationTest {
 		try {
 			contract2 = contractService.save(contract);
 			Assert.fail("ValidationException expected");
-		} catch (final ValidationException ex) {
+		} catch (final ValidationException ignored) {
 		}
 
 		Assert.assertNull(contract2);
 	}
 
 	@Test
-	public void testSaveNewContract_withEmptyContractNumber() throws ValidationException {
+	public void testSaveNewContract_withEmptyContractNumber() {
 
 		final var contract = new Contract();
 		contract.setDate(LocalDate.now());
@@ -45,14 +45,14 @@ public class ContractServiceTest extends AbstractDatabaseIntegrationTest {
 		try {
 			contract2 = contractService.save(contract);
 			Assert.fail("ValidationException expected");
-		} catch (final ValidationException ex) {
+		} catch (final ValidationException ignored) {
 		}
 
 		Assert.assertNull(contract2);
 	}
 
 	@Test
-	public void testSaveNewContract_withNoContractDate() throws ValidationException {
+	public void testSaveNewContract_withNoContractDate() {
 
 		final var contract = new Contract();
 		contract.setContractNumber("abc");
@@ -62,7 +62,7 @@ public class ContractServiceTest extends AbstractDatabaseIntegrationTest {
 		try {
 			contract2 = contractService.save(contract);
 			Assert.fail("ValidationException expected");
-		} catch (final ValidationException ex) {
+		} catch (final ValidationException ignored) {
 		}
 
 		Assert.assertNull(contract2);
@@ -151,7 +151,7 @@ public class ContractServiceTest extends AbstractDatabaseIntegrationTest {
 
 		CompletableFuture.allOf(save1Async, save2Async).join();
 
-		final var contractFound = contractService.findById(id).get();
+		final var contractFound = contractService.findById(id).orElse(null);
 
 		Assert.assertNotNull(contractFound);
 		Assert.assertEquals(id, contractFound.getId());
@@ -191,7 +191,7 @@ public class ContractServiceTest extends AbstractDatabaseIntegrationTest {
 		try {
 			contractSaved = contractService.save(contract);
 			Assert.fail("ValidationException expected");
-		} catch (final ValidationException ex) {
+		} catch (final ValidationException ignored) {
 		}
 
 		Assert.assertNull(contractSaved);

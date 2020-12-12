@@ -1,16 +1,14 @@
 package com.companycob.domain.model.persistence;
 
-import com.companycob.domain.exception.CalcTypeNotFoundException;
-
 import java.util.List;
 import java.util.Optional;
 
-public interface Repository<Type, Key> {
+public interface Repository<T, K> {
 
-	Type save(Type entity) throws CalcTypeNotFoundException;
-	List<Type> saveAll(List<Type> entities);
-	void remove(Type entity);
-	Optional<Type> findById(Key key);
-	List<Type> findAll();
+	T save(T entity);
+	List<T> saveAll(List<T> entities);
+	void remove(T entity);
+	Optional<T> findById(K key);
+	List<T> findAll();
 	
 }

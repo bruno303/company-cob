@@ -4,6 +4,8 @@ import com.companycob.infrastructure.persistence.entity.Contract;
 
 public class ContractConverter {
 
+	private ContractConverter() { }
+
 	public static Contract contractDomainToContractPersistence(com.companycob.domain.model.entity.Contract domainContract) {
 		Contract persistenceContract = new Contract();
 		persistenceContract.setId(domainContract.getId());
