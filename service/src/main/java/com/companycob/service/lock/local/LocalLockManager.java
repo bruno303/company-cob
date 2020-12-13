@@ -10,6 +10,7 @@ import com.companycob.domain.lock.Lockable;
 public class LocalLockManager<T extends Lockable> implements LockManager<T> {
 
 	private final Map<String, LocalLock> locks = new HashMap<>();
+	private final Object lockObject = new Object();
 
 	@Override
 	public void tryLock(final T object) {
@@ -18,10 +19,16 @@ public class LocalLockManager<T extends Lockable> implements LockManager<T> {
 
 	@Override
 	public void tryLock(final T object, final long timeout, final TimeUnit timeUnit) {
-		LocalLock lock = locks.get(object.getKey());
-		if (lock == null) {
-			lock = new LocalLock();
-			locks.putIfAbsent(object.getKey(), lock);
+		LocalLock lock = null;
+
+		synchronized (lockObject) {
+
+			lock = locks.get(object.getKey());
+			if (lock == null) {
+				lock = new LocalLock();
+				locks.putIfAbsent(object.getKey(), lock);
+			}
+
 		}
 
 		lock.tryLock(timeout, timeUnit);
