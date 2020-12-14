@@ -30,5 +30,7 @@ build/
 ### VS Code ###
 .vscode/
 
+### Project ###
 **/*.log
 **/*.log*.gz
+.attach_pid*

@@ -1,7 +1,9 @@
 package com.companycob.tests;
 
-import java.math.BigDecimal;
-
+import com.companycob.tests.config.AppConfig;
+import com.companycob.tests.generator.BankGenerator;
+import com.companycob.tests.generator.ContractGenerator;
+import com.companycob.tests.generator.QuotaGenerator;
 import org.junit.Assert;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +14,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.companycob.tests.config.AppConfig;
-import com.companycob.tests.generator.BankGenerator;
-import com.companycob.tests.generator.ContractGenerator;
-import com.companycob.tests.generator.QuotaGenerator;
+import java.math.BigDecimal;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.NONE)
@@ -34,7 +33,7 @@ public class AbstractTest {
 	protected ContractGenerator contractGenerator;
 
 	public static void assertEqualsBigDecimal(final BigDecimal expected, final BigDecimal actual) {
-		if (!(expected.compareTo(actual) == 0)) {
+		if (expected.compareTo(actual) != 0) {
 			Assert.fail(String.format("Expected [%.3f] but received [%.3f]", expected, actual));
 		}
 	}

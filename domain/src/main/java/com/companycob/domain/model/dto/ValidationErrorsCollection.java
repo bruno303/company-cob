@@ -1,12 +1,14 @@
 package com.companycob.domain.model.dto;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
-public class ValidationErrorsCollection {
-	
-	private List<ValidationErrorDTO> errors;
+public class ValidationErrorsCollection implements Serializable {
+
+	private static final long serialVersionUID = 4470419054738645352L;
+
+	private ValidationErrorList errors;
 
 	public List<ValidationErrorDTO> getErrors() {
 		verifyErrorsList();
@@ -17,54 +19,53 @@ public class ValidationErrorsCollection {
 		verifyErrorsList();
 		return !errors.isEmpty();
 	}
-	
+
 	private void verifyErrorsList() {
 		if (errors == null) {
-			errors = new ArrayList<ValidationErrorDTO>();
+			errors = new ValidationErrorList();
 		}
 	}
-	
-	public void addError(String property, String errorMessage) {
+
+	public void addError(final String property, final String errorMessage) {
 		if (errors == null) {
-			errors = new ArrayList<ValidationErrorDTO>();
+			errors = new ValidationErrorList();
 		}
-		
+
 		errors.add(new ValidationErrorDTO(property, errorMessage));
 	}
 
-	public void addAllErrors(List<ValidationErrorDTO> errors) {
+	public void addAllErrors(final List<ValidationErrorDTO> errors) {
 		if (this.errors == null) {
-			this.errors = new ArrayList<ValidationErrorDTO>();
+			this.errors = new ValidationErrorList();
 		}
 
 		this.errors.addAll(errors);
 	}
-	
+
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 		getErrors().forEach(error -> builder.append(error.toString()).append(" | "));
 		return builder.toString();
 	}
-	
+
 	public static class ValidationErrorDTO {
-		private String property;
-		private String error;
-		
-		public ValidationErrorDTO(String property, String error) {
-			super();
+		private final String property;
+		private final String error;
+
+		public ValidationErrorDTO(final String property, final String error) {
 			this.property = property;
 			this.error = error;
 		}
-		
+
 		public String getProperty() {
 			return property;
 		}
-		
+
 		public String getError() {
 			return error;
 		}
-		
+
 		@Override
 		public String toString() {
 			return String.format("%s -> %s", property, error);

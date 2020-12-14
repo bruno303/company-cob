@@ -16,7 +16,7 @@ public class HelloDelegateImpl implements ApiApiDelegate {
 		response.setError(false);
 		response.setMessage(String.format("Hello World from %s", this.getClass().getName()));
 		response.setCode(HttpStatus.OK.value());
-		return new ResponseEntity<Object>(response, HttpStatus.OK);
+		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
 }

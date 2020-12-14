@@ -5,6 +5,8 @@ import com.companycob.infrastructure.persistence.entity.Bank;
 
 public class BankConverter {
 
+    private BankConverter() { }
+
     public static Bank bankDomainToBankPersistence(com.companycob.domain.model.entity.Bank domainBank) {
         Bank persistenceBank = new Bank();
         persistenceBank.setId(domainBank.getId());

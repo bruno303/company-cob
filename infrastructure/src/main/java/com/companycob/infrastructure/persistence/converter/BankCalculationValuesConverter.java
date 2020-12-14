@@ -5,6 +5,8 @@ import com.companycob.infrastructure.persistence.entity.BankCalculationValues;
 
 public class BankCalculationValuesConverter {
 
+    private BankCalculationValuesConverter() { }
+
     public static BankCalculationValues domainToPersistence(com.companycob.domain.model.entity.BankCalculationValues domain,
                                                             Bank bank) {
         BankCalculationValues bcv = new BankCalculationValues();

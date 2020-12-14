@@ -1,8 +1,8 @@
 package com.companycob.domain.model.enumerators;
 
-import com.companycob.domain.exception.CalcTypeNotFoundException;
-
 import java.util.Arrays;
+
+import com.companycob.domain.exception.CalcTypeNotFoundException;
 
 public enum CalcType {
 
@@ -24,7 +24,7 @@ public enum CalcType {
         return description;
     }
 
-    public static CalcType of(int id) throws CalcTypeNotFoundException {
+    public static CalcType of(int id) {
         return Arrays.stream(CalcType.values())
                 .filter(c -> c.getId() == id)
                 .findFirst()

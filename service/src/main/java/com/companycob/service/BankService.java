@@ -67,7 +67,7 @@ public class BankService {
         ValidationErrorsCollection errors = new ValidationErrorsCollection();
 
         if (bankCalculationValues == null) {
-            errors.addError("bankCalculationValues", "Bank calculation values should not be empty");;
+            errors.addError("bankCalculationValues", "Bank calculation values should not be empty");
             return errors;
         }
 

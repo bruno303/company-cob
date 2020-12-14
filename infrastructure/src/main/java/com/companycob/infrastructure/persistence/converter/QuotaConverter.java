@@ -1,12 +1,14 @@
 package com.companycob.infrastructure.persistence.converter;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import com.companycob.infrastructure.persistence.entity.Contract;
 import com.companycob.infrastructure.persistence.entity.Quota;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class QuotaConverter {
+
+	private QuotaConverter() { }
 	
 	public static List<Quota> quotaDomainListToQuotaPersistenceList(List<com.companycob.domain.model.entity.Quota> domainQuotas,
 			Contract persistenceContract) {
