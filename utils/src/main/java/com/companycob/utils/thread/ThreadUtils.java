@@ -7,11 +7,11 @@ public final class ThreadUtils {
 	public static void threadSleep(int seconds) {
 		ThreadUtils.threadSleep(seconds * 1000L);
 	}
-	
-	public static void threadSleep(long milis) {
+
+	public static void threadSleep(final long milis) {
 		try {
 			Thread.sleep(milis);
-		} catch (InterruptedException e) {
+		} catch (final InterruptedException e) {
 			Thread.currentThread().interrupt();
 		}
 	}

@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Contract {
+import com.companycob.domain.lock.Lockable;
+
+public class Contract implements Lockable {
 
 	private Long id;
 	private String contractNumber;
@@ -78,5 +80,10 @@ public class Contract {
 		}
 		final Contract other = (Contract) obj;
 		return Objects.equals(id, other.id);
+	}
+
+	@Override
+	public String getKey() {
+		return String.format("contract:%s", this.getContractNumber());
 	}
 }

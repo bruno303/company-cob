@@ -17,6 +17,7 @@ import com.companycob.domain.model.entity.Contract;
 import com.companycob.domain.model.entity.Quota;
 import com.companycob.domain.model.persistence.ContractRepository;
 import com.companycob.service.calc.CalcService;
+import com.companycob.service.lock.contract.ContractLocker;
 
 @Service
 public class ContractService {
@@ -25,22 +26,29 @@ public class ContractService {
 	private final QuotaService quotaService;
 	private final BankService bankService;
 	private final CalcServicesProvider calcServicesProvider;
+	private final ContractLocker contractLocker;
 
 	@Autowired
 	public ContractService(ContractRepository contractRepository, QuotaService quotaService,
-						   BankService bankService, CalcServicesProvider calcServicesProvider) {
+						   BankService bankService, CalcServicesProvider calcServicesProvider, final ContractLocker contractLocker) {
 		this.contractRepository = contractRepository;
 		this.quotaService = quotaService;
 		this.bankService = bankService;
 		this.calcServicesProvider = calcServicesProvider;
+		this.contractLocker = contractLocker;
 	}
 
 	@Transactional
-	public Contract save(Contract contract) throws ValidationException {
+	public Contract save(final Contract contract) throws ValidationException {
 
-		verify(contract);
+		contractLocker.tryLock(contract);
+		try {
+			verify(contract);
 
-		return contractRepository.save(contract);
+			return contractRepository.save(contract);
+		} finally {
+			contractLocker.release(contract);
+		}
 	}
 
 	public void calculate(Contract contract) {
@@ -60,17 +68,14 @@ public class ContractService {
 		}
 	}
 
-	private void verifyQuotas(List<Quota> quotas, List<ValidationErrorsCollection> errors) {
-		final var result = quotas
-				.stream()
-				.map(quotaService::verify)
-				.filter(ValidationErrorsCollection::hasErrors)
+	private void verifyQuotas(final List<Quota> quotas, final List<ValidationErrorsCollection> errors) {
+		final var result = quotas.stream().map(quotaService::verify).filter(ValidationErrorsCollection::hasErrors)
 				.collect(Collectors.toList());
 
 		errors.addAll(result);
 	}
 
-	private void verifyBank(Bank bank, List<ValidationErrorsCollection> errors) {
+	private void verifyBank(final Bank bank, final List<ValidationErrorsCollection> errors) {
 		final ValidationErrorsCollection verify = bankService.verify(bank);
 
 		if (verify.hasErrors()) {
@@ -78,7 +83,7 @@ public class ContractService {
 		}
 	}
 
-	private void verifyContract(Contract contract, List<ValidationErrorsCollection> errors) {
+	private void verifyContract(final Contract contract, final List<ValidationErrorsCollection> errors) {
 		final ValidationErrorsCollection result = new ValidationErrorsCollection();
 
 		if (contract == null) {
@@ -109,12 +114,12 @@ public class ContractService {
 	}
 
 	@Transactional
-	public Optional<Contract> findById(Long id) {
+	public Optional<Contract> findById(final Long id) {
 		return contractRepository.findById(id);
 	}
 
 	@Transactional
-	public List<Contract> findByContractNumber(String contractNumber) {
+	public List<Contract> findByContractNumber(final String contractNumber) {
 		return contractRepository.findByContractNumber(contractNumber);
 	}
 }

@@ -1,9 +1,8 @@
 package com.companycob.tests;
 
-import com.companycob.tests.config.AppConfig;
-import com.companycob.tests.generator.BankGenerator;
-import com.companycob.tests.generator.ContractGenerator;
-import com.companycob.tests.generator.QuotaGenerator;
+import java.math.BigDecimal;
+import java.util.concurrent.CompletableFuture;
+
 import org.junit.Assert;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.math.BigDecimal;
+import com.companycob.tests.config.AppConfig;
+import com.companycob.tests.generator.BankGenerator;
+import com.companycob.tests.generator.ContractGenerator;
+import com.companycob.tests.generator.QuotaGenerator;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.NONE)
@@ -38,4 +40,7 @@ public class AbstractTest {
 		}
 	}
 
+	protected CompletableFuture<Void> runAsync(final Runnable runnable) {
+		return CompletableFuture.runAsync(runnable);
+	}
 }
