@@ -129,7 +129,7 @@ public class ContractServiceTest extends AbstractDatabaseIntegrationTest {
 		contractSaved.setDate(LocalDate.now().plusDays(1));
 		contract2.setDate(LocalDate.now().plusDays(2));
 
-		final var save1Async = executeAsync(() -> {
+		final var save1Async = runAsync(() -> {
 			try {
 				contractService.save(contractSaved);
 			} catch (final ValidationException e) {
@@ -137,7 +137,7 @@ public class ContractServiceTest extends AbstractDatabaseIntegrationTest {
 			}
 		});
 
-		final var save2Async = executeAsync(() -> {
+		final var save2Async = runAsync(() -> {
 			try {
 				contractService.save(contract2);
 			} catch (final ValidationException e) {
@@ -192,9 +192,5 @@ public class ContractServiceTest extends AbstractDatabaseIntegrationTest {
 		}
 
 		Assert.assertNull(contractSaved);
-	}
-
-	private CompletableFuture<Void> executeAsync(final Runnable runnable) {
-		return CompletableFuture.runAsync(runnable);
 	}
 }

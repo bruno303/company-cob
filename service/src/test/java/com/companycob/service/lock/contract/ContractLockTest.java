@@ -2,17 +2,13 @@ package com.companycob.service.lock.contract;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.companycob.domain.exception.ValidationException;
 import com.companycob.domain.model.entity.Contract;
-import com.companycob.tests.AbstractDatabaseIntegrationTest;
+import com.companycob.tests.AbstractUnitTest;
 
-public class ContractLockTest extends AbstractDatabaseIntegrationTest {
-
-	private static final Logger LOG = LoggerFactory.getLogger(ContractLockTest.class);
+public class ContractLockTest extends AbstractUnitTest {
 
 	@Autowired
 	private ContractLocker contractLocker;
