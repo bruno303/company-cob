@@ -12,8 +12,8 @@
 	<groupId>com.companycob</groupId>
 	<artifactId>company-cob</artifactId>
 	<version>1.0.0</version>
-	<name>company-cob</name>
-	<description></description>
+	<name>CompanyCob :: Parent</name>
+	<description>CompanyCob project</description>
 	<packaging>pom</packaging>
 
 	<properties>
