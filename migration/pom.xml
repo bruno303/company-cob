@@ -8,6 +8,7 @@
 		<version>1.0.0</version>
 	</parent>
 	<artifactId>migration</artifactId>
+	<name>CompanyCob :: Migration</name>
 	
 	<properties>
 		<timestamp>${maven.build.timestamp}</timestamp>

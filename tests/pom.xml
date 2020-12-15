@@ -8,6 +8,7 @@
 		<version>1.0.0</version>
 	</parent>
 	<artifactId>tests</artifactId>
+	<name>CompanyCob :: Tests</name>
 
 	<packaging>jar</packaging>
 
