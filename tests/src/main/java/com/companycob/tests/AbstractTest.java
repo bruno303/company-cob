@@ -1,6 +1,7 @@
 package com.companycob.tests;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import org.junit.Assert;
@@ -42,5 +43,10 @@ public class AbstractTest {
 
 	protected CompletableFuture<Void> runAsync(final Runnable runnable) {
 		return CompletableFuture.runAsync(runnable);
+	}
+
+	protected <T> void awaitAllCompletableFutures(List<CompletableFuture<T>> completableFutures) {
+		final var array = completableFutures.toArray(CompletableFuture[]::new);
+		CompletableFuture.allOf(array).join();
 	}
 }

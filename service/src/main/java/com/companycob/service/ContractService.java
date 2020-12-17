@@ -39,7 +39,7 @@ public class ContractService {
 	}
 
 	@Transactional
-	public Contract save(final Contract contract) throws ValidationException {
+	public Contract save(final Contract contract) {
 
 		contractLocker.tryLock(contract);
 		try {
@@ -56,7 +56,7 @@ public class ContractService {
 		calcService.calculate(contract);
 	}
 
-	public void verify(Contract contract) throws ValidationException {
+	public void verify(Contract contract) {
 		final List<ValidationErrorsCollection> errors = new ArrayList<>();
 
 		verifyContract(contract, errors);

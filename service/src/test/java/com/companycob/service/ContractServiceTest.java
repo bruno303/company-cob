@@ -1,7 +1,7 @@
 package com.companycob.service;
 
 import java.time.LocalDate;
-import java.util.concurrent.CompletableFuture;
+import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -67,7 +67,7 @@ public class ContractServiceTest extends AbstractDatabaseIntegrationTest {
 	}
 
 	@Test
-	public void testSaveNewContract_withSucess() throws ValidationException {
+	public void testSaveNewContract_withSucess() {
 
 		final var contract = contractGenerator.generate();
 
@@ -79,7 +79,7 @@ public class ContractServiceTest extends AbstractDatabaseIntegrationTest {
 	}
 
 	@Test
-	public void testSaveNewContractAndLoadById() throws ValidationException {
+	public void testSaveNewContractAndLoadById() {
 		final var contract = contractGenerator.generate();
 
 		final var contractSaved = contractService.save(contract);
@@ -97,7 +97,7 @@ public class ContractServiceTest extends AbstractDatabaseIntegrationTest {
 	}
 
 	@Test
-	public void testSaveNewContractAndLoadByContractNumber() throws ValidationException {
+	public void testSaveNewContractAndLoadByContractNumber() {
 		final var contract = contractGenerator.generate();
 
 		final var contractSaved = contractService.save(contract);
@@ -115,49 +115,37 @@ public class ContractServiceTest extends AbstractDatabaseIntegrationTest {
 	}
 
 	@Test
-	public void testSaveNewContractTwice_withSucess() throws ValidationException {
+	public void testSaveNewContractMultipleTimes_withSucess() {
 
 		final var contract = contractGenerator.generate();
 
 		final var contractSaved = contractService.save(contract);
 		final var id = contractSaved.getId();
 
-		final var contract2Optional = contractService.findById(id);
-		Assert.assertTrue(contract2Optional.isPresent());
+		// Assure contract is persisted first
+		Assert.assertTrue(contractService.findById(id).isPresent());
 
-		final var contract2 = contract2Optional.get();
 		contractSaved.setDate(LocalDate.now().plusDays(1));
-		contract2.setDate(LocalDate.now().plusDays(2));
 
-		final var save1Async = runAsync(() -> {
-			try {
-				contractService.save(contractSaved);
-			} catch (final ValidationException e) {
-				Assert.fail(e.getMessage());
-			}
-		});
+		final var save1Async = runAsync(() -> contractService.save(contractSaved));
+		final var save2Async = runAsync(() -> contractService.save(contractSaved));
+		final var save3Async = runAsync(() -> contractService.save(contractSaved));
+		final var save4Async = runAsync(() -> contractService.save(contractSaved));
+		final var save5Async = runAsync(() -> contractService.save(contractSaved));
 
-		final var save2Async = runAsync(() -> {
-			try {
-				contractService.save(contract2);
-			} catch (final ValidationException e) {
-				Assert.fail(e.getMessage());
-			}
-		});
-
-		CompletableFuture.allOf(save1Async, save2Async).join();
+		awaitAllCompletableFutures(List.of(save1Async, save2Async, save3Async, save4Async, save5Async));
 
 		final var contractFound = contractService.findById(id).orElse(null);
 
 		Assert.assertNotNull(contractFound);
 		Assert.assertEquals(id, contractFound.getId());
-		Assert.assertTrue(contractFound.getDate().isEqual(contractSaved.getDate())
-				|| contractFound.getDate().isEqual(contract2.getDate()));
+
+		Assert.assertEquals(contractSaved.getDate(), contractFound.getDate());
 		Assert.assertEquals(2, contractFound.getQuotas().size());
 	}
 
 	@Test
-	public void testSaveNewContract_changeBankAndSaveAgain_bankShouldNotBeChanged() throws ValidationException {
+	public void testSaveNewContract_changeBankAndSaveAgain_bankShouldNotBeChanged() {
 
 		final var contract = contractGenerator.generate();
 
@@ -179,7 +167,7 @@ public class ContractServiceTest extends AbstractDatabaseIntegrationTest {
 	}
 
 	@Test
-	public void testSaveNewContractWithoutBank_withError() throws ValidationException {
+	public void testSaveNewContractWithoutBank_withError() {
 
 		final var contract = contractGenerator.generate(true, false);
 

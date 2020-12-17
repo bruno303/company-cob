@@ -1,16 +1,17 @@
 package com.companycob.service;
 
+import java.math.BigDecimal;
+import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.companycob.domain.exception.ValidationException;
 import com.companycob.domain.model.dto.ValidationErrorsCollection;
 import com.companycob.domain.model.entity.Bank;
 import com.companycob.domain.model.entity.BankCalculationValues;
 import com.companycob.domain.model.persistence.BankRepository;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.math.BigDecimal;
-import java.util.List;
 
 @Service
 public class BankService {
@@ -22,8 +23,8 @@ public class BankService {
         this.bankRepository = bankRepository;
     }
 
-    public Bank save(Bank bank) throws ValidationException {
-        var verifyResult = verify(bank);
+    public Bank save(Bank bank) {
+        final var verifyResult = verify(bank);
         if (verifyResult.hasErrors()) {
             throw new ValidationException(verifyResult);
         }
@@ -36,7 +37,7 @@ public class BankService {
     }
 
     public ValidationErrorsCollection verify(Bank bank) {
-        var result = new ValidationErrorsCollection();
+        final var result = new ValidationErrorsCollection();
 
         if (bank == null) {
             result.addError("bank", "Bank should not be null!");
@@ -55,7 +56,7 @@ public class BankService {
             result.addError("calcType", "CalcType should be defined for bank");
         }
 
-        var errorsBankCalculationValues = verifyCalculationValues(bank.getBankCalculationValues());
+        final var errorsBankCalculationValues = verifyCalculationValues(bank.getBankCalculationValues());
         if (errorsBankCalculationValues.hasErrors()) {
             result.addAllErrors(errorsBankCalculationValues.getErrors());
         }
@@ -64,7 +65,7 @@ public class BankService {
     }
 
     private ValidationErrorsCollection verifyCalculationValues(BankCalculationValues bankCalculationValues) {
-        ValidationErrorsCollection errors = new ValidationErrorsCollection();
+        final ValidationErrorsCollection errors = new ValidationErrorsCollection();
 
         if (bankCalculationValues == null) {
             errors.addError("bankCalculationValues", "Bank calculation values should not be empty");

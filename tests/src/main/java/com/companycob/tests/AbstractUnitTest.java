@@ -7,6 +7,6 @@ import org.springframework.test.context.TestPropertySource;
 
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2, replace = Replace.ANY)
 @TestPropertySource({ "classpath:application-unit-test.yml" })
-public class AbstractUnitTest extends AbstractTest {
+public abstract class AbstractUnitTest extends AbstractTest {
 
 }
