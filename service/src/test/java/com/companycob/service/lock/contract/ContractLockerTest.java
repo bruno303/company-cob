@@ -1,7 +1,5 @@
 package com.companycob.service.lock.contract;
 
-import java.util.List;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +48,7 @@ public class ContractLockerTest extends AbstractUnitTest {
 		final var run2 = runAsync(() -> lockAwaitAndRelease(contract));
 		final var run3 = runAsync(() -> lockAwaitAndRelease(contract));
 
-		awaitAllCompletableFutures(List.of(run1, run2, run3));
+		awaitAllCompletableFutures(run1, run2, run3);
 
 		Assert.assertFalse(contractLocker.isLocked(contract));
 	}
@@ -66,7 +64,7 @@ public class ContractLockerTest extends AbstractUnitTest {
 		final var run4 = runAsync(() -> lockAwaitAndRelease(contract, 1L));
 		final var run5 = runAsync(() -> lockAwaitAndRelease(contract, 1L));
 
-		awaitAllCompletableFutures(List.of(run1, run2, run3, run4, run5));
+		awaitAllCompletableFutures(run1, run2, run3, run4, run5);
 
 		Assert.assertFalse(contractLocker.isLocked(contract));
 	}

@@ -1,7 +1,6 @@
 package com.companycob.service;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -133,7 +132,7 @@ public class ContractServiceTest extends AbstractDatabaseIntegrationTest {
 		final var save4Async = runAsync(() -> contractService.save(contractSaved));
 		final var save5Async = runAsync(() -> contractService.save(contractSaved));
 
-		awaitAllCompletableFutures(List.of(save1Async, save2Async, save3Async, save4Async, save5Async));
+		awaitAllCompletableFutures(save1Async, save2Async, save3Async, save4Async, save5Async);
 
 		final var contractFound = contractService.findById(id).orElse(null);
 
