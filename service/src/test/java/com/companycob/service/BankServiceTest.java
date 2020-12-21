@@ -7,7 +7,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.companycob.domain.exception.ValidationException;
 import com.companycob.domain.model.entity.Bank;
 import com.companycob.domain.model.entity.BankCalculationValues;
 import com.companycob.domain.model.enumerators.CalcType;
@@ -100,7 +99,7 @@ public class BankServiceTest extends AbstractDatabaseIntegrationTest {
 	}
 
 	@Test
-	public void testSaveAndLoadBank() throws ValidationException {
+	public void testSaveAndLoadBank() {
 		final var bank = new Bank();
 		bank.setName("Bank saved");
 		bank.setSocialName("Bank saved");

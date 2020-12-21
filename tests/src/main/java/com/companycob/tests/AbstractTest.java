@@ -43,4 +43,8 @@ public class AbstractTest {
 	protected CompletableFuture<Void> runAsync(final Runnable runnable) {
 		return CompletableFuture.runAsync(runnable);
 	}
+
+	protected void awaitAllCompletableFutures(CompletableFuture<?>... completableFutures) {
+		CompletableFuture.allOf(completableFutures).join();
+	}
 }

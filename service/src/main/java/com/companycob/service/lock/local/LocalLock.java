@@ -25,6 +25,7 @@ public class LocalLock implements Lock {
 
 	@Override
 	public boolean tryLock(final long timeout, final TimeUnit timeUnit) {
+		LOG.info("Locking...");
 		try {
 			return lock.tryLock(timeout, timeUnit);
 		} catch (final InterruptedException e) {
@@ -36,7 +37,8 @@ public class LocalLock implements Lock {
 
 	@Override
 	public void release() {
-		while (lock.isLocked()) {
+		LOG.info("Releasing...");
+		while (lock.isLocked() && lock.isHeldByCurrentThread()) {
 			lock.unlock();
 		}
 	}
