@@ -1,3 +1,4 @@
+spring.application.name: company-cob-web
 logging.level.root: INFO
 logging.file.name: company-cob-web.log
 
