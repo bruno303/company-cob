@@ -1,0 +1,149 @@
+{
+	"info": {
+		"_postman_id": "a1963a7d-11a1-445e-814c-0f23917ce13d",
+		"name": "CompanyCob - Without Auth",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Hello",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b4391d3a-7808-4032-9548-1a8480f301d5",
+						"exec": [
+							"pm.test(\"Status code is 401\", function () {",
+							"    pm.response.to.have.status(401);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/v1/hello",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"hello"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "HelloTeste",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "724366d7-618b-4960-9b7f-b2af8a893ab1",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/helloteste",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"helloteste"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actuator Beans",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f1845e3e-a9f6-42d9-9365-9fff32a7f335",
+						"exec": [
+							"pm.test(\"Status code is 401\", function () {",
+							"    pm.response.to.have.status(401);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/actuator/beans",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"actuator",
+						"beans"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actuator",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f6b98ff6-b0f3-43bc-8f16-568ec04e9d44",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/actuator",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"actuator"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

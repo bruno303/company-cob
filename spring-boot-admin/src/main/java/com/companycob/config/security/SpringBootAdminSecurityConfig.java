@@ -21,10 +21,10 @@ public class SpringBootAdminSecurityConfig extends WebSecurityConfigurerAdapter 
 
 	private static final String ROLE = "USER";
 
-	@Value("${spring.boot.admin.client.username}")
+	@Value("${spring.boot.admin.login.username}")
 	private String username;
 
-	@Value("${spring.boot.admin.client.password}")
+	@Value("${spring.boot.admin.login.password}")
 	private String password;
 
 	private final AdminServerProperties adminServer;
