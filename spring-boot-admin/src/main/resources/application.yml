@@ -1,3 +1,3 @@
 server.port: ${APPLICATION_PORT:8081}
-spring.boot.admin.login.username: ${SBA_USERNAME:companycob}
-spring.boot.admin.login.password: ${SBA_PASSWORD:companycob} 
+spring.boot.admin.login.username: ${SBA_LOGIN_USERNAME:companycob}
+spring.boot.admin.login.password: ${SBA_LOGIN_PASSWORD:companycob} 

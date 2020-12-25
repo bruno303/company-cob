@@ -23,10 +23,10 @@ public class InMemoryWebAppSecurityConfig extends WebSecurityConfigurerAdapter {
 	private static final String[] ACTUATOR_AUTH_URLS = { "/actuator/**", "/api/**" };
 	private static final String[] ACTUATOR_FREE_URLS = { "/actuator", "/actuator/health", "/helloteste" };
 
-	@Value("${spring.boot.admin.client.instance.metadata.user.name:}")
+	@Value("${spring.boot.admin.client.username:}")
 	private String user;
 
-	@Value("${spring.boot.admin.client.instance.metadata.user.password:}")
+	@Value("${spring.boot.admin.client.password:}")
 	private String password;
 
 	@Bean
@@ -37,12 +37,8 @@ public class InMemoryWebAppSecurityConfig extends WebSecurityConfigurerAdapter {
 	// @formatter:off
 	@Override
 	protected void configure(final HttpSecurity http) throws Exception {
-		http.authorizeRequests()
-			.antMatchers(ACTUATOR_FREE_URLS).permitAll()
-			.antMatchers(ACTUATOR_AUTH_URLS).hasAuthority(AUTHORITY)
-			.anyRequest().denyAll()
-			.and().csrf().disable()
-			.httpBasic();
+		http.authorizeRequests().antMatchers(ACTUATOR_FREE_URLS).permitAll().antMatchers(ACTUATOR_AUTH_URLS)
+				.hasAuthority(AUTHORITY).anyRequest().denyAll().and().csrf().disable().httpBasic();
 	}
 	// @formatter:on
 

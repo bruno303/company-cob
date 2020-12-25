@@ -20,8 +20,6 @@ services:
       - APPLICATION_SECURITY_PASSWORD=companycob
       - APPLICATION_PORT=9000
       - LIQUIBASE_ENABLED=true
-      - SBA_USERNAME=companycob
-      - SBA_PASSWORD=companycob
     ports:
       - '9000:9000'
     networks: 
@@ -40,8 +38,8 @@ services:
     container_name: 'company-cob-spring-boot-admin'
     environment:
       - APPLICATION_PORT=8081
-      - SBA_USERNAME=companycob
-      - SBA_PASSWORD=companycob
+      - SBA_LOGIN_USERNAME=companycob
+      - SBA_LOGIN_PASSWORD=companycob
     ports:
       - '8081:8081'
     networks:
