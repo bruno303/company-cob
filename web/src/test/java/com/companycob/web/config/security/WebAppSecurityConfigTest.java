@@ -20,8 +20,9 @@ public class WebAppSecurityConfigTest extends AbstractUnitTest {
 	@LocalServerPort
 	private int localPort;
 
+	@Override
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		RestAssured.port = localPort;
 	}
 
