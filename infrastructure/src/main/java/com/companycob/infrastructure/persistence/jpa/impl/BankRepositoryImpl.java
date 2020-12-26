@@ -57,4 +57,9 @@ public class BankRepositoryImpl implements BankRepository {
 		final var all = jpaBankRepository.findAll();
 		return all.stream().map(BankConverter::bankPersistenceToBankDomain).collect(Collectors.toList());
 	}
+
+	@Override
+	public void removeAll() {
+		jpaBankRepository.deleteAll();
+	}
 }

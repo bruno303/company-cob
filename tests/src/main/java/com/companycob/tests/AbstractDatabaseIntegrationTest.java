@@ -32,8 +32,9 @@ public abstract class AbstractDatabaseIntegrationTest extends AbstractTest {
 	@Autowired
 	private DataSource dataSource;
 
+	@Override
 	@Before
-	public void setUpDatabase() {
+	public void setUp() {
 
 		try {
 
@@ -47,5 +48,7 @@ public abstract class AbstractDatabaseIntegrationTest extends AbstractTest {
 		} catch (final Exception ex) {
 			throw new SetupDatabaseException("Error in database configuration with liquibase", ex);
 		}
+
+		super.setUp();
 	}
 }
