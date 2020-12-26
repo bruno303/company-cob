@@ -1,6 +1,7 @@
 package com.companycob.tests.fixture;
 
-import org.junit.Assert;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -25,13 +26,13 @@ public class FixtureTest extends AbstractDatabaseIntegrationTest {
 		contractRepository.removeAll();
 		bankRepository.removeAll();
 
-		Assert.assertTrue(contractRepository.findAll().isEmpty());
-		Assert.assertTrue(bankRepository.findAll().isEmpty());
+		assertThat(contractRepository.findAll().isEmpty()).isTrue();
+		assertThat(bankRepository.findAll().isEmpty()).isTrue();
 
 		fixture.clearDatabase();
 
-		Assert.assertTrue(contractRepository.findAll().isEmpty());
-		Assert.assertTrue(bankRepository.findAll().isEmpty());
+		assertThat(contractRepository.findAll().isEmpty()).isTrue();
+		assertThat(bankRepository.findAll().isEmpty()).isTrue();
 	}
 
 	@Test
@@ -39,12 +40,12 @@ public class FixtureTest extends AbstractDatabaseIntegrationTest {
 		final Contract contract = contractGenerator.generate(true, true);
 		contractRepository.save(contract);
 
-		Assert.assertEquals(1, contractRepository.findAll().size());
-		Assert.assertEquals(1, bankRepository.findAll().size());
+		assertThat(contractRepository.findAll().size()).isEqualTo(1);
+		assertThat(bankRepository.findAll().size()).isEqualTo(1);
 
 		fixture.clearDatabase();
 
-		Assert.assertTrue(contractRepository.findAll().isEmpty());
-		Assert.assertTrue(bankRepository.findAll().isEmpty());
+		assertThat(contractRepository.findAll().isEmpty()).isTrue();
+		assertThat(bankRepository.findAll().isEmpty()).isTrue();
 	}
 }

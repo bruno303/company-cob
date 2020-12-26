@@ -1,14 +1,15 @@
 package com.companycob.service;
 
-import java.time.LocalDate;
-
-import org.junit.Assert;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.companycob.domain.exception.ValidationException;
 import com.companycob.domain.model.entity.Contract;
 import com.companycob.tests.AbstractDatabaseIntegrationTest;
+import org.assertj.core.api.Assertions;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.time.LocalDate;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class ContractServiceTest extends AbstractDatabaseIntegrationTest {
 
@@ -24,11 +25,11 @@ public class ContractServiceTest extends AbstractDatabaseIntegrationTest {
 		Contract contract2 = null;
 		try {
 			contract2 = contractService.save(contract);
-			Assert.fail("ValidationException expected");
+			Assertions.fail("ValidationException expected");
 		} catch (final ValidationException ignored) {
 		}
 
-		Assert.assertNull(contract2);
+		assertThat(contract2).isNull();
 	}
 
 	@Test
@@ -41,11 +42,11 @@ public class ContractServiceTest extends AbstractDatabaseIntegrationTest {
 
 		try {
 			contract2 = contractService.save(contract);
-			Assert.fail("ValidationException expected");
+			Assertions.fail("ValidationException expected");
 		} catch (final ValidationException ignored) {
 		}
 
-		Assert.assertNull(contract2);
+		assertThat(contract2).isNull();
 	}
 
 	@Test
@@ -58,11 +59,11 @@ public class ContractServiceTest extends AbstractDatabaseIntegrationTest {
 
 		try {
 			contract2 = contractService.save(contract);
-			Assert.fail("ValidationException expected");
+			Assertions.fail("ValidationException expected");
 		} catch (final ValidationException ignored) {
 		}
 
-		Assert.assertNull(contract2);
+		assertThat(contract2).isNull();
 	}
 
 	@Test
@@ -71,10 +72,10 @@ public class ContractServiceTest extends AbstractDatabaseIntegrationTest {
 		final var contract = contractGenerator.generate();
 
 		final var contract2 = contractService.save(contract);
-		Assert.assertNotNull(contract2);
-		Assert.assertNotNull(contract2.getId());
-		Assert.assertNotNull(contract2.getBank());
-		Assert.assertEquals(2, contract2.getQuotas().size());
+		assertThat(contract2).isNotNull();
+		assertThat(contract2.getId()).isNotNull();
+		assertThat(contract2.getBank()).isNotNull();
+		assertThat(contract2.getQuotas().size()).isEqualTo(2);
 	}
 
 	@Test
@@ -84,15 +85,15 @@ public class ContractServiceTest extends AbstractDatabaseIntegrationTest {
 		final var contractSaved = contractService.save(contract);
 
 		final var contractLoadedOptional = contractService.findById(contractSaved.getId());
-		Assert.assertTrue(contractLoadedOptional.isPresent());
+		assertThat(contractLoadedOptional).isPresent();
 
 		final var contractLoaded = contractLoadedOptional.get();
 
-		Assert.assertNotNull(contractLoaded);
-		Assert.assertEquals(contractSaved.getId(), contractLoaded.getId());
-		Assert.assertEquals(contractSaved.getDate(), contractLoaded.getDate());
-		Assert.assertEquals(contractSaved.getContractNumber(), contractLoaded.getContractNumber());
-		Assert.assertEquals(2, contractLoaded.getQuotas().size());
+		assertThat(contractLoaded).isNotNull();
+		assertThat(contractLoaded.getId()).isEqualTo(contractSaved.getId());
+		assertThat(contractLoaded.getDate()).isEqualTo(contractSaved.getDate());
+		assertThat(contractLoaded.getContractNumber()).isEqualTo(contractSaved.getContractNumber());
+		assertThat(contractLoaded.getQuotas().size()).isEqualTo(2);
 	}
 
 	@Test
@@ -102,15 +103,15 @@ public class ContractServiceTest extends AbstractDatabaseIntegrationTest {
 		final var contractSaved = contractService.save(contract);
 
 		final var contractsLoaded = contractService.findByContractNumber(contractSaved.getContractNumber());
-		Assert.assertEquals(1, contractsLoaded.size());
+		assertThat(contractsLoaded.size()).isEqualTo(1);
 
 		final var contractLoaded = contractsLoaded.get(0);
 
-		Assert.assertNotNull(contractLoaded);
-		Assert.assertEquals(contractSaved.getId(), contractLoaded.getId());
-		Assert.assertEquals(contractSaved.getDate(), contractLoaded.getDate());
-		Assert.assertEquals(contractSaved.getContractNumber(), contractLoaded.getContractNumber());
-		Assert.assertEquals(2, contractLoaded.getQuotas().size());
+		assertThat(contractLoaded).isNotNull();
+		assertThat(contractLoaded.getId()).isEqualTo(contractSaved.getId());
+		assertThat(contractLoaded.getDate()).isEqualTo(contractSaved.getDate());
+		assertThat(contractLoaded.getContractNumber()).isEqualTo(contractSaved.getContractNumber());
+		assertThat(contractLoaded.getQuotas().size()).isEqualTo(2);
 	}
 
 	@Test
@@ -122,7 +123,7 @@ public class ContractServiceTest extends AbstractDatabaseIntegrationTest {
 		final var id = contractSaved.getId();
 
 		// Assure contract is persisted first
-		Assert.assertTrue(contractService.findById(id).isPresent());
+		assertThat(contractService.findById(id)).isPresent();
 
 		contractSaved.setDate(LocalDate.now().plusDays(1));
 
@@ -136,11 +137,11 @@ public class ContractServiceTest extends AbstractDatabaseIntegrationTest {
 
 		final var contractFound = contractService.findById(id).orElse(null);
 
-		Assert.assertNotNull(contractFound);
-		Assert.assertEquals(id, contractFound.getId());
+		assertThat(contractFound).isNotNull();
+		assertThat(contractFound.getId()).isEqualTo(id);
 
-		Assert.assertEquals(contractSaved.getDate(), contractFound.getDate());
-		Assert.assertEquals(2, contractFound.getQuotas().size());
+		assertThat(contractFound.getDate()).isEqualTo(contractSaved.getDate());
+		assertThat(contractFound.getQuotas().size()).isEqualTo(2);
 	}
 
 	@Test
@@ -149,20 +150,20 @@ public class ContractServiceTest extends AbstractDatabaseIntegrationTest {
 		final var contract = contractGenerator.generate();
 
 		final var contract2 = contractService.save(contract);
-		Assert.assertNotNull(contract2);
-		Assert.assertNotNull(contract2.getId());
-		Assert.assertNotNull(contract2.getBank());
-		Assert.assertEquals(2, contract2.getQuotas().size());
+		assertThat(contract2).isNotNull();
+		assertThat(contract2.getId()).isNotNull();
+		assertThat(contract2.getBank()).isNotNull();
+		assertThat(contract2.getQuotas().size()).isEqualTo(2);
 
 		final var bankName = contract2.getBank().getName();
 		contract2.getBank().setName("Bank changed");
 
 		final var contract3 = contractService.save(contract2);
-		Assert.assertNotNull(contract3);
-		Assert.assertNotNull(contract3.getId());
-		Assert.assertNotNull(contract3.getBank());
-		Assert.assertEquals(2, contract3.getQuotas().size());
-		Assert.assertEquals(bankName, contract3.getBank().getName());
+		assertThat(contract3).isNotNull();
+		assertThat(contract3.getId()).isNotNull();
+		assertThat(contract3.getBank()).isNotNull();
+		assertThat(contract3.getQuotas().size()).isEqualTo(2);
+		assertThat(contract3.getBank().getName()).isEqualTo(bankName);
 	}
 
 	@Test
@@ -174,10 +175,10 @@ public class ContractServiceTest extends AbstractDatabaseIntegrationTest {
 
 		try {
 			contractSaved = contractService.save(contract);
-			Assert.fail("ValidationException expected");
+			Assertions.fail("ValidationException expected");
 		} catch (final ValidationException ignored) {
 		}
 
-		Assert.assertNull(contractSaved);
+		assertThat(contractSaved).isNull();
 	}
 }

@@ -1,8 +1,8 @@
 package com.companycob.service.calc.impl;
 
-import java.math.BigDecimal;
-
-import org.junit.Assert;
+import com.companycob.domain.model.entity.Quota;
+import com.companycob.service.arrears.ArrearsDaysService;
+import com.companycob.tests.AbstractUnitTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -11,9 +11,9 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import com.companycob.domain.model.entity.Quota;
-import com.companycob.service.arrears.ArrearsDaysService;
-import com.companycob.tests.AbstractUnitTest;
+import java.math.BigDecimal;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class DefaultCalcServiceTest extends AbstractUnitTest {
 
@@ -24,8 +24,10 @@ public class DefaultCalcServiceTest extends AbstractUnitTest {
 	@InjectMocks
 	private DefaultCalcService defaultCalcService;
 
+	@Override
 	@Before
-	public void setup() throws Exception {
+	public void setUp() {
+		super.setUp();
 		MockitoAnnotations.initMocks(this);
 	}
 
@@ -37,18 +39,18 @@ public class DefaultCalcServiceTest extends AbstractUnitTest {
 		final var bank = bankGenerator.generate(BigDecimal.valueOf(0.1));
 		final var contract = contractGenerator.generate(bank);
 
-		Assert.assertTrue(defaultCalcService.accept(contract));
+		assertThat(defaultCalcService.accept(contract)).isTrue();
 
 		defaultCalcService.calculate(contract);
-		Assert.assertEquals(2, contract.getQuotas().size());
+		assertThat(contract.getQuotas().size()).isEqualTo(2);
 
 		final var quota1 = contract.getQuotas().get(0);
 		final var quota2 = contract.getQuotas().get(1);
 
-		Assert.assertEquals(181L, quota1.getArrearsDays());
-		Assert.assertEquals(151L, quota2.getArrearsDays());
-		assertEqualsBigDecimal(BigDecimal.valueOf(236.2), quota1.getUpdatedValue());
-		assertEqualsBigDecimal(BigDecimal.valueOf(230.2), quota2.getUpdatedValue());
+		assertThat(quota1.getArrearsDays()).isEqualTo(181L);
+		assertThat(quota2.getArrearsDays()).isEqualTo(151L);
+		assertThat(quota1.getUpdatedValue()).isEqualByComparingTo(BigDecimal.valueOf(236.2));
+		assertThat(quota2.getUpdatedValue()).isEqualByComparingTo(BigDecimal.valueOf(230.2));
 	}
 
 }

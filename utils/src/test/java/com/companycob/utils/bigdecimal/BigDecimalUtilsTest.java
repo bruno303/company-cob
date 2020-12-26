@@ -1,55 +1,56 @@
 package com.companycob.utils.bigdecimal;
 
-import org.junit.Assert;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
 
+import org.junit.Test;
+
 public class BigDecimalUtilsTest {
 
-    @Test
-    public void testBigDecimalLesserThanZero() {
-        BigDecimal num = BigDecimal.valueOf(-20);
-        Assert.assertTrue(BigDecimalUtils.lessThanZero(num));
-        Assert.assertFalse(BigDecimalUtils.greaterThanZero(num));
-    }
+	@Test
+	public void testBigDecimalLesserThanZero() {
+		final BigDecimal num = BigDecimal.valueOf(-20);
+		assertThat(BigDecimalUtils.lessThanZero(num)).isTrue();
+		assertThat(BigDecimalUtils.greaterThanZero(num)).isFalse();
+	}
 
-    @Test
-    public void testBigDecimalGreaterThanZero() {
-        BigDecimal num = BigDecimal.valueOf(20);
-        Assert.assertTrue(BigDecimalUtils.greaterThanZero(num));
-        Assert.assertFalse(BigDecimalUtils.lessThanZero(num));
-    }
+	@Test
+	public void testBigDecimalGreaterThanZero() {
+		final BigDecimal num = BigDecimal.valueOf(20);
+		assertThat(BigDecimalUtils.greaterThanZero(num)).isTrue();
+		assertThat(BigDecimalUtils.lessThanZero(num)).isFalse();
+	}
 
-    @Test
-    public void testBigDecimalEqualsZero() {
-        BigDecimal num = BigDecimal.ZERO;
-        Assert.assertFalse(BigDecimalUtils.greaterThanZero(num));
-        Assert.assertFalse(BigDecimalUtils.lessThanZero(num));
-        Assert.assertTrue(BigDecimalUtils.equalsZero(num));
-    }
+	@Test
+	public void testBigDecimalEqualsZero() {
+		final BigDecimal num = BigDecimal.ZERO;
+		assertThat(BigDecimalUtils.greaterThanZero(num)).isFalse();
+		assertThat(BigDecimalUtils.lessThanZero(num)).isFalse();
+		assertThat(BigDecimalUtils.equalsZero(num)).isTrue();
+	}
 
-    @Test
-    public void testBigDecimalCompareTwoEqualNumbers() {
-        BigDecimal num1 = BigDecimal.valueOf(20);
-        BigDecimal num2 = BigDecimal.valueOf(20);
+	@Test
+	public void testBigDecimalCompareTwoEqualNumbers() {
+		final BigDecimal num1 = BigDecimal.valueOf(20);
+		final BigDecimal num2 = BigDecimal.valueOf(20);
 
-        Assert.assertTrue(BigDecimalUtils.equals(num1, num2));
-    }
+		assertThat(BigDecimalUtils.equals(num1, num2)).isTrue();
+	}
 
-    @Test
-    public void testBigDecimalCompareTwoDifferentNumbers() {
-        BigDecimal num1 = BigDecimal.valueOf(20);
-        BigDecimal num2 = BigDecimal.valueOf(25);
+	@Test
+	public void testBigDecimalCompareTwoDifferentNumbers() {
+		final BigDecimal num1 = BigDecimal.valueOf(20);
+		final BigDecimal num2 = BigDecimal.valueOf(25);
 
-        Assert.assertFalse(BigDecimalUtils.equals(num1, num2));
-    }
+		assertThat(BigDecimalUtils.equals(num1, num2)).isFalse();
+	}
 
-    @Test
-    public void testBigDecimalCompareTwoZerosWithEquals() {
-        BigDecimal num1 = BigDecimal.valueOf(0);
-        BigDecimal num2 = BigDecimal.valueOf(0);
+	@Test
+	public void testBigDecimalCompareTwoZerosWithEquals() {
+		final BigDecimal num1 = BigDecimal.valueOf(0);
+		final BigDecimal num2 = BigDecimal.valueOf(0);
 
-        Assert.assertTrue(BigDecimalUtils.equals(num1, num2));
-    }
+		assertThat(BigDecimalUtils.equals(num1, num2)).isTrue();
+	}
 }
