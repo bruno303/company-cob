@@ -67,11 +67,18 @@
 			<artifactId>infrastructure</artifactId>
 			<version>${application.version}</version>
 		</dependency>
-		
+
 		<dependency>
-		    <groupId>com.h2database</groupId>
-		    <artifactId>h2</artifactId>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
 		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/io.rest-assured/rest-assured -->
+		<dependency>
+			<groupId>io.rest-assured</groupId>
+			<artifactId>rest-assured</artifactId>
+		</dependency>
+
 
 		<!-- TestContainers -->
 		<dependency>
@@ -91,7 +98,7 @@
 			<artifactId>junit-jupiter</artifactId>
 			<version>${testcontainers.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.companycob</groupId>
 			<artifactId>migration</artifactId>

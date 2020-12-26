@@ -1,0 +1,205 @@
+{
+	"info": {
+		"_postman_id": "f4c677cd-20fb-4f60-82cf-54464465601a",
+		"name": "CompanyCob - With Auth",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Hello",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b13df32f-bd34-4797-8fe1-8a151ac9722f",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Hello World\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "companycob",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "companycob",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/v1/hello",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"hello"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "HelloTeste",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6fa6ad35-5c53-46ac-a328-3897dd7ee5b0",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.equals(\"Hello World!\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "companycob",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "companycob",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/helloteste",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"helloteste"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actuator Beans",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e89db5ae-abbf-458d-b3ae-5b206d3d50f6",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "companycob",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "companycob",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/actuator/beans",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"actuator",
+						"beans"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actuator",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c09f90b3-be55-4ecb-bbed-8dc364f94948",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "companycob",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "companycob",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/actuator",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"actuator"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

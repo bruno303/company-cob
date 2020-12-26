@@ -16,11 +16,13 @@ spring.jpa.properties.hibernate.format_sql: false
 spring.jpa.hibernate.ddl-auto: none
 
 management.endpoints.web.exposure.include: "*"
-        
-application.security.user: ${APPLICATION_SECURITY_USER:companycob}
-application.security.password: ${APPLICATION_SECURITY_PASSWORD:companycob} 
 
-spring.boot.admin.client.url: ${SPRING_BOOT_ADMIN_URL:http://localhost:8081} 
+spring.boot.admin.client.username: ${APPLICATION_SECURITY_USER:companycob}
+spring.boot.admin.client.password: ${APPLICATION_SECURITY_PASSWORD:companycob}
+spring.boot.admin.client.instance.metadata.user.name: ${spring.boot.admin.client.username}
+spring.boot.admin.client.instance.metadata.user.password: ${spring.boot.admin.client.password}
+spring.boot.admin.client.url: ${SPRING_BOOT_ADMIN_URL:http://localhost:8081}
+spring.boot.admin.client.instance.prefer-ip: true
 
 spring.liquibase.change-log: classpath:db/db.changelog-master.xml
 spring.liquibase.enabled: ${LIQUIBASE_ENABLED:true}
