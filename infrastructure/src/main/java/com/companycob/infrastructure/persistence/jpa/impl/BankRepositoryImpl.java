@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.companycob.domain.model.entity.Bank;
 import com.companycob.domain.model.persistence.BankRepository;
@@ -13,6 +14,7 @@ import com.companycob.infrastructure.persistence.converter.BankConverter;
 import com.companycob.infrastructure.persistence.jpa.JpaBankRepository;
 
 @Component
+@Transactional
 public class BankRepositoryImpl implements BankRepository {
 
 	private final JpaBankRepository jpaBankRepository;

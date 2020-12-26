@@ -2,6 +2,8 @@ package com.companycob.tests.fixture;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.companycob.domain.model.persistence.BankRepository;
 import com.companycob.domain.model.persistence.ContractRepository;
@@ -15,6 +17,7 @@ public class Fixture {
 	@Autowired
 	private ContractRepository contractRepository;
 
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void clearDatabase() {
 		contractRepository.removeAll();
 		bankRepository.removeAll();

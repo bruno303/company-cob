@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.companycob.domain.model.entity.Contract;
 import com.companycob.domain.model.persistence.ContractRepository;
@@ -14,6 +15,7 @@ import com.companycob.infrastructure.persistence.converter.ContractConverter;
 import com.companycob.infrastructure.persistence.jpa.JpaContractRepository;
 
 @Component
+@Transactional
 public class ContractRepositoryImpl implements ContractRepository {
 
 	private final JpaContractRepository repository;
