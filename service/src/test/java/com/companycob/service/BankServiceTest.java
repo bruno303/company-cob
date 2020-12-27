@@ -1,9 +1,10 @@
 package com.companycob.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.math.BigDecimal;
 import java.util.stream.Collectors;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -26,7 +27,7 @@ public class BankServiceTest extends AbstractDatabaseIntegrationTest {
 		bank.setCalcType(CalcType.DEFAULT);
 
 		final var result = bankService.verify(bank);
-		Assert.assertFalse(result.hasErrors());
+		assertThat(result.hasErrors()).isFalse();
 	}
 
 	@Test
@@ -37,9 +38,9 @@ public class BankServiceTest extends AbstractDatabaseIntegrationTest {
 		bank.setCalcType(CalcType.DEFAULT);
 
 		final var verify = bankService.verify(bank);
-		Assert.assertTrue(verify.hasErrors());
-		Assert.assertEquals(1, verify.getErrors().size());
-		Assert.assertEquals("name", verify.getErrors().get(0).getProperty());
+		assertThat(verify.hasErrors()).isTrue();
+		assertThat(verify.getErrors().size()).isEqualTo(1);
+		assertThat(verify.getErrors().get(0).getProperty()).isEqualTo("name");
 	}
 
 	@Test
@@ -50,9 +51,9 @@ public class BankServiceTest extends AbstractDatabaseIntegrationTest {
 		bank.setCalcType(CalcType.DEFAULT);
 
 		final var verify = bankService.verify(bank);
-		Assert.assertTrue(verify.hasErrors());
-		Assert.assertEquals(1, verify.getErrors().size());
-		Assert.assertEquals("socialName", verify.getErrors().get(0).getProperty());
+		assertThat(verify.hasErrors()).isTrue();
+		assertThat(verify.getErrors().size()).isEqualTo(1);
+		assertThat(verify.getErrors().get(0).getProperty()).isEqualTo("socialName");
 	}
 
 	@Test
@@ -61,9 +62,9 @@ public class BankServiceTest extends AbstractDatabaseIntegrationTest {
 		bank.setBankCalculationValues(createValidBankCalculationValues(bank, null));
 
 		final var verify = bankService.verify(bank);
-		Assert.assertTrue(verify.hasErrors());
-		Assert.assertEquals(1, verify.getErrors().size());
-		Assert.assertEquals("commission", verify.getErrors().get(0).getProperty());
+		assertThat(verify.hasErrors()).isTrue();
+		assertThat(verify.getErrors().size()).isEqualTo(1);
+		assertThat(verify.getErrors().get(0).getProperty()).isEqualTo("commission");
 	}
 
 	@Test
@@ -72,9 +73,9 @@ public class BankServiceTest extends AbstractDatabaseIntegrationTest {
 		bank.setBankCalculationValues(createValidBankCalculationValues(bank, BigDecimal.valueOf(-10)));
 
 		final var verify = bankService.verify(bank);
-		Assert.assertTrue(verify.hasErrors());
-		Assert.assertEquals(1, verify.getErrors().size());
-		Assert.assertEquals("commission", verify.getErrors().get(0).getProperty());
+		assertThat(verify.hasErrors()).isTrue();
+		assertThat(verify.getErrors().size()).isEqualTo(1);
+		assertThat(verify.getErrors().get(0).getProperty()).isEqualTo("commission");
 	}
 
 	@Test
@@ -83,7 +84,7 @@ public class BankServiceTest extends AbstractDatabaseIntegrationTest {
 		bank.setBankCalculationValues(createValidBankCalculationValues(bank));
 
 		final var verify = bankService.verify(bank);
-		Assert.assertFalse(verify.hasErrors());
+		assertThat(verify.hasErrors()).isFalse();
 	}
 
 	@Test
@@ -93,9 +94,9 @@ public class BankServiceTest extends AbstractDatabaseIntegrationTest {
 		bank.setCalcType(null);
 
 		final var verify = bankService.verify(bank);
-		Assert.assertTrue(verify.hasErrors());
-		Assert.assertEquals(1, verify.getErrors().size());
-		Assert.assertEquals("calcType", verify.getErrors().get(0).getProperty());
+		assertThat(verify.hasErrors()).isTrue();
+		assertThat(verify.getErrors().size()).isEqualTo(1);
+		assertThat(verify.getErrors().get(0).getProperty()).isEqualTo("calcType");
 	}
 
 	@Test
@@ -109,18 +110,16 @@ public class BankServiceTest extends AbstractDatabaseIntegrationTest {
 		final var saved = bankService.save(bank);
 		final var id = saved.getId();
 
-		final var bankLoadedList = bankService.findAll()
-				.stream()
-				.filter(b -> b.getId() == id)
+		final var bankLoadedList = bankService.findAll().stream().filter(b -> b.getId() == id)
 				.collect(Collectors.toList());
 
-		Assert.assertEquals(1, bankLoadedList.size());
+		assertThat(bankLoadedList.size()).isEqualTo(1);
 
 		final var bankLoaded = bankLoadedList.get(0);
-		Assert.assertEquals(id, bankLoaded.getId());
-		Assert.assertEquals("Bank saved", bank.getName());
-		Assert.assertEquals("Bank saved", bank.getSocialName());
-		Assert.assertNotNull(bank.getBankCalculationValues());
+		assertThat(bankLoaded.getId()).isEqualTo(id);
+		assertThat(bank.getName()).isEqualTo("Bank saved");
+		assertThat(bank.getSocialName()).isEqualTo("Bank saved");
+		assertThat(bank.getBankCalculationValues()).isNotNull();
 	}
 
 	private Bank createValidBank() {
@@ -132,7 +131,8 @@ public class BankServiceTest extends AbstractDatabaseIntegrationTest {
 		return bank;
 	}
 
-	private BankCalculationValues createValidBankCalculationValues(final Bank bank, final BigDecimal commission, final BigDecimal interestRate) {
+	private BankCalculationValues createValidBankCalculationValues(final Bank bank, final BigDecimal commission,
+			final BigDecimal interestRate) {
 		final var bankCalculationValues = new BankCalculationValues();
 		bankCalculationValues.setBank(bank);
 		bankCalculationValues.setCommission(commission);

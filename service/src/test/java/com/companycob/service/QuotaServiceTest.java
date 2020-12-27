@@ -1,9 +1,10 @@
 package com.companycob.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -24,11 +25,11 @@ public class QuotaServiceTest extends AbstractDatabaseIntegrationTest {
 		quota.setNumber(1);
 
 		final var validationErrors = quotaService.verify(quota);
-		Assert.assertEquals(1, validationErrors.getErrors().size());
+		assertThat(validationErrors.getErrors().size()).isEqualTo(1);
 
 		final var validationErrorDTO = validationErrors.getErrors().get(0);
-		Assert.assertEquals("DueDate can't be empty", validationErrorDTO.getError());
-		Assert.assertEquals("dueDate", validationErrorDTO.getProperty());
+		assertThat(validationErrorDTO.getError()).isEqualTo("DueDate can't be empty");
+		assertThat(validationErrorDTO.getProperty()).isEqualTo("dueDate");
 	}
 
 	@Test
@@ -39,11 +40,11 @@ public class QuotaServiceTest extends AbstractDatabaseIntegrationTest {
 		quota.setNumber(1);
 
 		final var validationErrors = quotaService.verify(quota);
-		Assert.assertEquals(1, validationErrors.getErrors().size());
+		assertThat(validationErrors.getErrors().size()).isEqualTo(1);
 
 		final var validationErrorDTO = validationErrors.getErrors().get(0);
-		Assert.assertEquals("Contract can't be empty", validationErrorDTO.getError());
-		Assert.assertEquals("contract", validationErrorDTO.getProperty());
+		assertThat(validationErrorDTO.getError()).isEqualTo("Contract can't be empty");
+		assertThat(validationErrorDTO.getProperty()).isEqualTo("contract");
 	}
 
 	@Test
@@ -55,11 +56,11 @@ public class QuotaServiceTest extends AbstractDatabaseIntegrationTest {
 		quota.setNumber(1);
 
 		final var validationErrors = quotaService.verify(quota);
-		Assert.assertEquals(1, validationErrors.getErrors().size());
+		assertThat(validationErrors.getErrors().size()).isEqualTo(1);
 
 		final var validationErrorDTO = validationErrors.getErrors().get(0);
-		Assert.assertEquals("InitialValue can't be negative", validationErrorDTO.getError());
-		Assert.assertEquals("initialValue", validationErrorDTO.getProperty());
+		assertThat(validationErrorDTO.getError()).isEqualTo("InitialValue can't be negative");
+		assertThat(validationErrorDTO.getProperty()).isEqualTo("initialValue");
 	}
 
 	@Test
@@ -71,11 +72,11 @@ public class QuotaServiceTest extends AbstractDatabaseIntegrationTest {
 		quota.setNumber(0);
 
 		final var validationErrors = quotaService.verify(quota);
-		Assert.assertEquals(1, validationErrors.getErrors().size());
+		assertThat(validationErrors.getErrors().size()).isEqualTo(1);
 
 		final var validationErrorDTO = validationErrors.getErrors().get(0);
-		Assert.assertEquals("Number must be greather than 0", validationErrorDTO.getError());
-		Assert.assertEquals("number", validationErrorDTO.getProperty());
+		assertThat(validationErrorDTO.getError()).isEqualTo("Number must be greather than 0");
+		assertThat(validationErrorDTO.getProperty()).isEqualTo("number");
 	}
 
 	@Test
@@ -86,7 +87,7 @@ public class QuotaServiceTest extends AbstractDatabaseIntegrationTest {
 		quota.setNumber(0);
 
 		final var validationErrors = quotaService.verify(quota);
-		Assert.assertEquals(3, validationErrors.getErrors().size());
+		assertThat(validationErrors.getErrors().size()).isEqualTo(3);
 	}
 
 	@Test
@@ -98,6 +99,6 @@ public class QuotaServiceTest extends AbstractDatabaseIntegrationTest {
 		quota.setNumber(1);
 
 		final var validationErrors = quotaService.verify(quota);
-		Assert.assertFalse(validationErrors.hasErrors());
+		assertThat(validationErrors.hasErrors()).isFalse();
 	}
 }

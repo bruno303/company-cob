@@ -1,6 +1,7 @@
 package com.companycob.service.lock.contract;
 
-import org.junit.Assert;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -19,10 +20,10 @@ public class ContractLockerTest extends AbstractUnitTest {
 		final Contract contract = this.contractGenerator.generate();
 		contractLocker.tryLock(contract);
 
-		Assert.assertTrue(contractLocker.isLocked(contract));
+		assertThat(contractLocker.isLocked(contract)).isTrue();
 
 		contractLocker.release(contract);
-		Assert.assertFalse(contractLocker.isLocked(contract));
+		assertThat(contractLocker.isLocked(contract)).isFalse();
 	}
 
 	@Test
@@ -33,10 +34,10 @@ public class ContractLockerTest extends AbstractUnitTest {
 		contractLocker.tryLock(contract);
 		contractLocker.tryLock(contract);
 
-		Assert.assertTrue(contractLocker.isLocked(contract));
+		assertThat(contractLocker.isLocked(contract)).isTrue();
 
 		contractLocker.release(contract);
-		Assert.assertFalse(contractLocker.isLocked(contract));
+		assertThat(contractLocker.isLocked(contract)).isFalse();
 	}
 
 	@Test
@@ -50,7 +51,7 @@ public class ContractLockerTest extends AbstractUnitTest {
 
 		awaitAllCompletableFutures(run1, run2, run3);
 
-		Assert.assertFalse(contractLocker.isLocked(contract));
+		assertThat(contractLocker.isLocked(contract)).isFalse();
 	}
 
 	@Test
@@ -66,14 +67,14 @@ public class ContractLockerTest extends AbstractUnitTest {
 
 		awaitAllCompletableFutures(run1, run2, run3, run4, run5);
 
-		Assert.assertFalse(contractLocker.isLocked(contract));
+		assertThat(contractLocker.isLocked(contract)).isFalse();
 	}
 
-	private void lockAwaitAndRelease(Contract contract) {
+	private void lockAwaitAndRelease(final Contract contract) {
 		lockAwaitAndRelease(contract, 200L);
 	}
 
-	private void lockAwaitAndRelease(Contract contract, long milis) {
+	private void lockAwaitAndRelease(final Contract contract, final long milis) {
 		contractLocker.tryLock(contract);
 		ThreadUtils.threadSleep(milis);
 		contractLocker.release(contract);

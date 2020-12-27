@@ -1,9 +1,7 @@
 package com.companycob.tests;
 
-import java.math.BigDecimal;
 import java.util.concurrent.CompletableFuture;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,12 +40,6 @@ public class AbstractTest {
 	@Before
 	public void setUp() {
 		fixture.clearDatabase();
-	}
-
-	public static void assertEqualsBigDecimal(final BigDecimal expected, final BigDecimal actual) {
-		if (expected.compareTo(actual) != 0) {
-			Assert.fail(String.format("Expected [%.3f] but received [%.3f]", expected, actual));
-		}
 	}
 
 	protected CompletableFuture<Void> runAsync(final Runnable runnable) {

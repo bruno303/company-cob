@@ -1,36 +1,37 @@
 package com.companycob.utils.date;
 
-import org.junit.Assert;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
 
+import org.junit.Test;
+
 public class LocalDateUtilsTest {
 
-    @Test
-    public void testDifferencePositive() {
-        LocalDate start = LocalDate.of(2020, 1, 1);
-        LocalDate end = LocalDate.of(2020, 6, 1);
+	@Test
+	public void testDifferencePositive() {
+		final LocalDate start = LocalDate.of(2020, 1, 1);
+		final LocalDate end = LocalDate.of(2020, 6, 1);
 
-        long days = LocalDateUtils.differenceInDays(start, end);
-        Assert.assertEquals(152, days);
-    }
+		final long days = LocalDateUtils.differenceInDays(start, end);
+		assertThat(days).isEqualTo(152);
+	}
 
-    @Test
-    public void testSameDate() {
-        LocalDate start = LocalDate.of(2020, 1, 1);
-        LocalDate end = LocalDate.of(2020, 1, 1);
+	@Test
+	public void testSameDate() {
+		final LocalDate start = LocalDate.of(2020, 1, 1);
+		final LocalDate end = LocalDate.of(2020, 1, 1);
 
-        long days = LocalDateUtils.differenceInDays(start, end);
-        Assert.assertEquals(0, days);
-    }
+		final long days = LocalDateUtils.differenceInDays(start, end);
+		assertThat(days).isZero();
+	}
 
-    @Test
-    public void testDifferenceNegative() {
-        LocalDate start = LocalDate.of(2020, 6, 1);
-        LocalDate end = LocalDate.of(2020, 1, 1);
+	@Test
+	public void testDifferenceNegative() {
+		final LocalDate start = LocalDate.of(2020, 6, 1);
+		final LocalDate end = LocalDate.of(2020, 1, 1);
 
-        long days = LocalDateUtils.differenceInDays(start, end);
-        Assert.assertEquals(-152, days);
-    }
+		final long days = LocalDateUtils.differenceInDays(start, end);
+		assertThat(days).isEqualTo(-152);
+	}
 }
