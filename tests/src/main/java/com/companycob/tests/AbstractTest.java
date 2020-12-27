@@ -1,10 +1,7 @@
 package com.companycob.tests;
 
-import com.companycob.tests.config.AppConfig;
-import com.companycob.tests.fixture.Fixture;
-import com.companycob.tests.fixture.generator.BankGenerator;
-import com.companycob.tests.fixture.generator.ContractGenerator;
-import com.companycob.tests.fixture.generator.QuotaGenerator;
+import java.util.concurrent.CompletableFuture;
+
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +12,17 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.concurrent.CompletableFuture;
+import com.companycob.tests.config.AppConfig;
+import com.companycob.tests.fixture.Fixture;
+import com.companycob.tests.fixture.generator.BankGenerator;
+import com.companycob.tests.fixture.generator.ContractGenerator;
+import com.companycob.tests.fixture.generator.QuotaGenerator;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.NONE)
-@ActiveProfiles({"test"})
-@ContextConfiguration(classes = {AppConfig.class})
-@TestPropertySource(value = {"classpath:application-test.yml"})
+@ActiveProfiles({ "test" })
+@ContextConfiguration(classes = { AppConfig.class })
+@TestPropertySource(value = { "classpath:application-test.yml" })
 public class AbstractTest {
 
 	@Autowired
@@ -41,11 +42,11 @@ public class AbstractTest {
 		fixture.clearDatabase();
 	}
 
-	protected static CompletableFuture<Void> runAsync(final Runnable runnable) {
+	protected CompletableFuture<Void> runAsync(final Runnable runnable) {
 		return CompletableFuture.runAsync(runnable);
 	}
 
-	protected static void awaitAllCompletableFutures(final CompletableFuture<?>... completableFutures) {
+	protected void awaitAllCompletableFutures(final CompletableFuture<?>... completableFutures) {
 		CompletableFuture.allOf(completableFutures).join();
 	}
 }

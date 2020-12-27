@@ -1,8 +1,9 @@
 package com.companycob.service.calc.impl;
 
-import com.companycob.domain.model.entity.Quota;
-import com.companycob.service.arrears.ArrearsDaysService;
-import com.companycob.tests.AbstractUnitTest;
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.math.BigDecimal;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -11,9 +12,9 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import java.math.BigDecimal;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import com.companycob.domain.model.entity.Quota;
+import com.companycob.service.arrears.ArrearsDaysService;
+import com.companycob.tests.AbstractUnitTest;
 
 public class DefaultCalcServiceTest extends AbstractUnitTest {
 
@@ -34,7 +35,8 @@ public class DefaultCalcServiceTest extends AbstractUnitTest {
 	@Test
 	public void testCalculateContract() {
 
-		Mockito.when(arrearsDaysService.calculateArrearsDaysInSingleQuota(Mockito.any(Quota.class))).thenReturn(181L, 151L);
+		Mockito.when(arrearsDaysService.calculateArrearsDaysInSingleQuota(Mockito.any(Quota.class))).thenReturn(181L,
+				151L);
 
 		final var bank = bankGenerator.generate(BigDecimal.valueOf(0.1));
 		final var contract = contractGenerator.generate(bank);

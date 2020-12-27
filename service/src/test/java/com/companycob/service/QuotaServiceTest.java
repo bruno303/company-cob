@@ -1,15 +1,16 @@
 package com.companycob.service;
 
-import com.companycob.domain.model.entity.Contract;
-import com.companycob.domain.model.entity.Quota;
-import com.companycob.tests.AbstractDatabaseIntegrationTest;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.companycob.domain.model.entity.Contract;
+import com.companycob.domain.model.entity.Quota;
+import com.companycob.tests.AbstractDatabaseIntegrationTest;
 
 public class QuotaServiceTest extends AbstractDatabaseIntegrationTest {
 

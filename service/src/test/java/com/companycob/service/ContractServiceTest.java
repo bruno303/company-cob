@@ -1,15 +1,16 @@
 package com.companycob.service;
 
-import com.companycob.domain.exception.ValidationException;
-import com.companycob.domain.model.entity.Contract;
-import com.companycob.tests.AbstractDatabaseIntegrationTest;
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.time.LocalDate;
+
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.time.LocalDate;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import com.companycob.domain.exception.ValidationException;
+import com.companycob.domain.model.entity.Contract;
+import com.companycob.tests.AbstractDatabaseIntegrationTest;
 
 public class ContractServiceTest extends AbstractDatabaseIntegrationTest {
 
