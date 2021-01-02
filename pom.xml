@@ -1,82 +1,167 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.3.6.RELEASE</version>
-		<relativePath /> <!-- lookup parent from repository -->
-	</parent>
-	<groupId>com.companycob</groupId>
-	<artifactId>company-cob</artifactId>
-	<version>1.0.0</version>
-	<name>CompanyCob :: Parent</name>
-	<description>CompanyCob project</description>
-	<packaging>pom</packaging>
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.3.6.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>com.companycob</groupId>
+    <artifactId>company-cob</artifactId>
+    <version>1.0.0</version>
+    <name>CompanyCob :: Parent</name>
+    <description>CompanyCob project</description>
+    <packaging>pom</packaging>
 
-	<properties>
-		<java.version>11</java.version>
-		<maven.compiler.source>11</maven.compiler.source>
-		<maven.compiler.target>11</maven.compiler.target>
-		<springboot.version>2.3.6.RELEASE</springboot.version>
-		<application.version>1.0.0</application.version>
-		<spring.boot.admin.version>2.3.1</spring.boot.admin.version>
-		<testcontainers.version>1.14.3</testcontainers.version>
-		<maven-assembly-plugin.version>3.3.0</maven-assembly-plugin.version>
-	</properties>
+    <properties>
+        <java.version>11</java.version>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <springboot.version>2.3.6.RELEASE</springboot.version>
+        <application.version>1.0.0</application.version>
+        <spring.boot.admin.version>2.3.1</spring.boot.admin.version>
+        <testcontainers.version>1.14.3</testcontainers.version>
+        <maven-assembly-plugin.version>3.3.0</maven-assembly-plugin.version>
+        <jacoco-maven-plugin.version>0.8.6</jacoco-maven-plugin.version>
+    </properties>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
-		</dependency>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
-			<optional>true</optional>
-		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
 
-	<dependencyManagement>
+    <dependencyManagement>
 
-		<dependencies>
-			<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
-			<dependency>
-				<groupId>org.apache.commons</groupId>
-				<artifactId>commons-lang3</artifactId>
-				<version>3.11</version>
-			</dependency>
-		</dependencies>
+        <dependencies>
+            <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.11</version>
+            </dependency>
+        </dependencies>
 
-	</dependencyManagement>
-	
-	<build>
-	
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-assembly-plugin</artifactId>
-					<version>${maven-assembly-plugin.version}</version>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-	
-	</build>
+    </dependencyManagement>
 
-	<modules>
-		<module>web</module>
-		<module>domain</module>
-		<module>infrastructure</module>
-		<module>service</module>
-		<module>tests</module>
-		<module>utils</module>
-		<module>spring-boot-admin</module>
-		<module>web-utils</module>
-		<module>assembly</module>
-		<module>migration</module>
-	</modules>
+    <build>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>${maven-assembly-plugin.version}</version>
+                </plugin>
+
+                <plugin>
+                    <!-- https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin -->
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>${jacoco-maven-plugin.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+
+    </build>
+
+    <profiles>
+        <profile>
+            <id>check</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+
+            <build>
+
+                <plugins>
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>prepare-agent</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>report</id>
+                                <phase>test</phase>
+                                <goals>
+                                    <goal>report</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>jacoco-check</id>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                                <configuration>
+                                    <rules>
+                                        <rule>
+                                            <element>PACKAGE</element>
+                                            <limits>
+                                                <limit>
+                                                    <counter>LINE</counter>
+                                                    <value>COVEREDRATIO</value>
+                                                    <minimum>0.50</minimum>
+                                                </limit>
+                                            </limits>
+                                        </rule>
+                                    </rules>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+
+            </build>
+        </profile>
+    </profiles>
+
+    <modules>
+        <module>web</module>
+        <module>domain</module>
+        <module>infrastructure</module>
+        <module>service</module>
+        <module>tests</module>
+        <module>utils</module>
+        <module>spring-boot-admin</module>
+        <module>web-utils</module>
+        <module>assembly</module>
+        <module>migration</module>
+        <module>build-tools</module>
+    </modules>
 </project>
