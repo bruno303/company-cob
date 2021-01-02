@@ -1,5 +1,7 @@
 # CompanyCob
+![Coverage](.github/badges/jacoco.svg)
 
 Debt update system
 
-![Coverage](.github/badges/jacoco.svg)
+---
+
