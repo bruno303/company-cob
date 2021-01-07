@@ -18,10 +18,10 @@ services:
       - DB_DATABASE=companycob
       - APPLICATION_SECURITY_USER=companycob
       - APPLICATION_SECURITY_PASSWORD=companycob
-      - APPLICATION_PORT=9000
+      - APPLICATION_PORT=9090
       - LIQUIBASE_ENABLED=true
     ports:
-      - '9000:9000'
+      - '9090:9090'
     networks: 
       - companycobnet
     depends_on: 

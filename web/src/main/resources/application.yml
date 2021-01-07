@@ -2,7 +2,7 @@ spring.application.name: company-cob-web
 logging.level.root: INFO
 logging.file.name: company-cob-web.log
 
-server.port: ${APPLICATION_PORT:9000}
+server.port: ${APPLICATION_PORT:9090}
 server.servlet.context-path: 
 
 spring.datasource.url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_DATABASE:companycob}
