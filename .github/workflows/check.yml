@@ -28,7 +28,7 @@ jobs:
         run: ./mvnw -B compile -DskipTests
 
       - name: Verify
-        run: ./mvnw -B verify
+        run: ./mvnw -B verify -Pcheck
 
       - name: Generate Jacoco Badge
         id: jacoco
