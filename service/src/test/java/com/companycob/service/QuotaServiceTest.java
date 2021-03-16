@@ -5,17 +5,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import org.junit.Before;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.companycob.domain.model.entity.Contract;
 import com.companycob.domain.model.entity.Quota;
-import com.companycob.tests.AbstractDatabaseIntegrationTest;
 
-public class QuotaServiceTest extends AbstractDatabaseIntegrationTest {
+public class QuotaServiceTest {
 
-	@Autowired
 	private QuotaService quotaService;
+
+	@Before
+	public void init() {
+		quotaService = new QuotaService();
+	}
 
 	@Test
 	public void testQuotaWithoutDueDate() {

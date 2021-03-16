@@ -6,30 +6,27 @@ import java.math.BigDecimal;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
+import com.companycob.domain.model.entity.Contract;
 import com.companycob.domain.model.entity.Quota;
 import com.companycob.service.arrears.ArrearsDaysService;
-import com.companycob.tests.AbstractUnitTest;
+import com.companycob.service.calc.defaults.SimpleInterestCalcService;
+import com.companycob.tests.fixture.unit.Generator;
 
-public class DefaultCalcServiceTest extends AbstractUnitTest {
+public class DefaultCalcServiceTest {
 
-	@MockBean
-	private ArrearsDaysService arrearsDaysService;
+	// Mocks
+	private final ArrearsDaysService arrearsDaysService = Mockito.mock(ArrearsDaysService.class);
+	private final SimpleInterestCalcService simpleInterestCalcService = Mockito.mock(SimpleInterestCalcService.class);
 
-	@Autowired
-	@InjectMocks
+	private final Generator generator = new Generator();
+
 	private DefaultCalcService defaultCalcService;
 
-	@Override
 	@Before
 	public void setUp() {
-		super.setUp();
-		MockitoAnnotations.initMocks(this);
+		defaultCalcService = new DefaultCalcService(simpleInterestCalcService, arrearsDaysService);
 	}
 
 	@Test
@@ -38,8 +35,8 @@ public class DefaultCalcServiceTest extends AbstractUnitTest {
 		Mockito.when(arrearsDaysService.calculateArrearsDaysInSingleQuota(Mockito.any(Quota.class))).thenReturn(181L,
 				151L);
 
-		final var bank = bankGenerator.generate(BigDecimal.valueOf(0.1));
-		final var contract = contractGenerator.generate(bank);
+		final var bank = generator.generateBank(BigDecimal.valueOf(0.1));
+		final var contract = generator.generateContract(bank);
 
 		assertThat(defaultCalcService.accept(contract)).isTrue();
 
@@ -51,8 +48,8 @@ public class DefaultCalcServiceTest extends AbstractUnitTest {
 
 		assertThat(quota1.getArrearsDays()).isEqualTo(181L);
 		assertThat(quota2.getArrearsDays()).isEqualTo(151L);
-		assertThat(quota1.getUpdatedValue()).isEqualByComparingTo(BigDecimal.valueOf(236.2));
-		assertThat(quota2.getUpdatedValue()).isEqualByComparingTo(BigDecimal.valueOf(230.2));
+
+		Mockito.verify(simpleInterestCalcService, Mockito.times(1)).calculate(Mockito.any(Contract.class));
 	}
 
 }

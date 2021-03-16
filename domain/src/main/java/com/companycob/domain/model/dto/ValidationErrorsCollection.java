@@ -8,37 +8,21 @@ public class ValidationErrorsCollection implements Serializable {
 
 	private static final long serialVersionUID = 4470419054738645352L;
 
-	private ValidationErrorList errors;
+	private ValidationErrorList errors = new ValidationErrorList();
 
 	public List<ValidationErrorDTO> getErrors() {
-		verifyErrorsList();
 		return Collections.unmodifiableList(errors);
 	}
 
 	public boolean hasErrors() {
-		verifyErrorsList();
 		return !errors.isEmpty();
 	}
 
-	private void verifyErrorsList() {
-		if (errors == null) {
-			errors = new ValidationErrorList();
-		}
-	}
-
 	public void addError(final String property, final String errorMessage) {
-		if (errors == null) {
-			errors = new ValidationErrorList();
-		}
-
 		errors.add(new ValidationErrorDTO(property, errorMessage));
 	}
 
 	public void addAllErrors(final List<ValidationErrorDTO> errors) {
-		if (this.errors == null) {
-			this.errors = new ValidationErrorList();
-		}
-
 		this.errors.addAll(errors);
 	}
 

@@ -2,22 +2,29 @@ package com.companycob.service.lock.contract;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.Before;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.companycob.domain.model.entity.Contract;
-import com.companycob.tests.AbstractUnitTest;
+import com.companycob.tests.fixture.unit.Generator;
+import com.companycob.tests.utils.UnitTestsUtils;
 import com.companycob.utils.thread.ThreadUtils;
 
-public class ContractLockerTest extends AbstractUnitTest {
+public class ContractLockerTest {
 
-	@Autowired
+	private final Generator generator = new Generator();
+
 	private ContractLocker contractLocker;
+
+	@Before
+	public void init() {
+		contractLocker = new ContractLocker();
+	}
 
 	@Test
 	public void testLockAndReleaseSingleThread() {
 
-		final Contract contract = this.contractGenerator.generate();
+		final Contract contract = generator.generateContract();
 		contractLocker.tryLock(contract);
 
 		assertThat(contractLocker.isLocked(contract)).isTrue();
@@ -29,7 +36,7 @@ public class ContractLockerTest extends AbstractUnitTest {
 	@Test
 	public void testMultipleLocksAndReleaseSingleThread() {
 
-		final Contract contract = this.contractGenerator.generate();
+		final Contract contract = generator.generateContract();
 		contractLocker.tryLock(contract);
 		contractLocker.tryLock(contract);
 		contractLocker.tryLock(contract);
@@ -43,13 +50,13 @@ public class ContractLockerTest extends AbstractUnitTest {
 	@Test
 	public void testMultipleLocksWithWaitAndReleaseMultiThread() {
 
-		final Contract contract = this.contractGenerator.generate();
+		final Contract contract = generator.generateContract();
 
-		final var run1 = runAsync(() -> lockAwaitAndRelease(contract));
-		final var run2 = runAsync(() -> lockAwaitAndRelease(contract));
-		final var run3 = runAsync(() -> lockAwaitAndRelease(contract));
+		final var run1 = UnitTestsUtils.runAsync(() -> lockAwaitAndRelease(contract));
+		final var run2 = UnitTestsUtils.runAsync(() -> lockAwaitAndRelease(contract));
+		final var run3 = UnitTestsUtils.runAsync(() -> lockAwaitAndRelease(contract));
 
-		awaitAllCompletableFutures(run1, run2, run3);
+		UnitTestsUtils.awaitAllCompletableFutures(run1, run2, run3);
 
 		assertThat(contractLocker.isLocked(contract)).isFalse();
 	}
@@ -57,15 +64,15 @@ public class ContractLockerTest extends AbstractUnitTest {
 	@Test
 	public void testMultipleLocksWithoutWaitAndReleaseMultiThread() {
 
-		final Contract contract = this.contractGenerator.generate();
+		final Contract contract = generator.generateContract();
 
-		final var run1 = runAsync(() -> lockAwaitAndRelease(contract, 1L));
-		final var run2 = runAsync(() -> lockAwaitAndRelease(contract, 1L));
-		final var run3 = runAsync(() -> lockAwaitAndRelease(contract, 1L));
-		final var run4 = runAsync(() -> lockAwaitAndRelease(contract, 1L));
-		final var run5 = runAsync(() -> lockAwaitAndRelease(contract, 1L));
+		final var run1 = UnitTestsUtils.runAsync(() -> lockAwaitAndRelease(contract, 1L));
+		final var run2 = UnitTestsUtils.runAsync(() -> lockAwaitAndRelease(contract, 1L));
+		final var run3 = UnitTestsUtils.runAsync(() -> lockAwaitAndRelease(contract, 1L));
+		final var run4 = UnitTestsUtils.runAsync(() -> lockAwaitAndRelease(contract, 1L));
+		final var run5 = UnitTestsUtils.runAsync(() -> lockAwaitAndRelease(contract, 1L));
 
-		awaitAllCompletableFutures(run1, run2, run3, run4, run5);
+		UnitTestsUtils.awaitAllCompletableFutures(run1, run2, run3, run4, run5);
 
 		assertThat(contractLocker.isLocked(contract)).isFalse();
 	}
