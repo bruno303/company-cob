@@ -1,23 +1,25 @@
 package com.companycob.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.companycob.domain.exception.ValidationException;
 import com.companycob.domain.model.dto.ValidationErrorsCollection;
 import com.companycob.domain.model.entity.Bank;
 import com.companycob.domain.model.entity.Contract;
 import com.companycob.domain.model.entity.Quota;
 import com.companycob.domain.model.persistence.ContractRepository;
+import com.companycob.infrastructure.cache.CacheConfig;
 import com.companycob.service.calc.CalcService;
 import com.companycob.service.lock.contract.ContractLocker;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ContractService {
@@ -39,6 +41,7 @@ public class ContractService {
 	}
 
 	@Transactional
+	@CachePut(cacheNames = CacheConfig.CONTRACT_CACHE_NAME, key = "#contract.getId()")
 	public Contract save(final Contract contract) {
 
 		contractLocker.tryLock(contract);
@@ -114,11 +117,13 @@ public class ContractService {
 	}
 
 	@Transactional
+	@Cacheable(cacheNames = CacheConfig.CONTRACT_CACHE_NAME, key = "#id")
 	public Optional<Contract> findById(final Long id) {
 		return contractRepository.findById(id);
 	}
 
 	@Transactional
+	@Cacheable(cacheNames = CacheConfig.CONTRACT_CACHE_NAME, key = "#contractNumber")
 	public List<Contract> findByContractNumber(final String contractNumber) {
 		return contractRepository.findByContractNumber(contractNumber);
 	}
