@@ -6,7 +6,7 @@ import com.companycob.domain.model.entity.Bank;
 import com.companycob.domain.model.entity.Contract;
 import com.companycob.domain.model.entity.Quota;
 import com.companycob.domain.model.persistence.ContractRepository;
-import com.companycob.infrastructure.cache.CacheConfig;
+import com.companycob.infrastructure.cache.RedisCacheConfig;
 import com.companycob.service.calc.CalcService;
 import com.companycob.service.lock.contract.ContractLocker;
 import org.apache.commons.lang3.StringUtils;
@@ -41,7 +41,7 @@ public class ContractService {
 	}
 
 	@Transactional
-	@CachePut(cacheNames = CacheConfig.CONTRACT_CACHE_NAME, key = "#contract.getId()")
+	@CachePut(cacheNames = RedisCacheConfig.CONTRACT_CACHE_NAME, key = "#contract.getId()")
 	public Contract save(final Contract contract) {
 
 		contractLocker.tryLock(contract);
@@ -117,13 +117,13 @@ public class ContractService {
 	}
 
 	@Transactional
-	@Cacheable(cacheNames = CacheConfig.CONTRACT_CACHE_NAME, key = "#id")
+	@Cacheable(cacheNames = RedisCacheConfig.CONTRACT_CACHE_NAME, key = "#id")
 	public Optional<Contract> findById(final Long id) {
 		return contractRepository.findById(id);
 	}
 
 	@Transactional
-	@Cacheable(cacheNames = CacheConfig.CONTRACT_CACHE_NAME, key = "#contractNumber")
+	@Cacheable(cacheNames = RedisCacheConfig.CONTRACT_CACHE_NAME, key = "#contractNumber")
 	public List<Contract> findByContractNumber(final String contractNumber) {
 		return contractRepository.findByContractNumber(contractNumber);
 	}

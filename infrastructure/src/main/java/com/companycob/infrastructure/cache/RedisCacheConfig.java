@@ -13,11 +13,14 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 
 import java.time.Duration;
 
+import com.companycob.infrastructure.annotations.ConditionalOnRedisCache;
+
 @Configuration
 @EnableCaching
-public class CacheConfig {
+@ConditionalOnRedisCache
+public class RedisCacheConfig {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CacheConfig.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RedisCacheConfig.class);
 
     public static final String CONTRACT_CACHE_NAME = "CONTRACT_CACHE";
 
