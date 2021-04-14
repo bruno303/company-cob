@@ -1,10 +1,11 @@
 package com.companycob.domain.model.entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class Quota implements Comparable<Quota> {
+public class Quota implements Serializable, Comparable<Quota> {
 
 	private long id;
 	private int number;
