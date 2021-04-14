@@ -2,9 +2,10 @@ package com.companycob.domain.model.entity;
 
 import com.companycob.domain.model.enumerators.CalcType;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Bank {
+public class Bank implements Serializable {
     private int id;
     private String name;
     private String socialName;

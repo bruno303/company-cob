@@ -29,15 +29,16 @@ public class RedisCacheConfig {
         final RedisCacheWriter redisCacheWriter = RedisCacheWriter.nonLockingRedisCacheWriter(connectionFactory);
 
         LOGGER.info("Creating contract cache with TTL {} seconds", cacheProps.getContractTtl());
-        final RedisCacheConfiguration contractCacheConfig = createRedisConfiguration(cacheProps.getContractTtl());
+        final RedisCacheConfiguration contractCacheConfig = createRedisConfiguration(cacheProps.getContractTtl(), "companycob");
 
         return RedisCacheManager.RedisCacheManagerBuilder.fromCacheWriter(redisCacheWriter)
                 .withCacheConfiguration(CONTRACT_CACHE_NAME, contractCacheConfig)
                 .build();
     }
 
-    private RedisCacheConfiguration createRedisConfiguration(Long seconds) {
+    private RedisCacheConfiguration createRedisConfiguration(Long seconds, String prefix) {
         return RedisCacheConfiguration.defaultCacheConfig()
+                .computePrefixWith(c -> String.format("%s:$name", prefix))
                 .entryTtl(Duration.ofSeconds(seconds));
     }
 }

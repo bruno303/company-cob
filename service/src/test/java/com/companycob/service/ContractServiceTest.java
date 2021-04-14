@@ -123,9 +123,6 @@ public class ContractServiceTest extends AbstractDatabaseIntegrationTest {
 		final var contractSaved = contractService.save(contract);
 		final var id = contractSaved.getId();
 
-		// Assure contract is persisted first
-		assertThat(contractService.findById(id)).isPresent();
-
 		contractSaved.setDate(LocalDate.now().plusDays(1));
 
 		final var save1Async = runAsync(() -> contractService.save(contractSaved));
@@ -142,6 +139,33 @@ public class ContractServiceTest extends AbstractDatabaseIntegrationTest {
 		assertThat(contractFound.getId()).isEqualTo(id);
 
 		assertThat(contractFound.getDate()).isEqualTo(contractSaved.getDate());
+		assertThat(contractFound.getQuotas().size()).isEqualTo(2);
+	}
+
+	@Test
+	public void testSaveNewContractAndLoadUsingCache() {
+
+		final var contract = contractGenerator.generate();
+
+		final var contractSaved = contractService.save(contract);
+		final var id = contractSaved.getId();
+
+		// cache will be loaded
+		contractService.findById(id);
+
+		// contract will be changed
+		contractSaved.setDate(LocalDate.now().plusDays(1));
+
+		contractService.save(contractSaved);
+
+		final var contractFound = contractService.findById(id).orElse(null);
+
+		assertThat(contractFound).isNotNull();
+		assertThat(contractFound.getId()).isEqualTo(id);
+
+		// assure the contract found have old date
+		assertThat(contractFound.getDate()).isEqualTo(contract.getDate());
+		assertThat(contractFound.getDate()).isNotEqualTo(contractSaved.getDate());
 		assertThat(contractFound.getQuotas().size()).isEqualTo(2);
 	}
 

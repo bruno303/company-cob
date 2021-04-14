@@ -11,6 +11,7 @@ import com.companycob.service.calc.CalcService;
 import com.companycob.service.lock.contract.ContractLocker;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -41,7 +42,8 @@ public class ContractService {
 	}
 
 	@Transactional
-	@CachePut(cacheNames = RedisCacheConfig.CONTRACT_CACHE_NAME, key = "#contract.getId()")
+	@CacheEvict(cacheNames = RedisCacheConfig.CONTRACT_CACHE_NAME)
+	@CachePut(cacheNames = RedisCacheConfig.CONTRACT_CACHE_NAME)
 	public Contract save(final Contract contract) {
 
 		contractLocker.tryLock(contract);
@@ -117,13 +119,13 @@ public class ContractService {
 	}
 
 	@Transactional
-	@Cacheable(cacheNames = RedisCacheConfig.CONTRACT_CACHE_NAME, key = "#id")
+	@Cacheable(cacheNames = RedisCacheConfig.CONTRACT_CACHE_NAME)
 	public Optional<Contract> findById(final Long id) {
 		return contractRepository.findById(id);
 	}
 
 	@Transactional
-	@Cacheable(cacheNames = RedisCacheConfig.CONTRACT_CACHE_NAME, key = "#contractNumber")
+	@Cacheable(cacheNames = RedisCacheConfig.CONTRACT_CACHE_NAME)
 	public List<Contract> findByContractNumber(final String contractNumber) {
 		return contractRepository.findByContractNumber(contractNumber);
 	}
