@@ -1,8 +1,9 @@
 package com.companycob.domain.model.entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class BankCalculationValues {
+public class BankCalculationValues implements Serializable {
 
     private long id;
     private BigDecimal commission;

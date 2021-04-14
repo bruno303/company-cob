@@ -1,16 +1,16 @@
 package com.companycob.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-
+import org.mockito.internal.verification.VerificationModeFactory;
 import com.companycob.domain.exception.ValidationException;
 import com.companycob.domain.model.dto.ValidationErrorsCollection;
 import com.companycob.domain.model.entity.Bank;
@@ -48,14 +48,7 @@ public class ContractServiceTest {
 		final var contract = generator.generateContract();
 		contract.setContractNumber(null);
 
-		Contract contract2 = null;
-		try {
-			contract2 = contractService.save(contract);
-			Assertions.fail("ValidationException expected");
-		} catch (final ValidationException ignored) {
-		}
-
-		assertThat(contract2).isNull();
+		assertThrows(ValidationException.class, () -> contractService.save(contract));
 	}
 
 	@Test
@@ -64,15 +57,7 @@ public class ContractServiceTest {
 		final var contract = generator.generateContract();
 		contract.setContractNumber("");
 
-		Contract contract2 = null;
-
-		try {
-			contract2 = contractService.save(contract);
-			Assertions.fail("ValidationException expected");
-		} catch (final ValidationException ignored) {
-		}
-
-		assertThat(contract2).isNull();
+		assertThrows(ValidationException.class, () -> contractService.save(contract));
 	}
 
 	@Test
@@ -81,15 +66,7 @@ public class ContractServiceTest {
 		final var contract = generator.generateContract();
 		contract.setDate(null);
 
-		Contract contract2 = null;
-
-		try {
-			contract2 = contractService.save(contract);
-			Assertions.fail("ValidationException expected");
-		} catch (final ValidationException ignored) {
-		}
-
-		assertThat(contract2).isNull();
+		assertThrows(ValidationException.class, () -> contractService.save(contract));
 	}
 
 	@Test
@@ -105,6 +82,8 @@ public class ContractServiceTest {
 		assertThat(contract2.getId()).isEqualTo(1L);
 		assertThat(contract2.getBank()).isNotNull();
 		assertThat(contract2.getQuotas().size()).isEqualTo(2);
+
+		Mockito.verify(contractRepository, VerificationModeFactory.times(1)).save(Mockito.any(Contract.class));
 	}
 
 	@Test
@@ -128,6 +107,9 @@ public class ContractServiceTest {
 		assertThat(contractLoaded.getDate()).isEqualTo(contractSaved.getDate());
 		assertThat(contractLoaded.getContractNumber()).isEqualTo(contractSaved.getContractNumber());
 		assertThat(contractLoaded.getQuotas().size()).isEqualTo(2);
+
+		Mockito.verify(contractRepository, VerificationModeFactory.times(1)).save(Mockito.any(Contract.class));
+		Mockito.verify(contractRepository, VerificationModeFactory.times(1)).findById(Mockito.anyLong());
 	}
 
 	@Test
@@ -151,6 +133,9 @@ public class ContractServiceTest {
 		assertThat(contractLoaded.getDate()).isEqualTo(contractSaved.getDate());
 		assertThat(contractLoaded.getContractNumber()).isEqualTo(contractSaved.getContractNumber());
 		assertThat(contractLoaded.getQuotas().size()).isEqualTo(2);
+
+		Mockito.verify(contractRepository, VerificationModeFactory.times(1)).save(Mockito.any(Contract.class));
+		Mockito.verify(contractRepository, VerificationModeFactory.times(1)).findByContractNumber(Mockito.anyString());
 	}
 
 	@Test
@@ -166,9 +151,6 @@ public class ContractServiceTest {
 
 		final var contractSaved = contractService.save(contract);
 		final var id = contractSaved.getId();
-
-		// Assure contract is persisted first
-		assertThat(contractService.findById(id)).isPresent();
 
 		contractSaved.setDate(LocalDate.now().plusDays(1));
 
@@ -187,6 +169,9 @@ public class ContractServiceTest {
 
 		assertThat(contractFound.getDate()).isEqualTo(contractSaved.getDate());
 		assertThat(contractFound.getQuotas().size()).isEqualTo(2);
+
+		Mockito.verify(contractRepository, VerificationModeFactory.times(6)).save(Mockito.any(Contract.class));
+		Mockito.verify(contractRepository, VerificationModeFactory.times(1)).findById(Mockito.anyLong());
 	}
 
 	@Test
@@ -195,14 +180,6 @@ public class ContractServiceTest {
 		final var contract = generator.generateContract(true, false);
 		Mockito.when(bankService.verify(Mockito.any())).thenReturn(new ValidationErrorsCollection());
 
-		Contract contractSaved = null;
-
-		try {
-			contractSaved = contractService.save(contract);
-			Assertions.fail("ValidationException expected");
-		} catch (final ValidationException ignored) {
-		}
-
-		assertThat(contractSaved).isNull();
+		assertThrows(ValidationException.class, () -> contractService.save(contract));
 	}
 }

@@ -1,5 +1,6 @@
 package com.companycob.domain.model.entity;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +8,7 @@ import java.util.Objects;
 
 import com.companycob.domain.lock.Lockable;
 
-public class Contract implements Lockable {
+public class Contract implements Serializable, Lockable {
 
 	private Long id;
 	private String contractNumber;
