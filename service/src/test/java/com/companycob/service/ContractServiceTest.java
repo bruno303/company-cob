@@ -3,24 +3,49 @@ package com.companycob.service;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
+import org.junit.Before;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.Mockito;
 
 import com.companycob.domain.exception.ValidationException;
+import com.companycob.domain.model.dto.ValidationErrorsCollection;
+import com.companycob.domain.model.entity.Bank;
 import com.companycob.domain.model.entity.Contract;
-import com.companycob.tests.AbstractDatabaseIntegrationTest;
+import com.companycob.domain.model.entity.Quota;
+import com.companycob.domain.model.persistence.ContractRepository;
+import com.companycob.service.lock.contract.ContractLocker;
+import com.companycob.tests.fixture.unit.Generator;
+import com.companycob.tests.utils.UnitTestsUtils;
 
-public class ContractServiceTest extends AbstractDatabaseIntegrationTest {
+public class ContractServiceTest {
 
-	@Autowired
+	// Mocks
+	private final ContractRepository contractRepository = Mockito.mock(ContractRepository.class);
+	private final QuotaService quotaService = Mockito.mock(QuotaService.class);
+	private final BankService bankService = Mockito.mock(BankService.class);
+	private final CalcServicesProvider calcServicesProvider = Mockito.mock(CalcServicesProvider.class);
+	private final ContractLocker contractLocker = Mockito.mock(ContractLocker.class);
+
+	private final Generator generator = new Generator();
+
 	private ContractService contractService;
+
+	@Before
+	public void init() {
+		contractService = new ContractService(contractRepository, quotaService, bankService,
+				calcServicesProvider, contractLocker);
+		Mockito.when(bankService.verify(Mockito.any(Bank.class))).thenReturn(new ValidationErrorsCollection());
+		Mockito.when(quotaService.verify(Mockito.any(Quota.class))).thenReturn(new ValidationErrorsCollection());
+	}
 
 	@Test
 	public void testSaveNewContract_withNoContractNumber() {
 
-		final var contract = this.contractGenerator.generate();
+		final var contract = generator.generateContract();
 		contract.setContractNumber(null);
 
 		Contract contract2 = null;
@@ -36,7 +61,7 @@ public class ContractServiceTest extends AbstractDatabaseIntegrationTest {
 	@Test
 	public void testSaveNewContract_withEmptyContractNumber() {
 
-		final var contract = this.contractGenerator.generate();
+		final var contract = generator.generateContract();
 		contract.setContractNumber("");
 
 		Contract contract2 = null;
@@ -53,7 +78,7 @@ public class ContractServiceTest extends AbstractDatabaseIntegrationTest {
 	@Test
 	public void testSaveNewContract_withNoContractDate() {
 
-		final var contract = contractGenerator.generate();
+		final var contract = generator.generateContract();
 		contract.setDate(null);
 
 		Contract contract2 = null;
@@ -69,19 +94,27 @@ public class ContractServiceTest extends AbstractDatabaseIntegrationTest {
 
 	@Test
 	public void testSaveNewContract_withSucess() {
+		final var contract = generator.generateContract();
+		final var expectedResponse = generator.copy(contract);
+		expectedResponse.setId(1L);
 
-		final var contract = contractGenerator.generate();
+		Mockito.when(contractRepository.save(Mockito.any(Contract.class))).thenReturn(expectedResponse);
 
 		final var contract2 = contractService.save(contract);
 		assertThat(contract2).isNotNull();
-		assertThat(contract2.getId()).isNotNull();
+		assertThat(contract2.getId()).isEqualTo(1L);
 		assertThat(contract2.getBank()).isNotNull();
 		assertThat(contract2.getQuotas().size()).isEqualTo(2);
 	}
 
 	@Test
 	public void testSaveNewContractAndLoadById() {
-		final var contract = contractGenerator.generate();
+		final var contract = generator.generateContract();
+		final var expectedResponse = generator.copy(contract);
+		expectedResponse.setId(1L);
+
+		Mockito.when(contractRepository.save(Mockito.any(Contract.class))).thenReturn(expectedResponse);
+		Mockito.when(contractRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(expectedResponse));
 
 		final var contractSaved = contractService.save(contract);
 
@@ -99,7 +132,12 @@ public class ContractServiceTest extends AbstractDatabaseIntegrationTest {
 
 	@Test
 	public void testSaveNewContractAndLoadByContractNumber() {
-		final var contract = contractGenerator.generate();
+		final var contract = generator.generateContract();
+		final var expectedResponse = generator.copy(contract);
+		expectedResponse.setId(1L);
+
+		Mockito.when(contractRepository.save(Mockito.any(Contract.class))).thenReturn(expectedResponse);
+		Mockito.when(contractRepository.findByContractNumber(Mockito.anyString())).thenReturn(List.of(expectedResponse));
 
 		final var contractSaved = contractService.save(contract);
 
@@ -118,7 +156,13 @@ public class ContractServiceTest extends AbstractDatabaseIntegrationTest {
 	@Test
 	public void testSaveNewContractMultipleTimes_withSucess() {
 
-		final var contract = contractGenerator.generate();
+		final var contract = generator.generateContract();
+
+		final var expectedResponse = generator.copy(contract);
+		expectedResponse.setId(1L);
+
+		Mockito.when(contractRepository.save(Mockito.any(Contract.class))).thenReturn(expectedResponse);
+		Mockito.when(contractRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(expectedResponse));
 
 		final var contractSaved = contractService.save(contract);
 		final var id = contractSaved.getId();
@@ -128,13 +172,13 @@ public class ContractServiceTest extends AbstractDatabaseIntegrationTest {
 
 		contractSaved.setDate(LocalDate.now().plusDays(1));
 
-		final var save1Async = runAsync(() -> contractService.save(contractSaved));
-		final var save2Async = runAsync(() -> contractService.save(contractSaved));
-		final var save3Async = runAsync(() -> contractService.save(contractSaved));
-		final var save4Async = runAsync(() -> contractService.save(contractSaved));
-		final var save5Async = runAsync(() -> contractService.save(contractSaved));
+		final var save1Async = UnitTestsUtils.runAsync(() -> contractService.save(contractSaved));
+		final var save2Async = UnitTestsUtils.runAsync(() -> contractService.save(contractSaved));
+		final var save3Async = UnitTestsUtils.runAsync(() -> contractService.save(contractSaved));
+		final var save4Async = UnitTestsUtils.runAsync(() -> contractService.save(contractSaved));
+		final var save5Async = UnitTestsUtils.runAsync(() -> contractService.save(contractSaved));
 
-		awaitAllCompletableFutures(save1Async, save2Async, save3Async, save4Async, save5Async);
+		UnitTestsUtils.awaitAllCompletableFutures(save1Async, save2Async, save3Async, save4Async, save5Async);
 
 		final var contractFound = contractService.findById(id).orElse(null);
 
@@ -146,31 +190,10 @@ public class ContractServiceTest extends AbstractDatabaseIntegrationTest {
 	}
 
 	@Test
-	public void testSaveNewContract_changeBankAndSaveAgain_bankShouldNotBeChanged() {
-
-		final var contract = contractGenerator.generate();
-
-		final var contract2 = contractService.save(contract);
-		assertThat(contract2).isNotNull();
-		assertThat(contract2.getId()).isNotNull();
-		assertThat(contract2.getBank()).isNotNull();
-		assertThat(contract2.getQuotas().size()).isEqualTo(2);
-
-		final var bankName = contract2.getBank().getName();
-		contract2.getBank().setName("Bank changed");
-
-		final var contract3 = contractService.save(contract2);
-		assertThat(contract3).isNotNull();
-		assertThat(contract3.getId()).isNotNull();
-		assertThat(contract3.getBank()).isNotNull();
-		assertThat(contract3.getQuotas().size()).isEqualTo(2);
-		assertThat(contract3.getBank().getName()).isEqualTo(bankName);
-	}
-
-	@Test
 	public void testSaveNewContractWithoutBank_withError() {
 
-		final var contract = contractGenerator.generate(true, false);
+		final var contract = generator.generateContract(true, false);
+		Mockito.when(bankService.verify(Mockito.any())).thenReturn(new ValidationErrorsCollection());
 
 		Contract contractSaved = null;
 

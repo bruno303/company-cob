@@ -3,20 +3,29 @@ package com.companycob.service;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.stream.Collectors;
 
+import org.junit.Before;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.AdditionalAnswers;
+import org.mockito.Mockito;
 
 import com.companycob.domain.model.entity.Bank;
 import com.companycob.domain.model.entity.BankCalculationValues;
 import com.companycob.domain.model.enumerators.CalcType;
-import com.companycob.tests.AbstractDatabaseIntegrationTest;
+import com.companycob.domain.model.persistence.BankRepository;
 
-public class BankServiceTest extends AbstractDatabaseIntegrationTest {
+public class BankServiceTest {
 
-	@Autowired
+	private final BankRepository bankRepository = Mockito.mock(BankRepository.class);
+
 	private BankService bankService;
+
+	@Before
+	public void init() {
+		bankService = new BankService(bankRepository);
+	}
 
 	@Test
 	public void testVerifyBankWithSuccess() {
@@ -106,6 +115,10 @@ public class BankServiceTest extends AbstractDatabaseIntegrationTest {
 		bank.setSocialName("Bank saved");
 		bank.setBankCalculationValues(createValidBankCalculationValues(bank, BigDecimal.valueOf(25)));
 		bank.setCalcType(CalcType.DEFAULT);
+
+		// Mockito setup
+		Mockito.when(bankRepository.findAll()).thenReturn(List.of(bank));
+		Mockito.when(bankRepository.save(Mockito.any(Bank.class))).then(AdditionalAnswers.returnsFirstArg());
 
 		final var saved = bankService.save(bank);
 		final var id = saved.getId();

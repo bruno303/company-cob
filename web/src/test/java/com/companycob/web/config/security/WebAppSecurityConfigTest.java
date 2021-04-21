@@ -26,7 +26,6 @@ public class WebAppSecurityConfigTest extends AbstractUnitTest {
 		RestAssured.port = localPort;
 	}
 
-	// @formatter:off
 	@Test
 	public void testActuatorRouteIsFree() {
 		RestAssured
@@ -37,9 +36,7 @@ public class WebAppSecurityConfigTest extends AbstractUnitTest {
 			.log().status()
 			.assertThat().statusCode(Matchers.is(STATUS_OK));
 	}
-	// @formatter:on
 
-	// @formatter:off
 	@Test
 	public void testActuatorRouteIsFreeEvenWithBasicAuth() {
 		RestAssured
@@ -53,9 +50,7 @@ public class WebAppSecurityConfigTest extends AbstractUnitTest {
 		.log().status()
 		.assertThat().statusCode(Matchers.is(STATUS_OK));
 	}
-	// @formatter:on
 
-	// @formatter:off
 	@Test
 	public void testActuatorRouteIsUnauthorizedWithWrongAuth() {
 		RestAssured
@@ -69,9 +64,7 @@ public class WebAppSecurityConfigTest extends AbstractUnitTest {
 			.log().status()
 			.assertThat().statusCode(Matchers.is(STATUS_UNAUTHORIZED));
 	}
-	// @formatter:on
 
-	// @formatter:off
 	@Test
 	public void testActuatorHealthRouteIsFree() {
 		RestAssured
@@ -82,9 +75,7 @@ public class WebAppSecurityConfigTest extends AbstractUnitTest {
 			.log().status()
 			.assertThat().statusCode(Matchers.is(STATUS_OK));
 	}
-	// @formatter:on
 
-	// @formatter:off
 	@Test
 	public void testActuatorBeansRouteRequiresAuth() {
 		RestAssured
@@ -95,9 +86,7 @@ public class WebAppSecurityConfigTest extends AbstractUnitTest {
 			.log().status()
 			.assertThat().statusCode(Matchers.is(STATUS_UNAUTHORIZED));
 	}
-	// @formatter:on
 
-	// @formatter:off
 	@Test
 	public void testActuatorBeansRouteWithCorrectAuthIsFree() {
 		RestAssured
@@ -111,9 +100,7 @@ public class WebAppSecurityConfigTest extends AbstractUnitTest {
 			.log().status()
 			.assertThat().statusCode(Matchers.is(STATUS_OK));
 	}
-	// @formatter:on
 
-	// @formatter:off
 	@Test
 	public void testActuatorBeansRouteWithWrongAuthIsUnauthorized() {
 		RestAssured
@@ -127,5 +114,4 @@ public class WebAppSecurityConfigTest extends AbstractUnitTest {
 			.log().status()
 			.assertThat().statusCode(Matchers.is(STATUS_UNAUTHORIZED));
 	}
-	// @formatter:on
 }
