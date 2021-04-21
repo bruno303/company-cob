@@ -29,3 +29,10 @@ spring.liquibase.enabled: ${LIQUIBASE_ENABLED:true}
 
 spring.devtools.livereload.port: 0
 spring.jpa.open-in-view: false
+
+spring.cache.type: redis
+spring.redis.host: ${REDIS_HOST:localhost}
+spring.redis.port: ${REDIS_PORT:6379}
+spring.redis.time-to-live: ${REDIS_TIME_TO_LIVE:20_000}
+
+application.cache.contract-ttl: ${CONTRACT_CACHE_TTL:60}

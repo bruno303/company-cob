@@ -7,3 +7,9 @@ spring.jpa.hibernate.ddl-auto: none
 spring.jpa.properties.hibernate.format_sql: true
 spring.jpa.hibernate.default-schema: public
 spring.liquibase.change-log: classpath:db/db.changelog-master.xml
+
+spring.cache.type: redis
+spring.redis.host: ${REDIS_HOST}
+spring.redis.port: ${REDIS_PORT}
+spring.redis.time-to-live: ${REDIS_TIME_TO_LIVE:20_000}
+application.cache.contract-ttl: ${CONTRACT_CACHE_TTL:60}
