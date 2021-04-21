@@ -1,16 +1,18 @@
-package com.companycob.service.lock.contract;
+package com.companycob.infrastructure.lock.local.contract;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import com.companycob.domain.lock.contract.ContractLocker;
 import com.companycob.domain.model.entity.Contract;
-import com.companycob.tests.fixture.unit.Generator;
-import com.companycob.tests.utils.UnitTestsUtils;
+import com.companycob.infrastructure.lock.contract.LocalContractLocker;
+import com.companycob.testsbase.fixture.unit.Generator;
+import com.companycob.testsbase.utils.UnitTestsUtils;
 import com.companycob.utils.thread.ThreadUtils;
 
-public class ContractLockerTest {
+public class LocalContractLockerTest {
 
 	private final Generator generator = new Generator();
 
@@ -18,7 +20,7 @@ public class ContractLockerTest {
 
 	@Before
 	public void init() {
-		contractLocker = new ContractLocker();
+		contractLocker = new LocalContractLocker();
 	}
 
 	@Test

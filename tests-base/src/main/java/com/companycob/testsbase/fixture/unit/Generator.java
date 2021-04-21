@@ -1,10 +1,9 @@
-package com.companycob.tests.fixture.unit;
+package com.companycob.testsbase.fixture.unit;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 import org.apache.commons.lang3.RandomStringUtils;
 

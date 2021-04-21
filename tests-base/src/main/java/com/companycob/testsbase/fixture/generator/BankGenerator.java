@@ -1,4 +1,4 @@
-package com.companycob.tests.fixture.generator;
+package com.companycob.testsbase.fixture.generator;
 
 import com.companycob.domain.model.entity.Bank;
 import com.companycob.domain.model.entity.BankCalculationValues;

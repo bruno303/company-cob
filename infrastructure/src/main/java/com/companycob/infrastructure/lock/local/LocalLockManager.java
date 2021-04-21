@@ -1,4 +1,4 @@
-package com.companycob.service.lock.local;
+package com.companycob.infrastructure.lock.local;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -56,6 +56,7 @@ public class LocalLockManager<T extends Lockable> implements LockManager<T> {
 		LOGGER.info("Lock released for contract with key {}", object.getKey());
 	}
 
+	@Override
 	public boolean isLocked(final T object) {
 		final LocalLock lock = locks.get(object.getKey());
 		return (lock != null && lock.isLocked());

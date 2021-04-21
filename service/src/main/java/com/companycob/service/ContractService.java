@@ -1,6 +1,7 @@
 package com.companycob.service;
 
 import com.companycob.domain.exception.ValidationException;
+import com.companycob.domain.lock.contract.ContractLocker;
 import com.companycob.domain.model.dto.ValidationErrorsCollection;
 import com.companycob.domain.model.entity.Bank;
 import com.companycob.domain.model.entity.Contract;
@@ -8,7 +9,6 @@ import com.companycob.domain.model.entity.Quota;
 import com.companycob.domain.model.persistence.ContractRepository;
 import com.companycob.infrastructure.cache.RedisCacheConfig;
 import com.companycob.service.calc.CalcService;
-import com.companycob.service.lock.contract.ContractLocker;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;

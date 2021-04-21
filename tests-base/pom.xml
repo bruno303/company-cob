@@ -7,8 +7,8 @@
 		<artifactId>company-cob</artifactId>
 		<version>1.0.0</version>
 	</parent>
-	<artifactId>tests</artifactId>
-	<name>CompanyCob :: Tests</name>
+	<artifactId>tests-base</artifactId>
+	<name>CompanyCob :: Tests-Base</name>
 
 	<packaging>jar</packaging>
 	
@@ -17,6 +17,11 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 
 		<dependency>
@@ -65,33 +70,23 @@
 
 		<dependency>
 			<groupId>com.companycob</groupId>
-			<artifactId>tests-base</artifactId>
-			<version>${application.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.companycob</groupId>
 			<artifactId>domain</artifactId>
 			<version>${application.version}</version>
 		</dependency>
 
 		<dependency>
-			<groupId>com.companycob</groupId>
-			<artifactId>infrastructure</artifactId>
-			<version>${application.version}</version>
-		</dependency>
-
-		<!-- <dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/io.rest-assured/rest-assured -->
 		<dependency>
 			<groupId>io.rest-assured</groupId>
 			<artifactId>rest-assured</artifactId>
 		</dependency>
 
 
+		<!-- TestContainers -->
 		<dependency>
 			<groupId>org.testcontainers</groupId>
 			<artifactId>postgresql</artifactId>
@@ -108,12 +103,6 @@
 			<groupId>org.testcontainers</groupId>
 			<artifactId>junit-jupiter</artifactId>
 			<version>${testcontainers.version}</version>
-		</dependency> -->
-
-		<dependency>
-			<groupId>com.companycob</groupId>
-			<artifactId>migration</artifactId>
-			<version>${application.version}</version>
 		</dependency>
 
 	</dependencies>
