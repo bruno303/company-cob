@@ -1,4 +1,4 @@
-package com.companycob.testsbase.utils;
+package com.companycob.tests.utils;
 
 import java.util.concurrent.CompletableFuture;
 

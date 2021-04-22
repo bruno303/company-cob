@@ -18,8 +18,8 @@ import com.companycob.domain.model.entity.Bank;
 import com.companycob.domain.model.entity.Contract;
 import com.companycob.domain.model.entity.Quota;
 import com.companycob.domain.model.persistence.ContractRepository;
-import com.companycob.testsbase.fixture.unit.Generator;
-import com.companycob.testsbase.utils.UnitTestsUtils;
+import com.companycob.tests.fixture.unit.Generator;
+import com.companycob.tests.utils.UnitTestsUtils;
 
 public class ContractServiceTest {
 

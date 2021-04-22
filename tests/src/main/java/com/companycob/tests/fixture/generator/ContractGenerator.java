@@ -1,8 +1,8 @@
-package com.companycob.testsbase.fixture.generator;
+package com.companycob.tests.fixture.generator;
 
 import com.companycob.domain.model.entity.Bank;
 import com.companycob.domain.model.entity.Contract;
-import com.companycob.testsbase.utils.RepositoryUtils;
+import com.companycob.tests.utils.RepositoryUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

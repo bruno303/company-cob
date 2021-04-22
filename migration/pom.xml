@@ -20,11 +20,6 @@
 			<groupId>org.liquibase</groupId>
 			<artifactId>liquibase-core</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>com.companycob</groupId>
-			<artifactId>infrastructure</artifactId>
-			<version>${application.version}</version>
-		</dependency>
 	</dependencies>
 	
 	<build>

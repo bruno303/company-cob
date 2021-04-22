@@ -1,4 +1,4 @@
-package com.companycob.testsbase.fixture;
+package com.companycob.tests.fixture;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

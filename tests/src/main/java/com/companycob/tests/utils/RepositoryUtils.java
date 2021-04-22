@@ -1,4 +1,4 @@
-package com.companycob.testsbase.utils;
+package com.companycob.tests.utils;
 
 import com.companycob.domain.model.entity.Bank;
 import com.companycob.domain.model.persistence.BankRepository;

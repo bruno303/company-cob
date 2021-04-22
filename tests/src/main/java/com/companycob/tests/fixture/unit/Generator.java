@@ -1,4 +1,4 @@
-package com.companycob.testsbase.fixture.unit;
+package com.companycob.tests.fixture.unit;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

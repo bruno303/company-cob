@@ -12,7 +12,7 @@ import com.companycob.domain.model.entity.Contract;
 import com.companycob.domain.model.entity.Quota;
 import com.companycob.service.arrears.ArrearsDaysService;
 import com.companycob.service.calc.defaults.SimpleInterestCalcService;
-import com.companycob.testsbase.fixture.unit.Generator;
+import com.companycob.tests.fixture.unit.Generator;
 
 public class DefaultCalcServiceTest {
 

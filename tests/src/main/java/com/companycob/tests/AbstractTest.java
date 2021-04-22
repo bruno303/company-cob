@@ -16,11 +16,11 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import com.companycob.tests.config.AppConfig;
-import com.companycob.tests.database.testcontainers.CompanyCobRedisBackedCacheContainer;
-import com.companycob.testsbase.fixture.Fixture;
-import com.companycob.testsbase.fixture.generator.BankGenerator;
-import com.companycob.testsbase.fixture.generator.ContractGenerator;
-import com.companycob.testsbase.fixture.generator.QuotaGenerator;
+import com.companycob.tests.testcontainers.CompanyCobRedisContainer;
+import com.companycob.tests.fixture.Fixture;
+import com.companycob.tests.fixture.generator.BankGenerator;
+import com.companycob.tests.fixture.generator.ContractGenerator;
+import com.companycob.tests.fixture.generator.QuotaGenerator;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.NONE)
@@ -44,7 +44,7 @@ public class AbstractTest {
 
 	@ClassRule
 	@Container
-	public static final CompanyCobRedisBackedCacheContainer redis = CompanyCobRedisBackedCacheContainer.getInstance();
+	public static final CompanyCobRedisContainer redis = CompanyCobRedisContainer.getInstance();
 
 	@Before
 	public void setUp() {
