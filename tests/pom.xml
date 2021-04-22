@@ -65,23 +65,16 @@
 
 		<dependency>
 			<groupId>com.companycob</groupId>
-			<artifactId>tests-base</artifactId>
-			<version>${application.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.companycob</groupId>
 			<artifactId>domain</artifactId>
 			<version>${application.version}</version>
 		</dependency>
 
 		<dependency>
-			<groupId>com.companycob</groupId>
-			<artifactId>infrastructure</artifactId>
-			<version>${application.version}</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 
-		<!-- <dependency>
+		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 		</dependency>
@@ -108,7 +101,7 @@
 			<groupId>org.testcontainers</groupId>
 			<artifactId>junit-jupiter</artifactId>
 			<version>${testcontainers.version}</version>
-		</dependency> -->
+		</dependency>
 
 		<dependency>
 			<groupId>com.companycob</groupId>

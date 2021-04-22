@@ -1,7 +1,11 @@
 package com.companycob.tests;
 
-import java.util.concurrent.CompletableFuture;
-
+import com.companycob.tests.config.AppConfig;
+import com.companycob.tests.fixture.Fixture;
+import com.companycob.tests.fixture.generator.BankGenerator;
+import com.companycob.tests.fixture.generator.ContractGenerator;
+import com.companycob.tests.fixture.generator.QuotaGenerator;
+import com.companycob.tests.testcontainers.CompanyCobRedisContainer;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.runner.RunWith;
@@ -14,13 +18,6 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-
-import com.companycob.tests.config.AppConfig;
-import com.companycob.tests.database.testcontainers.CompanyCobRedisBackedCacheContainer;
-import com.companycob.testsbase.fixture.Fixture;
-import com.companycob.testsbase.fixture.generator.BankGenerator;
-import com.companycob.testsbase.fixture.generator.ContractGenerator;
-import com.companycob.testsbase.fixture.generator.QuotaGenerator;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.NONE)
@@ -44,18 +41,10 @@ public class AbstractTest {
 
 	@ClassRule
 	@Container
-	public static final CompanyCobRedisBackedCacheContainer redis = CompanyCobRedisBackedCacheContainer.getInstance();
+	public static final CompanyCobRedisContainer redis = CompanyCobRedisContainer.getInstance();
 
 	@Before
 	public void setUp() {
 		fixture.clearDatabase();
-	}
-
-	protected CompletableFuture<Void> runAsync(final Runnable runnable) {
-		return CompletableFuture.runAsync(runnable);
-	}
-
-	protected void awaitAllCompletableFutures(final CompletableFuture<?>... completableFutures) {
-		CompletableFuture.allOf(completableFutures).join();
 	}
 }

@@ -13,7 +13,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.companycob</groupId>
-			<artifactId>tests-base</artifactId>
+			<artifactId>tests</artifactId>
 			<version>${application.version}</version>
 			<scope>test</scope>
 		</dependency>
