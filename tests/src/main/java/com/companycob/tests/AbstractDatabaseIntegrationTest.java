@@ -10,7 +10,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import com.companycob.tests.database.testcontainers.CompanyCobPostgresContainer;
+import com.companycob.tests.testcontainers.CompanyCobPostgresContainer;
 import com.companycob.tests.exception.SetupDatabaseException;
 
 import liquibase.Liquibase;

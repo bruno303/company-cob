@@ -84,7 +84,7 @@ public class Contract implements Serializable, Lockable {
 	}
 
 	@Override
-	public String getKey() {
+	public String getLockIdentifier() {
 		return String.format("contract:%s", this.getContractNumber());
 	}
 }

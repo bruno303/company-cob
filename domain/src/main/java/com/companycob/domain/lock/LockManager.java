@@ -10,4 +10,5 @@ public interface LockManager<T extends Lockable> {
 
 	void release(final T object);
 
+	boolean isLocked(final T object);
 }

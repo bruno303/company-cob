@@ -31,7 +31,7 @@ public class ContractTest {
 	@Test
 	public void testContractGetKeyWithEmptyNumber() {
 		var contract = new Contract();
-		String key = contract.getKey();
+		String key = contract.getLockIdentifier();
 
 		assertThat(key).isEqualTo("contract:null");
 	}
@@ -41,7 +41,7 @@ public class ContractTest {
 		var contract = new Contract();
 		contract.setContractNumber("123456");
 
-		String key = contract.getKey();
+		String key = contract.getLockIdentifier();
 
 		assertThat(key).isEqualTo("contract:123456");
 	}
