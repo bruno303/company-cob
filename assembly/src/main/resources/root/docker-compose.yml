@@ -7,6 +7,7 @@ services:
   company-cob-web:
     build: 
       context: ./web/
+    #image: 'com.companycob-web:1.0.0'
     hostname: 'company-cob-web'
     container_name: 'company-cob-web'
     environment:
@@ -39,6 +40,7 @@ services:
   company-cob-spring-boot-admin:
     build:
       context: ./spring-boot-admin/
+    #image: 'com.companycob-spring-boot-admin:1.0.0'
     hostname: 'company-cob-spring-boot-admin'
     container_name: 'company-cob-spring-boot-admin'
     environment:

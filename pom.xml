@@ -26,6 +26,7 @@
         <testcontainers.version>1.15.2</testcontainers.version>
         <maven-assembly-plugin.version>3.3.0</maven-assembly-plugin.version>
         <jacoco-maven-plugin.version>0.8.6</jacoco-maven-plugin.version>
+        <image-version>${application.version}</image-version>
     </properties>
 
     <dependencies>
