@@ -1,25 +1,37 @@
 package com.companycob.domain.model.entity;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class Quota implements Serializable, Comparable<Quota> {
+import com.companycob.domain.exception.DomainException;
+import com.companycob.domain.utils.BigDecimalUtils;
 
-	private long id;
+public class Quota implements Entity, Comparable<Quota> {
+
+	private Long id;
 	private int number;
 	private BigDecimal initialValue;
 	private BigDecimal updatedValue;
 	private LocalDate dueDate;
-	private Contract contract;
 	private long arrearsDays;
+
+	public Quota(Long id, int number, BigDecimal initialValue, BigDecimal updatedValue, LocalDate dueDate, long arrearsDays) {
+		this.id = id;
+		this.number = number;
+		this.initialValue = initialValue;
+		this.updatedValue = updatedValue;
+		this.dueDate = dueDate;
+		this.arrearsDays = arrearsDays;
+		validate();
+	}
 	
-	public long getId() {
+	@Override
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -55,14 +67,6 @@ public class Quota implements Serializable, Comparable<Quota> {
 		this.dueDate = dueDate;
 	}
 
-	public Contract getContract() {
-		return contract;
-	}
-
-	public void setContract(Contract contract) {
-		this.contract = contract;
-	}
-
 	public long getArrearsDays() {
 		return arrearsDays;
 	}
@@ -74,7 +78,7 @@ public class Quota implements Serializable, Comparable<Quota> {
 	@Override
 	public String toString() {
 		return "Quota [id=" + id + ", number=" + number + ", initialValue=" + initialValue + ", updatedValue="
-				+ updatedValue + ", dueDate=" + dueDate + ", contract=" + contract + "]";
+				+ updatedValue + ", dueDate=" + dueDate + "]";
 	}
 
 	@Override
@@ -87,17 +91,22 @@ public class Quota implements Serializable, Comparable<Quota> {
 				arrearsDays == quota.arrearsDays &&
 				initialValue.equals(quota.initialValue) &&
 				Objects.equals(updatedValue, quota.updatedValue) &&
-				dueDate.equals(quota.dueDate) &&
-				contract.equals(quota.contract);
+				dueDate.equals(quota.dueDate);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, number, initialValue, updatedValue, dueDate, contract, arrearsDays);
+		return Objects.hash(id, number, initialValue, updatedValue, dueDate, arrearsDays);
 	}
 
 	@Override
 	public int compareTo(Quota o) {
 		return Long.compare(this.getArrearsDays(), o.getArrearsDays());
+	}
+
+	public void validate() {
+		DomainException.throwsWhen(dueDate == null, "DueDate can't be empty");
+		DomainException.throwsWhen(BigDecimalUtils.lesserThanZero(initialValue), "InitialValue can't be negative");
+		DomainException.throwsWhen(number < 1, "Number must be greather than 0");
 	}
 }

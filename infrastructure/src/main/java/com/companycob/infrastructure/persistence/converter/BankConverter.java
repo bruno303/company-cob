@@ -23,16 +23,16 @@ public class BankConverter {
     }
 
     public static com.companycob.domain.model.entity.Bank bankPersistenceToBankDomain(Bank persistenceBank) {
-        var domainBank = new com.companycob.domain.model.entity.Bank();
-        domainBank.setId(persistenceBank.getId());
-        domainBank.setName(persistenceBank.getName());
-        domainBank.setSocialName(persistenceBank.getSocialName());
-        domainBank.setCalcType(CalcType.of(persistenceBank.getCalcType()));
-
         var bankCalculationValues =
-            BankCalculationValuesConverter.persistenceToDomain(persistenceBank.getBankCalculationValues(), domainBank);
+            BankCalculationValuesConverter.persistenceToDomain(persistenceBank.getBankCalculationValues());
 
-        domainBank.setBankCalculationValues(bankCalculationValues);
+        var domainBank = new com.companycob.domain.model.entity.Bank(
+            persistenceBank.getId(),
+            persistenceBank.getName(),
+            persistenceBank.getSocialName(),
+            CalcType.of(persistenceBank.getCalcType()),
+            bankCalculationValues
+        );
 
         return domainBank;
     }

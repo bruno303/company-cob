@@ -1,58 +1,77 @@
 package com.companycob.domain.model.entity;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
+import com.companycob.domain.exception.DomainException;
+import com.companycob.domain.model.enumerators.CalcType;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertThrows;
 
 public class ContractTest {
 
 	@Test
 	public void testContractEqualsDifferentId() {
-		var contract = new Contract();
-		contract.setId(1L);
-
-		var contract2 = new Contract();
-		contract.setId(2L);
+		final var contract = createContract(1L);
+		final var contract2 = createContract(2L);
 		assertThat(contract.equals(contract2)).isFalse();
 	}
 
 	@Test
 	public void testContractEqualsSameId() {
-		var contract = new Contract();
-		contract.setId(1L);
-
-		var contract2 = new Contract();
-		contract.setId(1L);
-		assertThat(contract.equals(contract2)).isFalse();
+		final var contract = createContract(1L);
+		final var contract2 = createContract(1L);
+		assertThat(contract.equals(contract2)).isTrue();
 	}
 
 	@Test
-	public void testContractGetKeyWithEmptyNumber() {
-		var contract = new Contract();
-		String key = contract.getKey();
+	public void testContractWithEmptyNumber() {
+		assertThrows(DomainException.class, () -> createContract(1L, ""));
+	}
 
-		assertThat(key).isEqualTo("contract:null");
+	@Test
+	public void testContractWithNullNumber() {
+		assertThrows(DomainException.class, () -> createContract(1L, null));
 	}
 
 	@Test
 	public void testContractGetKeyWithNumberFilled() {
-		var contract = new Contract();
-		contract.setContractNumber("123456");
+		final var contract = createContract(1L, "123456");
 
-		String key = contract.getKey();
+		final String key = contract.getKey();
 
 		assertThat(key).isEqualTo("contract:123456");
 	}
 
 	@Test
-	public void testGetEmptyQuotasShouldBeEmptyList() {
-		var contract = new Contract();
+	public void testContractWithNullDate() {
+		assertThrows(DomainException.class, () -> createContract((LocalDate)null));
+	}
 
-		List<Quota> quotas = contract.getQuotas();
+	private Contract createContract(Long contractId) {
+		return createContract(contractId, RandomStringUtils.randomAlphanumeric(20), LocalDate.now());
+	}
 
-		assertThat(quotas).isNotNull();
-		assertThat(quotas.size()).isEqualTo(0);
+	private Contract createContract(Long contractId, String contractNumber) {
+		return createContract(contractId, contractNumber, LocalDate.now());
+	}
+
+	private Contract createContract(LocalDate contractDate) {
+		return createContract(1L, RandomStringUtils.randomAlphanumeric(20), contractDate);
+	}
+
+	private Contract createContract(Long contractId, String contractNumber, LocalDate contractDate) {
+		final BankCalculationValues calcValues = new BankCalculationValues(BigDecimal.TEN, BigDecimal.TEN);
+		final Bank bank = new Bank(1L, "Bank", "Bank Social Name", CalcType.DEFAULT, calcValues);
+		final List<Quota> quotas = new ArrayList<>();
+		quotas.add(new Quota(1L, 1, BigDecimal.ONE, BigDecimal.ONE, LocalDate.now(), 100L));
+
+		return new Contract(contractId, contractNumber, contractDate, quotas, bank);
 	}
 }

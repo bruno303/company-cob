@@ -1,14 +1,16 @@
 package com.companycob.domain.model.entity;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.companycob.domain.exception.DomainException;
 import com.companycob.domain.lock.Lockable;
 
-public class Contract implements Serializable, Lockable {
+import org.apache.commons.lang3.StringUtils;
+
+public class Contract implements Entity, Lockable {
 
 	private Long id;
 	private String contractNumber;
@@ -16,6 +18,16 @@ public class Contract implements Serializable, Lockable {
 	private List<Quota> quotas;
 	private Bank bank;
 
+	public Contract(Long id, String contractNumber, LocalDate date, List<Quota> quotas, Bank bank) {
+		this.id = id;
+		this.contractNumber = contractNumber;
+		this.date = date;
+		this.quotas = quotas;
+		this.bank = bank;
+		validate();
+	}
+
+	@Override
 	public Long getId() {
 		return id;
 	}
@@ -50,7 +62,6 @@ public class Contract implements Serializable, Lockable {
 
 	public void setQuotas(final List<Quota> quotas) {
 		this.quotas = quotas;
-		this.quotas.forEach(q -> q.setContract(this));
 	}
 
 	public Bank getBank() {
@@ -86,5 +97,13 @@ public class Contract implements Serializable, Lockable {
 	@Override
 	public String getKey() {
 		return String.format("contract:%s", this.getContractNumber());
+	}
+
+	private void validate() {
+		
+		DomainException.throwsWhen(StringUtils.isEmpty(contractNumber), "Contract number can't be null or empty");
+		DomainException.throwsWhen(date == null, "Contract date can't be null");
+		DomainException.throwsWhen(quotas == null || quotas.isEmpty(), "Contract must have quotas");
+		DomainException.throwsWhen(bank == null, "Contract must have a bank");
 	}
 }

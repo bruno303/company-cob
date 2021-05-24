@@ -3,19 +3,19 @@ package com.companycob.domain.model.entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import com.companycob.domain.exception.DomainException;
+import com.companycob.domain.utils.BigDecimalUtils;
+
 public class BankCalculationValues implements Serializable {
 
-    private long id;
     private BigDecimal commission;
     private BigDecimal interestRate;
     private Bank bank;
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
+    public BankCalculationValues(BigDecimal commission, BigDecimal interestRate) {
+        this.commission = commission;
+        this.interestRate = interestRate;
+        validate();
     }
 
     public BigDecimal getCommission() {
@@ -40,5 +40,12 @@ public class BankCalculationValues implements Serializable {
 
     public void setBank(Bank bank) {
         this.bank = bank;
+    }
+
+    private void validate() {
+        DomainException.throwsWhen(commission == null, "Commission should not be empty");
+        DomainException.throwsWhen(BigDecimalUtils.lesserThanZero(commission), "Commission should not be negative");
+        DomainException.throwsWhen(interestRate == null, "Interest rate should not be empty");
+        DomainException.throwsWhen(BigDecimalUtils.lesserThanZero(interestRate), "Interest rate should not be negative");
     }
 }

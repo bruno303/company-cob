@@ -1,12 +1,14 @@
 package com.companycob.domain.model.entity;
 
+import com.companycob.domain.exception.DomainException;
 import com.companycob.domain.model.enumerators.CalcType;
 
-import java.io.Serializable;
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.List;
 
-public class Bank implements Serializable {
-    private int id;
+public class Bank implements Entity {
+    private Long id;
     private String name;
     private String socialName;
     private CalcType calcType;
@@ -14,11 +16,21 @@ public class Bank implements Serializable {
 
     private List<Contract> contracts;
 
-    public int getId() {
+    public Bank(Long id, String name, String socialName, CalcType calcType, BankCalculationValues calculationValues){
+        this.id = id;
+        this.name = name;
+        this.socialName = socialName;
+        this.calcType = calcType;
+        this.bankCalculationValues = calculationValues;
+        validate();
+    }
+
+    @Override
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -60,5 +72,12 @@ public class Bank implements Serializable {
 
     public void setBankCalculationValues(BankCalculationValues bankCalculationValues) {
         this.bankCalculationValues = bankCalculationValues;
+    }
+
+    private void validate() {
+        DomainException.throwsWhen(StringUtils.isEmpty(name), "Bank's name should not be empty");
+        DomainException.throwsWhen(StringUtils.isEmpty(socialName), "Bank's social name should not be empty");
+        DomainException.throwsWhen(calcType == null, "CalcType should be defined for bank");
+        DomainException.throwsWhen(bankCalculationValues == null, "CalculationValues should be defined for bank");
     }
 }

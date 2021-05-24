@@ -12,10 +12,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.mockito.internal.verification.VerificationModeFactory;
 import com.companycob.domain.exception.ValidationException;
-import com.companycob.domain.model.dto.ValidationErrorsCollection;
-import com.companycob.domain.model.entity.Bank;
 import com.companycob.domain.model.entity.Contract;
-import com.companycob.domain.model.entity.Quota;
 import com.companycob.domain.model.persistence.ContractRepository;
 import com.companycob.service.lock.contract.ContractLocker;
 import com.companycob.tests.fixture.unit.Generator;
@@ -25,9 +22,6 @@ public class ContractServiceTest {
 
 	// Mocks
 	private final ContractRepository contractRepository = Mockito.mock(ContractRepository.class);
-	private final QuotaService quotaService = Mockito.mock(QuotaService.class);
-	private final BankService bankService = Mockito.mock(BankService.class);
-	private final CalcServicesProvider calcServicesProvider = Mockito.mock(CalcServicesProvider.class);
 	private final ContractLocker contractLocker = Mockito.mock(ContractLocker.class);
 
 	private final Generator generator = new Generator();
@@ -36,37 +30,7 @@ public class ContractServiceTest {
 
 	@Before
 	public void init() {
-		contractService = new ContractService(contractRepository, quotaService, bankService,
-				calcServicesProvider, contractLocker);
-		Mockito.when(bankService.verify(Mockito.any(Bank.class))).thenReturn(new ValidationErrorsCollection());
-		Mockito.when(quotaService.verify(Mockito.any(Quota.class))).thenReturn(new ValidationErrorsCollection());
-	}
-
-	@Test
-	public void testSaveNewContract_withNoContractNumber() {
-
-		final var contract = generator.generateContract();
-		contract.setContractNumber(null);
-
-		assertThrows(ValidationException.class, () -> contractService.save(contract));
-	}
-
-	@Test
-	public void testSaveNewContract_withEmptyContractNumber() {
-
-		final var contract = generator.generateContract();
-		contract.setContractNumber("");
-
-		assertThrows(ValidationException.class, () -> contractService.save(contract));
-	}
-
-	@Test
-	public void testSaveNewContract_withNoContractDate() {
-
-		final var contract = generator.generateContract();
-		contract.setDate(null);
-
-		assertThrows(ValidationException.class, () -> contractService.save(contract));
+		contractService = new ContractService(contractRepository, contractLocker);
 	}
 
 	@Test
@@ -178,7 +142,6 @@ public class ContractServiceTest {
 	public void testSaveNewContractWithoutBank_withError() {
 
 		final var contract = generator.generateContract(true, false);
-		Mockito.when(bankService.verify(Mockito.any())).thenReturn(new ValidationErrorsCollection());
 
 		assertThrows(ValidationException.class, () -> contractService.save(contract));
 	}

@@ -10,7 +10,6 @@ public class BankCalculationValuesConverter {
     public static BankCalculationValues domainToPersistence(com.companycob.domain.model.entity.BankCalculationValues domain,
                                                             Bank bank) {
         BankCalculationValues bcv = new BankCalculationValues();
-        bcv.setId(domain.getId());
         bcv.setCommission(domain.getCommission());
         bcv.setInterestRate(domain.getInterestRate());
         bcv.setBank(bank);
@@ -18,15 +17,9 @@ public class BankCalculationValuesConverter {
         return bcv;
     }
 
-    public static com.companycob.domain.model.entity.BankCalculationValues persistenceToDomain(BankCalculationValues persistence,
-                                                                                               com.companycob.domain.model.entity.Bank bank) {
-        var bcv = new com.companycob.domain.model.entity.BankCalculationValues();
-        bcv.setId(persistence.getId());
-        bcv.setCommission(persistence.getCommission());
-        bcv.setInterestRate(persistence.getInterestRate());
-        bcv.setBank(bank);
-
-        return bcv;
+    public static com.companycob.domain.model.entity.BankCalculationValues persistenceToDomain(BankCalculationValues persistence) {
+        return new com.companycob.domain.model.entity.BankCalculationValues(persistence.getCommission(),
+                                                                            persistence.getInterestRate());
     }
 
 }

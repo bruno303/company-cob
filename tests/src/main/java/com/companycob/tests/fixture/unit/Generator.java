@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
@@ -21,39 +20,21 @@ public class Generator {
     }
 
     public Contract generateContract(boolean generateQuotas, boolean generateBank) {
-        Contract contract = new Contract();
-        contract.setDate(LocalDate.now());
-        contract.setContractNumber(RandomStringUtils.randomAlphanumeric(20));
-
-        if (generateBank) {
-            contract.setBank(generateBank());
-        }
-
-        if (generateQuotas) {
-            contract.setQuotas(generateQuotas(contract, 2));
-        }
-
-        return contract;
+        return new Contract(1L, RandomStringUtils.randomAlphanumeric(20), LocalDate.now(), generateQuotas(2), generateBank());
     }
 
     public Contract generateContract(Bank bank) {
-        Contract contract = new Contract();
-        contract.setDate(LocalDate.now());
-        contract.setContractNumber(RandomStringUtils.randomAlphanumeric(20));
-        contract.setBank(bank);
-        contract.setQuotas(generateQuotas(contract, 2));
-
-        return contract;
+        return new Contract(1L, RandomStringUtils.randomAlphanumeric(20), LocalDate.now(), generateQuotas(2), bank);
     }
 
     public Bank generateBank(CalcType calcType, BigDecimal interestRate, BigDecimal commission) {
-        Bank bank = new Bank();
-        bank.setName("Bank");
-        bank.setSocialName("Bank Social Name");
-        bank.setBankCalculationValues(createValidBankCalculationValues(bank, interestRate, commission));
-        bank.setCalcType(calcType);
-
-        return bank;
+        return new Bank(
+            1L,
+            "Bank",
+            "Bank Social Name",
+            calcType,
+            createValidBankCalculationValues(interestRate, commission)
+        );
     }
 
     public Bank generateBank(BigDecimal interestRate) {
@@ -64,28 +45,21 @@ public class Generator {
         return generateBank(CalcType.DEFAULT, BigDecimal.TEN, BigDecimal.TEN);
     }
 
-    public BankCalculationValues createValidBankCalculationValues(Bank bank, BigDecimal interestRate,
-                                                                   BigDecimal commission) {
-        BankCalculationValues bankCalculationValues = new BankCalculationValues();
-        bankCalculationValues.setBank(bank);
-        bankCalculationValues.setCommission(commission);
-        bankCalculationValues.setInterestRate(interestRate);
-
-        return bankCalculationValues;
+    public BankCalculationValues createValidBankCalculationValues(BigDecimal interestRate,
+                                                                  BigDecimal commission) {
+        return new BankCalculationValues(
+            commission,
+            interestRate
+        );
     }
 
-    public List<Quota> generateQuotas(final Contract contract, final int quotaCount) {
+    public List<Quota> generateQuotas(final int quotaCount) {
         final List<Quota> quotas = new ArrayList<>();
 
         LocalDate date = LocalDate.now().minusDays(181);
 
         for (int i = 0; i < quotaCount; i++) {
-            final Quota quota = new Quota();
-            quota.setContract(contract);
-            quota.setDueDate(date);
-            quota.setInitialValue(BigDecimal.valueOf(200));
-            quota.setNumber(i + 1);
-
+            final Quota quota = new Quota(Long.valueOf(1), i + 1, BigDecimal.valueOf(200), null, date, 181L);
             quotas.add(quota);
 
             date = date.plusMonths(1);
@@ -95,13 +69,7 @@ public class Generator {
     }
 
     public Contract copy(Contract source) {
-        Contract target = new Contract();
-        target.setBank(source.getBank());
-        target.setContractNumber(source.getContractNumber());
-        target.setQuotas(source.getQuotas());
-        target.setDate(source.getDate());
-        target.setId(source.getId());
-        return target;
+        return new Contract(source.getId(), source.getContractNumber(), source.getDate(), source.getQuotas(), source.getBank());
     }
 
 }

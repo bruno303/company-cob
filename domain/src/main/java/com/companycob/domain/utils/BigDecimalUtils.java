@@ -1,4 +1,4 @@
-package com.companycob.utils.bigdecimal;
+package com.companycob.domain.utils;
 
 import java.math.BigDecimal;
 
@@ -6,7 +6,7 @@ public final class BigDecimalUtils {
 
     private BigDecimalUtils() { }
 
-    public static boolean lessThanZero(BigDecimal value) {
+    public static boolean lesserThanZero(BigDecimal value) {
         return value.compareTo(BigDecimal.ZERO) < 0;
     }
 
