@@ -1,4 +1,4 @@
-package com.companycob.service.lock.local;
+package com.companycob.infrastructure.lock.local;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;

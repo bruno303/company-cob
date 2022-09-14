@@ -1,4 +1,4 @@
-package com.companycob.tests.database.testcontainers;
+package com.companycob.tests.testcontainers;
 
 import org.testcontainers.containers.PostgreSQLContainer;
 

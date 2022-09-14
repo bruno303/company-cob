@@ -12,12 +12,12 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.mockito.internal.verification.VerificationModeFactory;
 import com.companycob.domain.exception.ValidationException;
+import com.companycob.domain.lock.contract.ContractLocker;
 import com.companycob.domain.model.dto.ValidationErrorsCollection;
 import com.companycob.domain.model.entity.Bank;
 import com.companycob.domain.model.entity.Contract;
 import com.companycob.domain.model.entity.Quota;
 import com.companycob.domain.model.persistence.ContractRepository;
-import com.companycob.service.lock.contract.ContractLocker;
 import com.companycob.tests.fixture.unit.Generator;
 import com.companycob.tests.utils.UnitTestsUtils;
 

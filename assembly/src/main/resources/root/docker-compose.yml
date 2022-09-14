@@ -24,6 +24,7 @@ services:
       - REDIS_PORT=6379
       - REDIS_TIME_TO_LIVE=20000
       - CONTRACT_CACHE_TTL=60
+      - LOCK_TYPE=redis
     ports:
       - '9090:9090'
     networks: 
@@ -66,6 +67,9 @@ services:
     networks:
       - companycobnet
 
+##
+# Redis
+#
   company-cob-redis:
     image: redis:5.0.3
     hostname: 'company-cob-redis'

@@ -1,25 +1,25 @@
-package com.companycob.service.lock.contract;
+package com.companycob.infrastructure.lock.contract.redis;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.Before;
+import com.companycob.tests.AbstractDatabaseIntegrationTest;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.TestPropertySource;
 
+import com.companycob.domain.lock.contract.ContractLocker;
 import com.companycob.domain.model.entity.Contract;
 import com.companycob.tests.fixture.unit.Generator;
 import com.companycob.tests.utils.UnitTestsUtils;
 import com.companycob.utils.thread.ThreadUtils;
 
-public class ContractLockerTest {
+@TestPropertySource(properties = { "application.lock.type=redis" } )
+public class RedisContractLockerIT extends AbstractDatabaseIntegrationTest {
 
 	private final Generator generator = new Generator();
 
+	@Autowired
 	private ContractLocker contractLocker;
-
-	@Before
-	public void init() {
-		contractLocker = new ContractLocker();
-	}
 
 	@Test
 	public void testLockAndReleaseSingleThread() {

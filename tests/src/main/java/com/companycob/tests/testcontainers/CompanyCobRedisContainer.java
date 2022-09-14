@@ -1,19 +1,19 @@
-package com.companycob.tests.database.testcontainers;
+package com.companycob.tests.testcontainers;
 
 import org.testcontainers.containers.GenericContainer;
 
-public class CompanyCobRedisBackedCacheContainer extends GenericContainer<CompanyCobRedisBackedCacheContainer> {
+public class CompanyCobRedisContainer extends GenericContainer<CompanyCobRedisContainer> {
     private static final String IMAGE_VERSION = "redis:5.0.3-alpine";
-    private static CompanyCobRedisBackedCacheContainer container;
+    private static CompanyCobRedisContainer container;
 
-    private CompanyCobRedisBackedCacheContainer() {
+    private CompanyCobRedisContainer() {
         super(IMAGE_VERSION);
         this.withExposedPorts(6379);
     }
 
-    public static CompanyCobRedisBackedCacheContainer getInstance() {
+    public static CompanyCobRedisContainer getInstance() {
         if (container == null) {
-            container = new CompanyCobRedisBackedCacheContainer();
+            container = new CompanyCobRedisContainer();
             container.start();
         }
         return container;

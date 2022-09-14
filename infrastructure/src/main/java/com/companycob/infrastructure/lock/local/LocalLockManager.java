@@ -1,4 +1,4 @@
-package com.companycob.service.lock.local;
+package com.companycob.infrastructure.lock.local;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,21 +23,21 @@ public class LocalLockManager<T extends Lockable> implements LockManager<T> {
 
 	@Override
 	public void tryLock(final T object, final long timeout, final TimeUnit timeUnit) {
-		LOGGER.info("Acquiring lock for contract with key {}", object.getKey());
+		LOGGER.info("Acquiring lock for object with key {}", object.getLockIdentifier());
 		final LocalLock lock = acquireLock(object);
 		final boolean lockResult = lock.tryLock(timeout, timeUnit);
 		if (lockResult) {
-			LOGGER.info("Lock acquired for contract with key {}", object.getKey());
+			LOGGER.info("Lock acquired for object with key {}", object.getLockIdentifier());
 		}
 	}
 
 	private synchronized LocalLock acquireLock(final T object) {
 
-		LocalLock lock = locks.get(object.getKey());
+		LocalLock lock = locks.get(object.getLockIdentifier());
 		if (lock == null) {
-			LOGGER.info("Creating new lock for contract with key {}", object.getKey());
+			LOGGER.info("Creating new lock for object with key {}", object.getLockIdentifier());
 			lock = new LocalLock();
-			locks.putIfAbsent(object.getKey(), lock);
+			locks.putIfAbsent(object.getLockIdentifier(), lock);
 		}
 
 		return lock;
@@ -45,19 +45,20 @@ public class LocalLockManager<T extends Lockable> implements LockManager<T> {
 
 	@Override
 	public void release(final T object) {
-		LOGGER.info("Releasing lock for contract with key {}", object.getKey());
-		final LocalLock lock = locks.get(object.getKey());
+		LOGGER.info("Releasing lock for object with key {}", object.getLockIdentifier());
+		final LocalLock lock = locks.get(object.getLockIdentifier());
 		if (lock == null) {
-			LOGGER.info("Contract with key {} not found! Ignoring...", object.getKey());
+			LOGGER.info("Object with key {} not found! Ignoring...", object.getLockIdentifier());
 			return;
 		}
 
 		lock.release();
-		LOGGER.info("Lock released for contract with key {}", object.getKey());
+		LOGGER.info("Lock released for object with key {}", object.getLockIdentifier());
 	}
 
+	@Override
 	public boolean isLocked(final T object) {
-		final LocalLock lock = locks.get(object.getKey());
+		final LocalLock lock = locks.get(object.getLockIdentifier());
 		return (lock != null && lock.isLocked());
 	}
 }
