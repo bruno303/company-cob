@@ -1,9 +1,8 @@
 package com.companycob.infrastructure.lock.redis;
 
+import com.companycob.infrastructure.annotations.ConditionalOnRedisLock;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
-
-import com.companycob.infrastructure.annotations.ConditionalOnRedisLock;
 
 @Configuration
 @ConfigurationProperties(prefix = "spring.redis")

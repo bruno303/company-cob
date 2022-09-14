@@ -1,21 +1,21 @@
 package com.companycob.infrastructure.lock.redis;
 
-import java.util.concurrent.TimeUnit;
-
+import com.companycob.domain.lock.LockManager;
+import com.companycob.domain.lock.Lockable;
 import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.companycob.domain.lock.LockManager;
-import com.companycob.domain.lock.Lockable;
+import java.util.concurrent.TimeUnit;
 
 public class RedisLockManager<T extends Lockable> implements LockManager<T> {
 
     private static final Logger LOG = LoggerFactory.getLogger(RedisLockManager.class);
-    private final CompanyCobRedissonClient redisson;
+    private final RedissonClient redissonClient;
 
-    public RedisLockManager(CompanyCobRedissonClient redisson) {
-        this.redisson = redisson;
+    public RedisLockManager(RedissonClient redissonClient) {
+        this.redissonClient = redissonClient;
     }
 
     @Override
@@ -58,8 +58,8 @@ public class RedisLockManager<T extends Lockable> implements LockManager<T> {
         return lock.isLocked();
     }
 
-    private RLock getLock(T object) {
+    private synchronized RLock getLock(T object) {
         final String lockIdentifier = object.getLockIdentifier();
-        return redisson.getLock(lockIdentifier);
+        return redissonClient.getLock(lockIdentifier);
     }
 }

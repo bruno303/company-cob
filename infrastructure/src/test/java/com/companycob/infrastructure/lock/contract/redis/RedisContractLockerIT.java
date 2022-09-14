@@ -14,7 +14,7 @@ import com.companycob.tests.utils.UnitTestsUtils;
 import com.companycob.utils.thread.ThreadUtils;
 
 @TestPropertySource(properties = { "application.lock.type=redis" } )
-public class RedisContractLockerTest extends AbstractDatabaseIntegrationTest {
+public class RedisContractLockerIT extends AbstractDatabaseIntegrationTest {
 
 	private final Generator generator = new Generator();
 

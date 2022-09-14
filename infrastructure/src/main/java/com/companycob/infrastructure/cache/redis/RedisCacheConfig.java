@@ -1,5 +1,6 @@
-package com.companycob.infrastructure.cache;
+package com.companycob.infrastructure.cache.redis;
 
+import com.companycob.infrastructure.annotations.ConditionalOnRedisCache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.CacheManager;
@@ -12,8 +13,6 @@ import org.springframework.data.redis.cache.RedisCacheWriter;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 
 import java.time.Duration;
-
-import com.companycob.infrastructure.annotations.ConditionalOnRedisCache;
 
 @Configuration
 @EnableCaching
@@ -29,16 +28,16 @@ public class RedisCacheConfig {
         final RedisCacheWriter redisCacheWriter = RedisCacheWriter.nonLockingRedisCacheWriter(connectionFactory);
 
         LOGGER.info("Creating contract cache with TTL {} seconds", cacheProps.getContractTtl());
-        final RedisCacheConfiguration contractCacheConfig = createRedisConfiguration(cacheProps.getContractTtl(), "companycob");
+        final RedisCacheConfiguration contractCacheConfig = createRedisConfiguration(cacheProps.getContractTtl());
 
         return RedisCacheManager.RedisCacheManagerBuilder.fromCacheWriter(redisCacheWriter)
                 .withCacheConfiguration(CONTRACT_CACHE_NAME, contractCacheConfig)
                 .build();
     }
 
-    private RedisCacheConfiguration createRedisConfiguration(Long seconds, String prefix) {
+    private RedisCacheConfiguration createRedisConfiguration(Long seconds) {
         return RedisCacheConfiguration.defaultCacheConfig()
-                .computePrefixWith(c -> String.format("%s:$name", prefix))
+                .computePrefixWith(c -> "companycob:$name")
                 .entryTtl(Duration.ofSeconds(seconds));
     }
 }

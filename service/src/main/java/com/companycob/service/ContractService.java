@@ -7,7 +7,7 @@ import com.companycob.domain.model.entity.Bank;
 import com.companycob.domain.model.entity.Contract;
 import com.companycob.domain.model.entity.Quota;
 import com.companycob.domain.model.persistence.ContractRepository;
-import com.companycob.infrastructure.cache.RedisCacheConfig;
+import com.companycob.infrastructure.cache.redis.RedisCacheConfig;
 import com.companycob.service.calc.CalcService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

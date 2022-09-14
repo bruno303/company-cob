@@ -1,4 +1,4 @@
-package com.companycob.infrastructure.cache;
+package com.companycob.infrastructure.cache.redis;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
